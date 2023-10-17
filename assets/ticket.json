@@ -1,0 +1,21 @@
+[
+    {
+      "coverImageUrl": "https://example.com/ticket1.jpg",
+      "title": "Concert Ticket 1",
+      "date": "2023-10-15",
+      "location": "Venue 1"
+    },
+    {
+      "coverImageUrl": "https://example.com/ticket2.jpg",
+      "title": "Sports Event Ticket 2",
+      "date": "2023-11-05",
+      "location": "Stadium 2"
+    },
+    {
+      "coverImageUrl": "https://example.com/ticket3.jpg",
+      "title": "Theater Show Ticket 3",
+      "date": "2023-12-20",
+      "location": "Theater 3"
+    }
+  ]
+  
