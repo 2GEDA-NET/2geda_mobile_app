@@ -118,7 +118,7 @@ class _OpenAccountScreenState extends State<OpenAccountScreen> {
                     });
                   },
                   style: TextButton.styleFrom(
-                    primary: const Color(0xff4e0ca2),
+                    foregroundColor: const Color(0xff4e0ca2),
                   ),
                   child: Text(
                     _isUsingPhoneNumber

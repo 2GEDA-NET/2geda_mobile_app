@@ -239,7 +239,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Text.rich(
                     TextSpan(
                       text:
-                          "By Continuing to use this platform, you agree to the\n",
+                          "By Continuing to use this platform, you agree to the ",
                       style: const TextStyle(
                         fontSize: 12.5,
                         fontWeight: FontWeight.w400,

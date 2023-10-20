@@ -13,7 +13,7 @@ class BusinessListWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Businesses around you', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),),
+          const Text('Businesses around you', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(

@@ -1,3 +1,4 @@
+
 class Product {
   final String image;
   final String name;
@@ -5,6 +6,7 @@ class Product {
   final double rating;
   final int reviews;
   final double price;
+  final ProductCategory category;
 
   Product({
     required this.image,
@@ -13,6 +15,7 @@ class Product {
     required this.rating,
     required this.reviews,
     required this.price,
+    required this.category,
   });
 }
 
@@ -33,4 +36,13 @@ class CartItem {
   final Product product;
 
   CartItem({required this.product});
+}
+
+
+class StoreItem {
+  final String imagePath;
+  final String name;
+  final String category;
+
+  StoreItem({required this.imagePath, required this.name, required this.category});
 }

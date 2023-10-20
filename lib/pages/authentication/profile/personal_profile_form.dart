@@ -177,8 +177,6 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                 ),
                 mode: DateTimeFieldPickerMode.date,
                 autovalidateMode: AutovalidateMode.always,
-                validator: (e) =>
-                    (e?.day ?? 0) == 1 ? 'Please not the first day' : null,
                 firstDate: DateTime(1900), // Set your minimum allowable year
                 lastDate: DateTime.now().subtract(
                     const Duration(days: 1)), // Set lastDate to yesterday

@@ -1,5 +1,6 @@
 import 'package:_2geda/data/product_data.dart';
 import 'package:_2geda/models/product_model.dart';
+import 'package:_2geda/pages/commercePages/commerceSearch/product_description.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -27,93 +28,103 @@ class ProductCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
+    return GestureDetector(
+      onTap: () {
+         Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDescription(product: product),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
             ),
-            child: SizedBox(
-              width: 200,
-              height: 150, // Set the desired height for the image
-              child: CachedNetworkImage(
-                imageUrl: product.image,
-                fit: BoxFit.cover,
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+              child: SizedBox(
+                width: 200,
+                height: 150, // Set the desired height for the image
+                child: CachedNetworkImage(
+                  imageUrl: product.image,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  product.name,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    product.name,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                Row(
-                  children: <Widget>[
-                    const Icon(
-                      Icons.star,
-                      color: Color.fromRGBO(255, 138, 21, 1.0),
-                      size: 16,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      product.rating.toStringAsFixed(1),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+                  const SizedBox(height: 5),
+                  Row(
+                    children: <Widget>[
+                      const Icon(
+                        Icons.star,
+                        color: Color.fromRGBO(255, 138, 21, 1.0),
+                        size: 16,
                       ),
-                    ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.circle,
-                      color: Color.fromRGBO(255, 138, 21, 1.0),
-                      size: 6,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      '${product.reviews}+ Reviews',
-                      style: const TextStyle(
-                        fontSize: 8,
-                        color: Colors.grey,
+                      const SizedBox(width: 4),
+                      Text(
+                        product.rating.toStringAsFixed(1),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  '\$ ${product.price.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
+                      const SizedBox(width: 4),
+                      const Icon(
+                        Icons.circle,
+                        color: Color.fromRGBO(255, 138, 21, 1.0),
+                        size: 6,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${product.reviews}+ Reviews',
+                        style: const TextStyle(
+                          fontSize: 8,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 5),
+                  Text(
+                    '\$ ${product.price.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
