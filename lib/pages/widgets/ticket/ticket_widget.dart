@@ -15,6 +15,13 @@ class TicketWidget extends StatelessWidget {
     required this.location,
   }) : super(key: key);
 
+  String truncateWithEllipsis(String text, int maxChars) {
+    if (text.length <= maxChars) {
+      return text;
+    }
+    return text.substring(0, maxChars) + '...';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -98,15 +105,14 @@ class TicketWidget extends StatelessWidget {
           ),
           const SizedBox(height: 5.0),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              '$date - $location',
-              style: const TextStyle(
-                fontSize: 14, // You can adjust the font size as needed
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                truncateWithEllipsis('$date - $location', 35),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              )),
           const SizedBox(height: 5.0),
           ElevatedButton(
             onPressed: () {

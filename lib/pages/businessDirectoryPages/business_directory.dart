@@ -103,6 +103,7 @@ class _BusinessDirectoryState extends State<BusinessDirectory> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  Spacer(),
                   DropdownButton<String>(
                     value: selectedValue,
                     items: <String>['Most Popular', 'Claimed', 'Unclaimed']
@@ -260,6 +261,7 @@ class BusinessCard extends StatelessWidget {
                         ],
                       ),
                     ),
+                    Spacer(),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
@@ -288,10 +290,9 @@ class BusinessCard extends StatelessWidget {
                         ],
                       ),
                     ),
+                    Spacer(),
                     ElevatedButton(
-                      onPressed: () {
-                        
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         minimumSize: const Size(100, 40),
@@ -350,6 +351,7 @@ class BusinessCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Spacer(),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(

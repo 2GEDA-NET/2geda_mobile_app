@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_uikit/agora_uikit.dart';
 
 const appId = "5629e2f1eac04cdaa8fbce5f0afd1466";
@@ -42,10 +40,10 @@ class _VideoCallPageState extends State<VideoCallPage> {
         children: [
           AgoraVideoViewer(client: _client, layoutType: Layout.floating, showNumberOfUsers: true,),
           AgoraVideoButtons(client: _client, enabledButtons: [BuiltInButtons.toggleCamera, BuiltInButtons.switchCamera, BuiltInButtons.toggleMic, BuiltInButtons.screenSharing, BuiltInButtons.callEnd,],),
-          Center(
+          const Center(
               // child: _remoteVideo(),
               ),
-          Align(alignment: Alignment.topLeft, child: SizedBox()),
+          const Align(alignment: Alignment.topLeft, child: SizedBox()),
         ],
       ),
     );

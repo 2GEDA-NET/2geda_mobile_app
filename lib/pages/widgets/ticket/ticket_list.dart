@@ -1,4 +1,4 @@
-import 'package:_2geda/data/ticketData.dart';
+import 'package:_2geda/data/ticket_data.dart';
 import 'package:_2geda/models/ticket.dart';
 import 'package:flutter/material.dart';
 import 'ticket_widget.dart';
