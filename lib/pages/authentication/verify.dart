@@ -1,7 +1,9 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:async';
+import 'package:_2geda/APIServices/authentication_api_services.dart';
 import 'package:_2geda/SideBar/sidebar_layout.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -15,6 +17,39 @@ class VerifyOTPScreen extends StatefulWidget {
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
   final TextEditingController _otpController = TextEditingController();
   int countdown = 150; // 2 and half minutes in seconds
+
+  Future<void> _verifyOTP(String otp) async {
+    // Get the user's authentication token from shared preferences
+    final token = await TokenManager().getToken();
+
+    if (token == null) {
+      // Handle the case where the token is not available.
+      // You might want to navigate the user to the login screen.
+      return;
+    }
+
+    // Use the AuthenticationApiService to verify OTP
+    final apiService = AuthenticationApiService();
+
+    try {
+      await apiService.verifyOTP(otp, token);
+
+      // If the verification is successful, navigate to the home screen
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) =>
+              const SideBarLayout(), // Replace with your home screen widget
+        ),
+      );
+    } catch (e) {
+      // Handle errors or failed OTP verification
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Incorrect OTP. Please try again.'),
+        ),
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -209,25 +244,6 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
       ),
     );
   }
-
-  void _verifyOTP(String otp) {
-  if (otp == '12345') {
-    // OTP is correct, navigate to the home screen
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const SideBarLayout(), // Replace with your home screen widget
-      ),
-    );
-  } else {
-    // OTP is incorrect, show an error message.
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Incorrect OTP. Please try again.'),
-      ),
-    );
-  }
-}
-
 }
 
 void main() {

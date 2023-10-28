@@ -1,6 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
+import 'package:_2geda/APIServices/authentication_api_services.dart';
 import 'package:_2geda/SideBar/sidebar_layout.dart';
 import 'package:_2geda/pages/authentication/forget_password.dart';
 import 'package:_2geda/pages/authentication/sign_up.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -11,10 +17,73 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final AuthenticationApiService signInApiService = AuthenticationApiService();
+
   bool _isObscured = true;
   bool _isChecked = false;
   bool _useEmail = true; // Add this variable to track email/phone toggle
   bool _useUsername = false; // Add this variable to track username toggle
+
+  TextEditingController emailOrPhoneNumberController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  Future<void> signIn(String emailOrPhone, String password) async {
+    try {
+      final response = await signInApiService.signIn(emailOrPhone, password);
+
+      if (response.statusCode == 200) {
+        // Successful sign-in, navigate to the next screen
+        final token = jsonDecode(response.body)['token'];
+        await TokenManager().saveToken(token);
+        print('Sign-in successful. Token saved: $token');
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SideBarLayout(),
+          ),
+        );
+      } else {
+        // Handle sign-in failure (display an error message)
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Sign-In Failed'),
+              content: Text(
+                  'Sign-in failed with the following error:\n${response.body}'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      // Handle any exceptions or errors during the API call
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Sign-In Failed'),
+              content: Text('Sign-in failed with the following error:\n$e'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +243,8 @@ class _SignInScreenState extends State<SignInScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const ForgotPasswordScreen(),
+                                  builder: (context) =>
+                                      const ForgotPasswordScreen(),
                                 ),
                               );
                             },
@@ -262,18 +332,12 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  SideBarLayout(),
-                            ),
-                          );
+                          signIn(emailOrPhoneNumberController.text,
+                              passwordController.text);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff4e0ca2),
                           minimumSize: const Size(500, 60),
-                          
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
