@@ -18,6 +18,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final AuthenticationApiService signInApiService = AuthenticationApiService();
+  final TokenManager tokenManager = TokenManager();
 
   bool _isObscured = true;
   bool _isChecked = false;
@@ -27,31 +28,39 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailOrPhoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  Future<void> signIn(String emailOrPhone, String password) async {
+  Future<void> signIn(String loginIdentifier, String password) async {
+    String username = emailOrPhoneNumberController.text;
+    String password = passwordController.text;
     try {
-      final response = await signInApiService.signIn(emailOrPhone, password);
+      final response = await signInApiService.signIn(username, password);
 
       if (response.statusCode == 200) {
-        // Successful sign-in, navigate to the next screen
-        final token = jsonDecode(response.body)['token'];
-        await TokenManager().saveToken(token);
-        print('Sign-in successful. Token saved: $token');
+        // Successful sign-in, handle the response as needed
+        final responseBody = jsonDecode(response.body);
+        print(responseBody);
+        final token = responseBody['token'];
 
+        // Use the TokenManager to save the token
+        await tokenManager.saveToken(token);
+
+        // Handle the successful registration, for example, by navigating to the next screen
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SideBarLayout(),
+            builder: (context) => const SideBarLayout(),
           ),
         );
+        // Extract the token or any other data you need from responseBody
       } else {
         // Handle sign-in failure (display an error message)
+        final errorMessage = response.body;
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text('Sign-In Failed'),
               content: Text(
-                  'Sign-in failed with the following error:\n${response.body}'),
+                  'Sign-in failed with the following error:\n$errorMessage'),
               actions: <Widget>[
                 TextButton(
                   child: const Text('OK'),
@@ -169,6 +178,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                        controller:
+                            emailOrPhoneNumberController, // Bind the controller
                         decoration: InputDecoration(
                           labelText: _useEmail
                               ? 'Email'
@@ -204,6 +215,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 20,
                       ),
                       TextFormField(
+                        controller: passwordController, // Bind the controller
                         decoration: InputDecoration(
                           labelText: 'Password',
                           hintText: 'Enter your password',

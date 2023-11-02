@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:_2geda/APIServices/authentication_api_services.dart';
 import 'package:_2geda/SideBar/sidebar_layout.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
@@ -17,9 +18,10 @@ class VerifyOTPScreen extends StatefulWidget {
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
   final TextEditingController _otpController = TextEditingController();
   int countdown = 150; // 2 and half minutes in seconds
+  bool isResendDisabled = false; // Add this variable
+
 
   Future<void> _verifyOTP(String otp) async {
-    // Get the user's authentication token from shared preferences
     final token = await TokenManager().getToken();
 
     if (token == null) {
@@ -28,34 +30,113 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
       return;
     }
 
-    // Use the AuthenticationApiService to verify OTP
     final apiService = AuthenticationApiService();
 
-    try {
-      await apiService.verifyOTP(otp, token);
+    final response = await apiService.verifyOTP(otp, token);
 
-      // If the verification is successful, navigate to the home screen
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      // Verification succeeded, navigate to the home screen
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) =>
               const SideBarLayout(), // Replace with your home screen widget
         ),
       );
-    } catch (e) {
-      // Handle errors or failed OTP verification
+    } else {
+      // Handle OTP verification failure
+      if (response.body != null) {
+        final errorResponse = json.decode(response.body);
+        if (errorResponse != null && errorResponse is Map) {
+          final errorMessage = errorResponse['error'];
+          if (errorMessage != null && errorMessage is String) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(errorMessage),
+              ),
+            );
+          } else {
+            // If the 'error' field is not a string, show a generic error message
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Incorrect OTP. Please try again.'),
+              ),
+            );
+          }
+        } else {
+          // If the response body is not a Map, show a generic error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Incorrect OTP. Please try again.'),
+            ),
+          );
+        }
+      } else {
+        // If the response body is null, show a generic error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Incorrect OTP. Please try again.'),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> resendOTP() async {
+    if (isResendDisabled) {
+      return;
+    }
+
+    isResendDisabled = true; // Disable the Resend button
+    countdown = 150; // Restart the countdown
+    startCountdown();
+
+    final token = await TokenManager().getToken();
+
+    if (token == null) {
+      // Handle the case where the token is not available.
+      // You might want to navigate the user to the login screen.
+      return;
+    }
+
+    final apiService = AuthenticationApiService();
+
+    final response = await apiService.resendOTP(token);
+
+    if (response.statusCode == 200) {
+      // Successfully resent the OTP
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Incorrect OTP. Please try again.'),
+          content: Text('New OTP code has been sent.'),
+        ),
+      );
+    } else {
+      // Handle API errors here
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to resend OTP code. Please try again.'),
         ),
       );
     }
   }
-
   @override
   void initState() {
     super.initState();
     startCountdown();
   }
+
+  // void startCountdown() {
+  //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       if (countdown > 0) {
+  //         countdown--;
+  //       } else {
+  //         timer.cancel(); // Stop the countdown when it reaches 0
+  //       }
+  //     });
+  //   });
+  // }
 
   void startCountdown() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -64,6 +145,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
           countdown--;
         } else {
           timer.cancel(); // Stop the countdown when it reaches 0
+          isResendDisabled = false; // Enable the Resend button
         }
       });
     });
@@ -174,19 +256,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextButton(
-                      onPressed: countdown == 0
-                          ? () {
-                              // Add logic to resend the OTP here
-                              // You can implement the OTP resending logic in this callback
-                              // For now, let's display a message to simulate the resend action.
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'Resending OTP...'), // Replace with your actual logic
-                                ),
-                              );
-                            }
-                          : null, // Disable the button if countdown is not complete
+                      onPressed: countdown == 0 ? resendOTP : null,
                       child: const Text(
                         "Didn’t get code? Resend code",
                         style: TextStyle(

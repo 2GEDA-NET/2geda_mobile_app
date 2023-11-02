@@ -2,10 +2,11 @@
 
 import 'dart:convert';
 
+import 'package:_2geda/APIServices/api_config.dart';
 import 'package:_2geda/pages/authentication/profile/personal_profile_form.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // Import the HTTP package
-
 
 class PostCreationScreen extends StatefulWidget {
   const PostCreationScreen({
@@ -20,6 +21,9 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
   final TextEditingController postTextController = TextEditingController();
   final TextEditingController _textEditingController = TextEditingController();
   List<String> hashtags = [];
+  final String baseUrl = ApiConfig.baseUrl;
+  final TokenManager tokenManager = TokenManager();
+  String? authToken;
 
   // New property to track selected friends
   List<String> selectedFriends = [];
@@ -29,34 +33,57 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
 
   bool hasUpdatedProfile = false;
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   checkUserProfileStatus(); // Call the method to check user profile status
+  //   postTextController.addListener(_countWords);
+  // }
+
   @override
   void initState() {
     super.initState();
-    checkUserProfileStatus(); // Call the method to check user profile status
+    checkUserProfileStatus();
+    _loadAuthToken();
     postTextController.addListener(_countWords);
   }
 
-  void checkUserProfileStatus() async {
-  try {
-    final response = await http.get(Uri.parse('YOUR_API_ENDPOINT_URL_HERE'));
-    
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      // Assuming the API response contains a field named 'profileUpdated'
-      final profileUpdated = data['has_updated_profile'];
+  _loadAuthToken() async {
+    authToken = await tokenManager.getToken();
+    print('Auth Token: $authToken');
 
-      setState(() {
-        hasUpdatedProfile = profileUpdated; // Update the variable
-      });
-    } else {
-      // Handle API error
-      print('Failed to fetch profile status. Status code: ${response.statusCode}');
-    }
-  } catch (e) {
-    // Handle exceptions (e.g., network errors)
-    print('Error: $e');
   }
-}
+
+  void checkUserProfileStatus() async {
+    try {
+      final response = await http.get(
+          Uri.parse(
+              '$baseUrl/profile/update-status/'), // Replace 'baseUrl' with your actual base URL
+          // Add headers if needed
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token $authToken',
+          });
+
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final profileUpdated = data['has_updated_profile'];
+
+        setState(() {
+          hasUpdatedProfile = profileUpdated;
+        });
+      } else {
+        print(response.body);
+        print(
+            'Failed to fetch profile status. Status code: ${response.statusCode}');
+        // Handle other HTTP status codes here
+      }
+    } catch (e) {
+      print('Error: $e');
+      // Handle network errors or exceptions here
+    }
+  }
 
   @override
   void dispose() {

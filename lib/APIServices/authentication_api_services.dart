@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'api_config.dart';
 
 class AuthenticationApiService {
@@ -32,49 +33,87 @@ class AuthenticationApiService {
     return response;
   }
 
-  Future<http.Response> signIn(String emailOrPhone, String password) async {
-    final Map<String, dynamic> requestBody = {
-      'emailOrPhone': emailOrPhone,
+  Future<http.Response> signIn(String username, String password) async {
+    final Map<String, String> requestBody = {
+      'username': username,
       'password': password,
     };
 
+    print(requestBody);
+
     final response = await http.post(
-      Uri.parse('$baseUrl/register/'),
-      headers: {
-        'Content-Type': 'application/json', // Replace with your desired headers
-      },
-      body: jsonEncode(requestBody),
+      Uri.parse('$baseUrl/login/'),
+      body: requestBody, // Send the data as form data
     );
 
     return response;
   }
 
-  Future<void> verifyOTP(String otpCode, String token) async {
+  Future<http.Response> verifyOTP(String otpCode, String token) async {
     final Map<String, dynamic> data = {
       'otp_code': otpCode,
     };
 
     final response = await http.post(
-      Uri.parse('$baseUrl/verify_otp/'), // Replace with the correct endpoint
+      Uri.parse('$baseUrl/verify-otp/'), // Replace with the correct endpoint
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Token $token',
       },
       body: jsonEncode(data),
     );
 
-    if (response.statusCode == 200) {
-      // OTP verification succeeded, proceed to the next step
-      print('OTP verification successful');
-      // Handle successful verification here, e.g., navigate to the next screen
-    } else if (response.statusCode == 400) {
-      // OTP verification failed
-      final Map<String, dynamic> errorResponse = jsonDecode(response.body);
-      print('OTP verification failed: ${errorResponse['error']}');
-      // Handle failed verification, e.g., show an error message
-    } else {
-      // Handle other response codes as needed
-      print('OTP verification failed with status code: ${response.statusCode}');
-    }
+    return response;
+  }
+
+  Future<http.Response> resendOTP(String token) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/resend-otp/'), // Replace with the correct endpoint
+      headers: {
+        'Authorization': 'Token $token',
+      },
+    );
+
+    return response;
+  }
+
+  Future<http.Response> updateProfile(
+    String token,
+    String firstName,
+    String lastName,
+    String work,
+    DateTime dateOfBirth,
+    String religion,
+    int identity,
+    String customGender,
+    Map<String, String> user,
+  ) async {
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formattedDate = formatter.format(dateOfBirth);
+
+    final Map<String, dynamic> requestBody = {
+      'user': {
+        'first_name': firstName,
+        'last_name': lastName,
+      },
+      'work': work,
+      'date_of_birth': formattedDate,
+      'religion': religion,
+      'identity': identity,
+      'custom_gender': customGender,
+    };
+
+    print(requestBody);
+
+    final response = await http.put(
+      Uri.parse('$baseUrl/user-profile/update/'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Token $token',
+      },
+      body: jsonEncode(requestBody),
+    );
+
+    return response;
   }
 }
