@@ -24,3 +24,16 @@ class AudioModel {
 List<AudioModel> parseAudioList(List<dynamic> list) {
   return list.map((json) => AudioModel.fromJson(json)).toList();
 }
+class ChartItem {
+  final String title;
+  final String artist;
+  final String url;
+  final String imageUrl;
+
+  ChartItem({
+    required this.title,
+    required this.artist,
+    required this.url,
+    required this.imageUrl,
+  });
+}

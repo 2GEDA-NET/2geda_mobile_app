@@ -197,6 +197,17 @@ class _SideBarState extends State<SideBar>
 
                           },
                         ),
+                        
+                        MenuItem(
+                          icon: Icons.tv,
+                          title: "TV",
+                          onTap: () {
+                            onIconPressed();
+                            // Add navigation logic here
+                            navigationBloc.add(NavigationEvents.StereoClickedEvent);
+
+                          },
+                        ),
                         MenuItem(
                           icon: Icons.album,
                           title: "Stereo",

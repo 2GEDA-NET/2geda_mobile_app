@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:_2geda/APIServices/authentication_api_services.dart';
 import 'package:_2geda/SideBar/sidebar_layout.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,10 +13,39 @@ class ImageUploadPage extends StatefulWidget {
   _ImageUploadPageState createState() => _ImageUploadPageState();
 }
 
+final apiService = AuthenticationApiService();
+
 class _ImageUploadPageState extends State<ImageUploadPage> {
   final ImagePicker _picker = ImagePicker();
   XFile? _coverImage;
   XFile? _profileImage;
+
+  final token = TokenManager().getToken();
+
+Future<void> _uploadProfileImage() async {
+  if (_profileImage != null) {
+    final imagePath = _profileImage!.path;
+    
+    final String? token = await TokenManager().getToken();
+
+    if (token != null) {
+      final response = await apiService.uploadProfileImage(token, imagePath);
+
+      if (response.statusCode == 200) {
+        // Image uploaded successfully
+        // Handle success, e.g., navigate to the next screen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const SideBarLayout()),
+        );
+      } else {
+        // Handle upload failure, display an error message, or retry
+      }
+    } else {
+      // Handle the case where the token is null or couldn't be obtained
+    }
+  }
+}
 
   Future<void> _pickImage(ImageSource source, bool isCoverImage) async {
     try {
@@ -130,11 +161,7 @@ class _ImageUploadPageState extends State<ImageUploadPage> {
               ElevatedButton(
                 onPressed: () {
                   // Handle the "Continue" action
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SideBarLayout()),
-                  );
+                  _uploadProfileImage();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xff4e0ca2),

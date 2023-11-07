@@ -116,4 +116,20 @@ class AuthenticationApiService {
 
     return response;
   }
+
+  Future<http.Response> uploadProfileImage(
+      String token, String imagePath) async {
+    final url = Uri.parse(
+        '$baseUrl/user-profile/update/'); // Replace with the correct endpoint
+
+    final request = http.MultipartRequest('POST', url)
+      ..headers['Authorization'] = 'Token $token'
+      ..files.add(
+        await http.MultipartFile.fromPath('profile_image', imagePath),
+      );
+
+    final response = await http.Response.fromStream(await request.send());
+
+    return response;
+  }
 }

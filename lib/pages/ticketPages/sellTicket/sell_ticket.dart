@@ -2,6 +2,7 @@
 
 import 'package:_2geda/pages/ticketPages/sellTicket/create_event.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/my_event.dart';
+import 'package:_2geda/pages/ticketPages/sellTicket/request_withdrawal.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/ticket_report.dart';
 import 'package:_2geda/pages/widgets/people/user_list.dart';
 import 'package:_2geda/pages/widgets/product/product_widget.dart';
@@ -306,13 +307,12 @@ class _SellTicketPageState extends State<SellTicketPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     // builder: (context) => const MakePaymentPage(),
-                        //     builder: (context) => const MakePaymentPage(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RequestWithdrawal()
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(500, 60),
