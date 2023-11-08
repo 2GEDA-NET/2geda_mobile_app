@@ -112,12 +112,12 @@ class ListOfStoresWidget extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const MyStorePage(), // Replace with the actual screen
-                              ),
-                            );
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const MyStorePage(), // Replace with the actual screen
+                            ),
+                          );
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -168,8 +168,10 @@ class ListOfStoresWidget extends StatelessWidget {
                           storeItems.length -
                               1) // Add a divider if not the last item
                         const Divider(
-                          height: 0.1, // You can adjust the height of the divider
-                          color: Color.fromARGB(137, 158, 158, 158), // You can change the color of the divider
+                          height:
+                              0.1, // You can adjust the height of the divider
+                          color: Color.fromARGB(137, 158, 158,
+                              158), // You can change the color of the divider
                         ),
                       const SizedBox(
                         height: 10,
@@ -186,6 +188,7 @@ class ListOfStoresWidget extends StatelessWidget {
             child: FloatingActionButton(
               onPressed: () {
                 // Add your action when the button is pressed
+                BusinessProfileFormPage();
               },
               child: const Icon(Icons.add),
             ),

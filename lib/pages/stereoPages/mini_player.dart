@@ -194,9 +194,9 @@ class _MiniPlayerState extends State<MiniPlayer> {
               value: value /
                   duration!.inSeconds
                       .toDouble(), // Calculate the progress value
-              valueColor: AlwaysStoppedAnimation(
+              valueColor: const AlwaysStoppedAnimation(
                   Color(0xFF4E0CA2)), // Customize the progress bar color
-              backgroundColor: Color(0xFFFF8A15), // Customize the background color
+              backgroundColor: const Color(0xFFFF8A15), // Customize the background color
             ),
 
             ListTile(
@@ -223,7 +223,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -249,7 +249,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                               color: Colors.black,
                             )),
                         Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               shape: BoxShape.circle, color: Colors.black),
                           child: IconButton(
                             onPressed: () async {

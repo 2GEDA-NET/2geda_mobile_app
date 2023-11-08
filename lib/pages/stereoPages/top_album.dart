@@ -101,62 +101,60 @@ class _TopAlbumState extends State<TopAlbum> {
   Widget buildTrackCard(AudioModel audio) {
     return Column(
       children: [
-        Container(
-          child: ListTile(
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Stack(
-                children: [
-                  CachedNetworkImage(
-                    width: 120,
-                    height: 90,
-                    imageUrl: audio.coverImageUrl,
-                  ),
-                  CachedNetworkImage(
-                    width: 110,
-                    height: 100,
-                    imageUrl: audio.coverImageUrl,
-                  ),
-                  CachedNetworkImage(
-                    width: 100,
-                    height: 105,
-                    imageUrl: audio.coverImageUrl,
-                  ),
-                ],
-              ),
-            ),
-            title: Row(
+        ListTile(
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Stack(
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        audio.artist,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        audio.title,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                      ),
-                    ],
-                  ),
+                CachedNetworkImage(
+                  width: 120,
+                  height: 90,
+                  imageUrl: audio.coverImageUrl,
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.more_vert),
-                )
+                CachedNetworkImage(
+                  width: 110,
+                  height: 100,
+                  imageUrl: audio.coverImageUrl,
+                ),
+                CachedNetworkImage(
+                  width: 100,
+                  height: 105,
+                  imageUrl: audio.coverImageUrl,
+                ),
               ],
             ),
+          ),
+          title: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      audio.artist,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      audio.title,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.more_vert),
+              )
+            ],
           ),
         ),
         const Padding(

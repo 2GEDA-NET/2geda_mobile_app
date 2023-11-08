@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:_2geda/data/audio_data.dart';
 import 'package:_2geda/data/data.dart';
 import 'package:_2geda/models/audio_model.dart';
@@ -7,8 +6,8 @@ import 'package:_2geda/models/user_model.dart';
 import 'package:_2geda/pages/stereoPages/artist_profile.dart';
 import 'package:_2geda/pages/stereoPages/big_hits.dart';
 import 'package:_2geda/pages/stereoPages/chart_details.dart';
+import 'package:_2geda/pages/stereoPages/library.dart';
 import 'package:_2geda/pages/stereoPages/mini_player.dart';
-import 'package:_2geda/pages/stereoPages/music_player.dart';
 import 'package:_2geda/pages/stereoPages/stereo_search.dart';
 import 'package:_2geda/pages/stereoPages/top_album.dart';
 import 'package:_2geda/pages/stereoPages/trending.dart';
@@ -130,7 +129,7 @@ class _StereoScreenState extends State<StereoScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const MusicPlayer(),
+                  builder: (context) => const LibraryScreen(),
                 ),
               );
             },

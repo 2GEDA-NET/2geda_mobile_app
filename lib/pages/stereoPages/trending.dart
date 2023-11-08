@@ -36,7 +36,7 @@ class Trending extends StatelessWidget {
 
   Widget buildTrackCard(AudioModel audio) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(10),
@@ -54,17 +54,17 @@ class Trending extends StatelessWidget {
                 children: [
                   Text(
                     audio.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     audio.artist,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
@@ -74,7 +74,7 @@ class Trending extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.more_vert),
+              icon: const Icon(Icons.more_vert),
             )
           ],
         ),
@@ -116,11 +116,9 @@ class CustomAppBar extends StatelessWidget {
           const SizedBox(height: 20),
           Row(
             children: [
-              Container(
-                child: Image.asset(
-                  "assets/music_line.png",
-                  width: 75,
-                ),
+              Image.asset(
+                "assets/music_line.png",
+                width: 75,
               ),
               const SizedBox(width: 10),
               const Column(
