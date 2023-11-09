@@ -124,7 +124,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: const Color(0xff4e0ca2), // Change background color
+                  backgroundColor: const Color(0xff4e0ca2), // Change background color
                   minimumSize: const Size(500, 60), // Increase width and height
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30), // Add border radius

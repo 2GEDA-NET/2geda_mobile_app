@@ -11,6 +11,7 @@ import 'package:_2geda/pages/stereoPages/mini_player.dart';
 import 'package:_2geda/pages/stereoPages/stereo_search.dart';
 import 'package:_2geda/pages/stereoPages/top_album.dart';
 import 'package:_2geda/pages/stereoPages/trending.dart';
+import 'package:_2geda/pages/stereoPages/uploadMusic/upload.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -420,6 +421,12 @@ class _StereoScreenState extends State<StereoScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add the functionality you want when the FAB is pressed
+          Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const UploadMusicScreen(),
+        ),
+      );
         },
         child: const Icon(Icons.add), // You can use any icon you prefer
       ),
