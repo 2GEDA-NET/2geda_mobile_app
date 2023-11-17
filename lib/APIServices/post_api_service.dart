@@ -57,8 +57,7 @@ class PostService {
         print('Type of data: ${data.runtimeType}');
         print('First item in data: ${data.isNotEmpty ? data[0] : 'Empty'}');
 
-        if (data != null &&
-            data.every((item) => item is Map<String, dynamic>)) {
+        if (data.every((item) => item is Map<String, dynamic>)) {
           return data.map((json) => Post.fromJson(json)).toList();
         } else {
           print(

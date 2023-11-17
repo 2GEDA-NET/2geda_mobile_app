@@ -15,7 +15,6 @@ import 'package:video_player/video_player.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Import the HTTP package
-import 'package:audioplayers/audioplayers.dart';
 
 class PostCreationScreen extends StatefulWidget {
   const PostCreationScreen({
