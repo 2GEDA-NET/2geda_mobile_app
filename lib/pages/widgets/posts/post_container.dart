@@ -49,7 +49,7 @@ class _PostContainerState extends State<PostContainer> {
     super.initState();
 
     // Calculate the number of remaining images
-    remainingImagesCount = widget.post.imageUrls.length - initialImageCount;
+    remainingImagesCount = (widget.post.media?.length ?? 0) - initialImageCount;
     navigationBloc = BlocProvider.of<NavigationBloc>(context);
   }
 
@@ -65,17 +65,19 @@ class _PostContainerState extends State<PostContainer> {
     final height = screenHeight * desiredHeightPercentage;
 
     // Calculate the number of rows based on the number of columns
-    int rows = (widget.post.imageUrls.length / widget.columns).ceil();
+    int rows = (widget.post.media?.length ?? 0 / widget.columns).ceil();
 
     // Create a list of rows, each containing a sublist of images
     List<List<String>> imageRows = [];
     for (int i = 0; i < rows; i++) {
       int start = i * widget.columns;
       int end = (i + 1) * widget.columns;
-      if (end > widget.post.imageUrls.length) {
-        end = widget.post.imageUrls.length;
+      if (end > (widget.post.media?.length ?? 0)) {
+        end = (widget.post.media?.length ?? 0);
       }
-      imageRows.add(widget.post.imageUrls.sublist(start, end));
+      if (widget.post.media != null) {
+        imageRows.add(widget.post.media!.sublist(start, end));
+      }
     }
 
     return GestureDetector(
@@ -113,10 +115,11 @@ class _PostContainerState extends State<PostContainer> {
                       text: TextSpan(
                         children: <TextSpan>[
                           TextSpan(
-                            text: paginateCaption(widget.post.caption, 20),
+                            text:
+                                paginateCaption(widget.post.content ?? '', 20),
                             style: DefaultTextStyle.of(context).style,
                           ),
-                          if (widget.post.caption.split(' ').length > 20 &&
+                          if ((widget.post.content?.split(' ').length ?? 0) > 20 &&
                               !showFullCaption)
                             TextSpan(
                               text: ' Read More',
@@ -139,8 +142,7 @@ class _PostContainerState extends State<PostContainer> {
                 ),
               ),
               const SizedBox(height: 17.0),
-              if (widget.post.imageUrls.length <=
-                  initialImageCount) // Display all images
+              if ((widget.post.media?.length ?? 0) <= initialImageCount) // Display all images
                 Column(
                   children: [
                     for (List<String> sublist in imageRows)
@@ -227,14 +229,14 @@ class _PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(imageUrl: post.user.imageUrl),
+        ProfileAvatar(imageUrl: post.user?.imageUrl ?? ''),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                post.user.name,
+                post.user?.username ?? '',
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Color(0xff4e0ca2),
@@ -243,7 +245,7 @@ class _PostHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    post.user.role,
+                    post.user?.work ?? '',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12.0,
@@ -255,7 +257,7 @@ class _PostHeader extends StatelessWidget {
           ),
         ),
         Text(
-          post.timeAgo,
+          post.timestamp ?? '',
           style: TextStyle(
             color: Colors.grey[600],
             fontSize: 12.0,
@@ -294,7 +296,7 @@ class _PostStats extends StatelessWidget {
             const SizedBox(width: 4.0),
             Expanded(
               child: Text(
-                '${post.likes}',
+                '${post.reaction}',
                 style: TextStyle(
                   color: Colors.grey[600],
                 ),
@@ -313,7 +315,7 @@ class _PostStats extends StatelessWidget {
                       color: Colors.grey[600],
                       size: 28.0,
                     ),
-                    label: '${post.likes}',
+                    label: '${post.reaction}',
                     onTap: () => print('Like'),
                   ),
                   _PostButton(
@@ -331,7 +333,7 @@ class _PostStats extends StatelessWidget {
                       color: Colors.grey[600],
                       size: 28.0,
                     ),
-                    label: '${post.shares}',
+                    label: '${post.sharesCount}',
                     onTap: () => print('Share'),
                   )
                 ],
@@ -381,10 +383,9 @@ class _PostStats extends StatelessWidget {
             SimpleDialogOption(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ReportAbusePage()),
-                  );
+                  context,
+                  MaterialPageRoute(builder: (context) => ReportAbusePage()),
+                );
               },
               child: const Text(
                 "Report Abuse",

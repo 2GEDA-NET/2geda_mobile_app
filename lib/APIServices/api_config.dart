@@ -1,3 +1,3 @@
 class ApiConfig {
-  static const String baseUrl = 'https://shark-app-ia4iu.ondigitalocean.app';
+  static const String baseUrl = 'https://king-prawn-app-venn6.ondigitalocean.app';
 }

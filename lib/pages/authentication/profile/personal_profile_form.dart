@@ -22,7 +22,7 @@ class ProfileFormPage extends StatefulWidget {
 class _ProfileFormPageState extends State<ProfileFormPage>
     with SingleTickerProviderStateMixin {
   String selectedValue = ''; // Initialize with a default value
-  List<String> dropdownItems = ['Christian', 'Muslim', 'Indigenous', 'Others'];
+  List<String> dropdownItems = ['Christianity', 'Muslim', 'Indigenous', 'Others'];
   int? selectedIdentity;
   DateTime? selectedDate;
   final TextEditingController _usernameController = TextEditingController();

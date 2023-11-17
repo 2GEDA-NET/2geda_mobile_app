@@ -538,17 +538,17 @@ class _StereoScreenState extends State<StereoScreen> {
                   CachedNetworkImage(
                     width: 120,
                     height: 90,
-                    imageUrl: audio.coverImageUrl,
+                    imageUrl: audio.coverImage ?? 'default_image_url',
                   ),
                   CachedNetworkImage(
                     width: 110,
                     height: 100,
-                    imageUrl: audio.coverImageUrl,
+                    imageUrl: audio.coverImage ?? 'default_image_url',
                   ),
                   CachedNetworkImage(
                     width: 100,
                     height: 105,
-                    imageUrl: audio.coverImageUrl,
+                    imageUrl: audio.coverImage ?? 'default_image_url',
                   ),
                 ],
               ),
@@ -657,8 +657,8 @@ class MusicList extends StatelessWidget {
           return MusicCard(
             title: audio.title,
             artist: audio.artist,
-            imageUrl: audio.coverImageUrl,
-            url: audio.url,
+            imageUrl: audio.coverImage ?? 'default_image_url',
+            url: audio.audioFile,
           );
         }).toList(),
       ),
@@ -678,8 +678,8 @@ class PlayList extends StatelessWidget {
           return PlayListCard(
             title: audio.title,
             artist: audio.artist,
-            imageUrl: audio.coverImageUrl,
-            url: audio.url,
+            imageUrl: audio.coverImage ?? 'default_image_url',
+            url: audio.audioFile,
           );
         }).toList(),
       ),
@@ -872,8 +872,8 @@ class AlbumList extends StatelessWidget {
           return AlbumCard(
             title: audio.title,
             artist: audio.artist,
-            imageUrl: audio.coverImageUrl,
-            url: audio.url,
+            imageUrl: audio.coverImage ?? 'default_image_url',
+            url: audio.audioFile,
           );
         }).toList(),
       ),
@@ -944,8 +944,8 @@ class LocalMusicCardList extends StatelessWidget {
           return LocalMusicCard(
             title: audio.title,
             artist: audio.artist,
-            url: audio.url,
-            imageUrl: audio.coverImageUrl,
+            url: audio.audioFile,
+            imageUrl: audio.coverImage ?? 'default_image_url',
           );
         }).toList(),
       ),

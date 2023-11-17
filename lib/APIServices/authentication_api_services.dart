@@ -120,9 +120,9 @@ class AuthenticationApiService {
   Future<http.Response> uploadProfileImage(
       String token, String imagePath) async {
     final url = Uri.parse(
-        '$baseUrl/user-profile/update/'); // Replace with the correct endpoint
+        '$baseUrl/update-profile-images/'); // Replace with the correct endpoint
 
-    final request = http.MultipartRequest('POST', url)
+    final request = http.MultipartRequest('PUT', url)
       ..headers['Authorization'] = 'Token $token'
       ..files.add(
         await http.MultipartFile.fromPath('profile_image', imagePath),
@@ -131,5 +131,24 @@ class AuthenticationApiService {
     final response = await http.Response.fromStream(await request.send());
 
     return response;
+  }
+
+
+  Future<bool> hasUpdatedProfile(String authToken) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/profile/update-status/'), // Replace with the correct endpoint
+      headers: {
+        'Authorization': 'Token $authToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      final bool hasUpdatedProfile = data['response'] ?? false;
+      return hasUpdatedProfile;
+    } else {
+      // Handle error, you can throw an exception or return a default value
+      return false;
+    }
   }
 }

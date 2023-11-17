@@ -109,17 +109,17 @@ class _TopAlbumState extends State<TopAlbum> {
                 CachedNetworkImage(
                   width: 120,
                   height: 90,
-                  imageUrl: audio.coverImageUrl,
+                  imageUrl: audio.coverImage ?? 'default_image_url',
                 ),
                 CachedNetworkImage(
                   width: 110,
                   height: 100,
-                  imageUrl: audio.coverImageUrl,
+                  imageUrl: audio.coverImage ?? 'default_image_url',
                 ),
                 CachedNetworkImage(
                   width: 100,
                   height: 105,
-                  imageUrl: audio.coverImageUrl,
+                  imageUrl: audio.coverImage ?? 'default_image_url',
                 ),
               ],
             ),

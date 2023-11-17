@@ -40,7 +40,7 @@ class BigHits extends StatelessWidget {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Image.network(
-            audio.coverImageUrl,
+            audio.coverImage ?? 'default_image_url',
             width: 100,
             height: 100,
           ),

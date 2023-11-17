@@ -53,7 +53,7 @@ class _AudioListWidgetState extends State<AudioListWidget> {
                   });
                 } else {
                   // Play the selected audio
-                  audioPlayer.play(audioItem.url
+                  audioPlayer.play(audioItem.audioFile
                       as Source); // Pass the URL as a String directly
 
                   setState(() {
@@ -73,7 +73,7 @@ class _AudioListWidgetState extends State<AudioListWidget> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: CachedNetworkImage(
-                            imageUrl: audioItem.coverImageUrl,
+                            imageUrl: audioItem.coverImage ?? '',
                             width: 150,
                             height: 125,
                             fit: BoxFit.cover,

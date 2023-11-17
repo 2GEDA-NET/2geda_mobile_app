@@ -43,7 +43,7 @@ class Trending extends StatelessWidget {
           child: CachedNetworkImage(
             width: 100,
             height: 100,
-            imageUrl: audio.coverImageUrl,
+            imageUrl: audio.coverImage ?? 'default_image_url',
           ),
         ),
         title: Row(

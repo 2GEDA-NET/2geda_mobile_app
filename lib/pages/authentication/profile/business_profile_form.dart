@@ -149,7 +149,7 @@ class _BusinessProfileFormPageState extends State<BusinessProfileFormPage>
                     borderSide: BorderSide(
                       color: Colors.black, // Specify the outline border color
                       width: 1.0, // Specify the outline border width
-                    ),
+                    ),                                                     
                   ),
                 ),
               ),

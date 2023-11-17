@@ -30,6 +30,7 @@ Future<void> _uploadProfileImage() async {
 
     if (token != null) {
       final response = await apiService.uploadProfileImage(token, imagePath);
+      print(response.body);
 
       if (response.statusCode == 200) {
         // Image uploaded successfully

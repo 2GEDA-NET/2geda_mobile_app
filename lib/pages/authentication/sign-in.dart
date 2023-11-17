@@ -344,15 +344,15 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          // signIn(emailOrPhoneNumberController.text,
-                          //     passwordController.text);
+                          signIn(emailOrPhoneNumberController.text,
+                              passwordController.text);
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SideBarLayout(),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const SideBarLayout(),
+                          //   ),
+                          // );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff4e0ca2),

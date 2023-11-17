@@ -165,7 +165,7 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
           child: CachedNetworkImage(
             width: 100,
             height: 100,
-            imageUrl: audio.coverImageUrl,
+            imageUrl: audio.coverImage ?? 'default_image_url',
           ),
         ),
         title: Row(
@@ -218,8 +218,8 @@ class AlbumList extends StatelessWidget {
           return AlbumCard(
             title: audio.title,
             artist: audio.artist,
-            imageUrl: audio.coverImageUrl,
-            url: audio.url,
+            imageUrl: audio.coverImage ?? 'default_image_url',
+            url: audio.audioFile,
           );
         }).toList(),
       ),

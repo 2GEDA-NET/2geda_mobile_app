@@ -1,6 +1,9 @@
-import 'package:_2geda/data/audio_data.dart';
-import 'package:_2geda/data/data.dart';
+import 'package:_2geda/APIServices/post_api_service.dart';
+import 'package:_2geda/APIServices/stereo_api_service.dart';
 import 'package:_2geda/data/movie_data.dart';
+import 'package:_2geda/models/audio_model.dart';
+import 'package:_2geda/models/post_model.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/businessDir/business_list.dart';
 import 'package:_2geda/pages/widgets/movie/movie_caurosel.dart';
 import 'package:_2geda/pages/widgets/people/user_list.dart';
@@ -12,13 +15,78 @@ import 'package:_2geda/pages/widgets/video/video_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class AllTabContent extends StatelessWidget {
+class AllTabContent extends StatefulWidget {
   final int currentIndex; // Add this line
 
   const AllTabContent({
     Key? key,
     required this.currentIndex, // Add this parameter
   }) : super(key: key);
+
+  @override
+  State<AllTabContent> createState() => _AllTabContentState();
+}
+
+class _AllTabContentState extends State<AllTabContent> {
+  final PostService postService = PostService();
+  final StereoApiService stereoApiService = StereoApiService();
+  final TokenManager tokenManager = TokenManager();
+  String? authToken;
+  List<Post> posts = [];
+  List<AudioModel> audioList = []; // Declare audioList in the state class
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAuthTokenAndFetchData();
+  }
+
+  // Future<void> _loadAuthTokenAndFetchPosts() async {
+  //   authToken = await tokenManager.getToken();
+  //   try {
+  //     await fetchPosts(authToken);
+  //   } catch (e) {
+  //     // Handle error
+  //     print('Error fetching posts: $e');
+  //   }
+  // }
+
+  Future<void> _loadAuthTokenAndFetchData() async {
+    authToken = await tokenManager.getToken();
+    try {
+      await fetchPosts(authToken);
+      await fetchAudioListFromAI(authToken); // Fetch audio data directly
+    } catch (e) {
+      // Handle error
+      print('Error fetching data: $e');
+    }
+  }
+
+  Future<void> fetchAudioListFromAI(String? authToken) async {
+    try {
+      List<AudioModel> fetchedAudioList =
+          await stereoApiService.fetchQuickPickAudioList(authToken!);
+      setState(() {
+        audioList = fetchedAudioList;
+      });
+    } catch (e) {
+      // Handle error
+      print('Error fetching audio list: $e');
+    }
+  }
+
+  Future<void> fetchPosts(String? authToken) async {
+    try {
+      List<Post> fetchedPosts = await postService.fetchPosts(authToken!);
+      print('Response Body: $fetchedPosts');
+      setState(() {
+        posts = fetchedPosts;
+      });
+    } catch (e) {
+      // Handle error
+      print('Error fetching posts: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +100,7 @@ class AllTabContent extends StatelessWidget {
         AudioListWidget(audioList: audioList),
         // SizedBox(height: 24), // Remove "const" here
         ...posts
-            .skip(currentIndex == 0
+            .skip(widget.currentIndex == 0
                 ? 1
                 : 4) // Skip the appropriate number of posts
             .take(1) // Take the next 3 posts
@@ -42,7 +110,7 @@ class AllTabContent extends StatelessWidget {
         const TicketListWidget(),
         // SizedBox(height: 24), // Remove "const" here
         ...posts
-            .skip(currentIndex == 0
+            .skip(widget.currentIndex == 0
                 ? 1
                 : 4) // Skip the appropriate number of posts
             .take(1) // Take the next 2 posts
@@ -51,7 +119,7 @@ class AllTabContent extends StatelessWidget {
 
         VideoListWidget(),
         ...posts
-            .skip(currentIndex == 0
+            .skip(widget.currentIndex == 0
                 ? 1
                 : 2) // Skip the appropriate number of posts
             .take(1) // Take the next 2 posts
@@ -60,7 +128,7 @@ class AllTabContent extends StatelessWidget {
 
         const ProductListWidget(),
         ...posts
-            .skip(currentIndex == 0 ? 1 : 2)
+            .skip(widget.currentIndex == 0 ? 1 : 2)
             .take(1)
             .map((post) => PostContainer(post: post))
             .toList(),
@@ -90,14 +158,14 @@ class AllTabContent extends StatelessWidget {
         ),
 
         ...posts
-            .skip(currentIndex == 0 ? 1 : 2)
+            .skip(widget.currentIndex == 0 ? 1 : 2)
             .take(1)
             .map((post) => PostContainer(post: post))
             .toList(),
         StackedCardCarousel(movies: movies),
 
         ...posts
-            .skip(currentIndex == 0 ? 1 : 2)
+            .skip(widget.currentIndex == 0 ? 1 : 2)
             .take(1)
             .map((post) => PostContainer(post: post))
             .toList(),
@@ -118,9 +186,7 @@ class AllTabContent extends StatelessWidget {
           height: 20,
         ),
 
-        ...posts
-            .map((post) => PostContainer(post: post))
-            .toList(),
+        ...posts.map((post) => PostContainer(post: post)).toList(),
         // Define the content specific to the "All" tab here
       ],
     );
