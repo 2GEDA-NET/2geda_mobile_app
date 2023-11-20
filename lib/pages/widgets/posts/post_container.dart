@@ -235,7 +235,7 @@ class _PostHeader extends StatelessWidget {
       children: [
         ProfileAvatar(
             imageUrl: post.userImg ??
-                'https://images.unsplash.com/photo-1634926878768-2a5b3c42f139?q=80&w=2200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+                ''),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(

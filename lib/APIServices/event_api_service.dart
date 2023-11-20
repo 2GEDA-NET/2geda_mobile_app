@@ -15,8 +15,6 @@ class TicketApiService {
       },
     );
 
-    print(response.body);
-
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
 
