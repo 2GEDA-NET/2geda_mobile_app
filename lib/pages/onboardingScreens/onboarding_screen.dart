@@ -116,24 +116,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               height: 70,
             ),
             const SizedBox(height: 25),
-            SizedBox(
-              height: 200, // Set the desired height for the PageView
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: onboardingPages.length,
-                itemBuilder: (context, index) {
-                  return AnimatedOpacity(
-                    duration: const Duration(milliseconds: 500),
-                    opacity: _currentPage == index ? 1.0 : 0.0,
-                    child: onboardingPages[index],
-                  );
-                },
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentPage = index;
-                  });
-                },
-                pageSnapping: true, // Enable page snapping
+             Expanded(
+              child: SizedBox(
+                height: 200, // Set the desired height for the PageView
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: onboardingPages.length,
+                  itemBuilder: (context, index) {
+                    return AnimatedOpacity(
+                      duration: const Duration(milliseconds: 500),
+                      opacity: _currentPage == index ? 1.0 : 0.0,
+                      child: onboardingPages[index],
+                    );
+                  },
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentPage = index;
+                    });
+                  },
+                  pageSnapping: true, // Enable page snapping
+                ),
               ),
             ),
             SizedBox(
@@ -199,6 +201,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
+                        color: Colors.white
                       ),
                     ),
                   ),

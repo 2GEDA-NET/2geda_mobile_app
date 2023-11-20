@@ -36,7 +36,7 @@ class _AudioListWidgetState extends State<AudioListWidget> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: SizedBox(
-        height: 180, // Adjust the height as needed
+        height: 200, // Adjust the height as needed
         child: Row(
           children: List.generate(widget.audioList.length, (index) {
             final audioItem = widget.audioList[index];
@@ -73,7 +73,7 @@ class _AudioListWidgetState extends State<AudioListWidget> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: CachedNetworkImage(
-                            imageUrl: audioItem.coverImage ?? '',
+                            imageUrl: audioItem.coverImage ?? 'https://drive.google.com/file/d/1SLtoaKMcLpITlLf5GOD_nd63CtCTldAz/view?usp=sharing',
                             width: 150,
                             height: 125,
                             fit: BoxFit.cover,

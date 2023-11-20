@@ -28,7 +28,7 @@ class _TicketList2WidgetState extends State<TicketList2Widget> {
       ticketWidgets.add(TicketWidget2(
         coverImageUrl: ticket.coverImageUrl,
         title: ticket.title,
-        date: ticket.date,
+        date: ticket.date.toLocal().toString(),
         location: ticket.location,
       ));
     }

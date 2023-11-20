@@ -208,23 +208,22 @@ final List<Story> stories = [
 
 final List<Post> posts = [
   Post(
-    id: 22,
-    user: PostUser(
-      firstName: "mad",
-      lastName: "person",
-      username: "bad",
-      work: "",
-    ),
-    reaction: null,
-    comments: null,
-    hashtag: List<Hashtag>.filled(19, Hashtag(hashtag: null)),
-    sharesCount: 0,
-    shares: [],
+    id: 31,
+    postId: 76,
+    username: "bad",
+    userWork: "Product Designer",
+    firstName: "mad",
+    lastName: "person",
     url: null,
-    content: "bob second",
-    timestamp: "15:21:09.134602",
+    content: "",
+    timestamp: "07:40:36.286395",
+    media: ["https://2gedademo.s3.amazonaws.com/post_files/Screenshot_4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA5UT6Z2QPKGXJSZQH%2F20231120%2Feu-north-1%2Fs3%2Faws4_request&X-Amz-Date=20231120T080935Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=85d268a5c63ebbb3d5972c12f6c4483458130b0eae5b8cda5baf81fb37504c2b"],
+    reaction: null,
+    hashtag: "",
     isBusinessPost: false,
     isPersonalPost: true,
-    taggedUsers: [],
+    taggedUsers: null,
+    eachMediaMedia: "post_files/Screenshot_4.png", userImg: '',
   ),
 ];
+

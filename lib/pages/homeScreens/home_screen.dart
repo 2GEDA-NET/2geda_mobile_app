@@ -12,14 +12,9 @@ void main() {
   ));
 }
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             body: SingleChildScrollView(
               child: Column(
-                
                 mainAxisSize: MainAxisSize.min,
-                
                 children: [
                   const SizedBox(height: 10),
                   Image.asset(
@@ -45,8 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 60,
                   ),
                   const Lifestyle(),
-                  
-                  
                   const PostFeed(),
                 ],
               ),
@@ -64,7 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               // Add your onPressed logic for the first button here
             },
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.3),
+            backgroundColor:
+                const Color.fromARGB(255, 255, 255, 255).withOpacity(0.3),
             // backgroundColor: const Color(0xff4e0ca2).withOpacity(0.3),
             child: Image.asset(
               'assets/customer_support.png',
@@ -84,7 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
             backgroundColor: const Color(0xff4e0ca2),
-            child: const Icon(Icons.add),
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
           ),
         ],
       ),

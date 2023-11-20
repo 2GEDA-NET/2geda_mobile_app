@@ -48,14 +48,8 @@ class PostService {
         },
       );
 
-      print('Response Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
-
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
-
-        print('Type of data: ${data.runtimeType}');
-        print('First item in data: ${data.isNotEmpty ? data[0] : 'Empty'}');
 
         if (data.every((item) => item is Map<String, dynamic>)) {
           return data.map((json) => Post.fromJson(json)).toList();

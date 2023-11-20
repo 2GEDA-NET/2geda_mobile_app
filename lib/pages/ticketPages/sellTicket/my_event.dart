@@ -127,7 +127,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      eventData.date,
+                      eventData.date as String,
                       style: const TextStyle(
                         fontSize: 13.3708,
                         fontWeight: FontWeight.w400,
@@ -272,7 +272,7 @@ class PastEventCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      eventData.date,
+                      eventData.date as String,
                       style: const TextStyle(
                         fontSize: 13.3708,
                         fontWeight: FontWeight.w400,

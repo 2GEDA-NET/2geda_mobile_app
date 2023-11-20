@@ -48,7 +48,6 @@ class _OpenAccountScreenState extends State<OpenAccountScreen> {
       // Use the TokenManager to save the token
       await tokenManager.saveToken(token);
 
-
       // Handle the successful registration, for example, by navigating to the next screen
       Navigator.push(
         context,
@@ -314,6 +313,7 @@ class _OpenAccountScreenState extends State<OpenAccountScreen> {
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
+                      color: Colors.white,
                     ),
                   ),
                 ),

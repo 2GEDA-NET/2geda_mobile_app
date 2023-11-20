@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:_2geda/SideBar/bloc_navigation/navigation_bloc.dart';
+import 'package:_2geda/data/data.dart';
 import 'package:_2geda/models/post_model.dart';
 import 'package:_2geda/pages/widgets/posts/post_details.dart';
 import 'package:_2geda/pages/widgets/posts/post_options/report_abuse.dart';
@@ -111,38 +112,41 @@ class _PostContainerState extends State<PostContainer> {
                       post: widget.post,
                     ),
                     const SizedBox(height: 26.0),
-                    RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text:
-                                paginateCaption(widget.post.content ?? '', 20),
-                            style: DefaultTextStyle.of(context).style,
-                          ),
-                          if ((widget.post.content?.split(' ').length ?? 0) > 20 &&
-                              !showFullCaption)
+                    if (widget.post.content != null &&
+                        widget.post.content!.isNotEmpty)
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
                             TextSpan(
-                              text: ' Read More',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(
-                                    0, 0, 0, 0.7), // Customize the text color
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  setState(() {
-                                    showFullCaption = true;
-                                  });
-                                },
+                              text: paginateCaption(widget.post.content!, 20),
+                              style: DefaultTextStyle.of(context).style,
                             ),
-                        ],
+                            if ((widget.post.content!.split(' ').length) > 20 &&
+                                !showFullCaption)
+                              TextSpan(
+                                text: ' Read More',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(0, 0, 0, 0.7),
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    setState(() {
+                                      showFullCaption = true;
+                                    });
+                                  },
+                              ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox.shrink(),
+                    if (widget.post.hashtag != null &&
+                        widget.post.hashtag!.isNotEmpty)
+                      Text(widget.post.hashtag ?? ''),
                   ],
                 ),
               ),
               const SizedBox(height: 17.0),
-              if ((widget.post.media?.length ?? 0) <= initialImageCount) // Display all images
+              if ((widget.post.media?.length ?? 0) <=
+                  initialImageCount) // Display all images
                 Column(
                   children: [
                     for (List<String> sublist in imageRows)
@@ -229,14 +233,16 @@ class _PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(imageUrl: post.user?.imageUrl ?? ''),
+        ProfileAvatar(
+            imageUrl: post.userImg ??
+                'https://images.unsplash.com/photo-1634926878768-2a5b3c42f139?q=80&w=2200&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                post.user?.username ?? '',
+                post.username ?? '',
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Color(0xff4e0ca2),
@@ -245,7 +251,7 @@ class _PostHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    post.user?.work ?? '',
+                    post.userWork ?? '',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12.0,
@@ -257,7 +263,7 @@ class _PostHeader extends StatelessWidget {
           ),
         ),
         Text(
-          post.timestamp ?? '',
+          post.formattedTimestampAgo,
           style: TextStyle(
             color: Colors.grey[600],
             fontSize: 12.0,
@@ -324,7 +330,7 @@ class _PostStats extends StatelessWidget {
                       color: Colors.grey[600],
                       size: 28,
                     ),
-                    label: '${post.comments.length}',
+                    label: '${post.commentsCount ?? 0}',
                     onTap: () => print('Comment'),
                   ),
                   _PostButton(

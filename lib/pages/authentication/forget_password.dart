@@ -134,6 +134,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   "Send Code",
                   style: TextStyle(
                     fontSize: 17,
+                        color: Colors.white,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

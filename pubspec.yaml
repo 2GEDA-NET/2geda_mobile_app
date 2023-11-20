@@ -67,6 +67,8 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   shared_preferences: ^2.2.2
   just_audio_background: ^0.0.1-beta.10
+  dio: ^5.3.3
+  timeago: ^3.6.0
 
 dev_dependencies:
   flutter_test:

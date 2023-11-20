@@ -124,7 +124,12 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                     ),
                     Container(
                         margin: const EdgeInsets.all(20),
-                        child: Text(widget.post.content ?? '')),
+                        child: Column(
+                          children: [
+                            Text(widget.post.content ?? ''),
+                            Text(widget.post.hashtag ?? ''),
+                          ],
+                        )),
                     const SizedBox.shrink(),
                   ],
                 ),
@@ -155,7 +160,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
             const SizedBox(
               height: 20,
             ),
-            CommentSection(comments: widget.post.comments),
+            CommentSection(comments: widget.post.comments ?? []),
           ],
         ),
       ),
@@ -262,14 +267,14 @@ class _PostHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ProfileAvatar(imageUrl: post.user?.imageUrl ?? ''),
+          ProfileAvatar(imageUrl: post.userImg ?? 'https://drive.google.com/file/d/1v5XqMZem1FEP0-LS2vQj_IFI67ll6Nbl'),
           const SizedBox(width: 10.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  post.user?.username ?? '',
+                  post.username ?? '',
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -277,7 +282,7 @@ class _PostHeader extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  post.user?.work ?? '',
+                  post.userWork ?? '',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12.0,
@@ -287,7 +292,7 @@ class _PostHeader extends StatelessWidget {
             ),
           ),
           Text(
-            post.timestamp ?? '',
+            post.formattedTimestampAgo ?? '',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 12.0,
@@ -355,7 +360,7 @@ class _PostStats extends StatelessWidget {
                       color: Colors.grey[600],
                       size: 28,
                     ),
-                    label: '${post.comments.length}',
+                    label: '${post.commentsCount ?? 0}',
                     onTap: () => print('Comment'),
                   ),
                   _PostButton(

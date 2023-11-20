@@ -33,7 +33,8 @@ class _AllTabContentState extends State<AllTabContent> {
   final TokenManager tokenManager = TokenManager();
   String? authToken;
   List<Post> posts = [];
-  List<AudioModel> audioList = []; // Declare audioList in the state class
+  List<AudioModel> audioList = [];
+  bool isDataLoaded = false; // Add a flag to track whether data is loaded
 
   @override
   void initState() {
@@ -41,21 +42,18 @@ class _AllTabContentState extends State<AllTabContent> {
     _loadAuthTokenAndFetchData();
   }
 
-  // Future<void> _loadAuthTokenAndFetchPosts() async {
-  //   authToken = await tokenManager.getToken();
-  //   try {
-  //     await fetchPosts(authToken);
-  //   } catch (e) {
-  //     // Handle error
-  //     print('Error fetching posts: $e');
-  //   }
-  // }
-
   Future<void> _loadAuthTokenAndFetchData() async {
-    authToken = await tokenManager.getToken();
     try {
-      await fetchPosts(authToken);
-      await fetchAudioListFromAI(authToken); // Fetch audio data directly
+      authToken = await tokenManager.getToken();
+      // Fetch both posts and audio data only if data is not already loaded
+      if (!isDataLoaded) {
+        await Future.wait([
+          fetchPosts(authToken),
+          fetchAudioListFromAI(authToken),
+        ]);
+        // Set the flag to true once data is loaded
+        isDataLoaded = true;
+      }
     } catch (e) {
       // Handle error
       print('Error fetching data: $e');
@@ -64,30 +62,73 @@ class _AllTabContentState extends State<AllTabContent> {
 
   Future<void> fetchAudioListFromAI(String? authToken) async {
     try {
-      List<AudioModel> fetchedAudioList =
-          await stereoApiService.fetchQuickPickAudioList(authToken!);
-      setState(() {
-        audioList = fetchedAudioList;
-      });
+      // Check if cached audio data is available
+      List<AudioModel> cachedAudioList = await getCachedAudioList();
+      if (cachedAudioList.isNotEmpty) {
+        setState(() {
+          audioList = cachedAudioList;
+        });
+      } else {
+        // Fetch new audio data from the network
+        List<AudioModel> fetchedAudioList =
+            await stereoApiService.fetchQuickPickAudioList(authToken!);
+        setState(() {
+          audioList = fetchedAudioList;
+        });
+        // Save fetched audio data to cache
+        saveAudioListToCache(fetchedAudioList);
+      }
     } catch (e) {
       // Handle error
       print('Error fetching audio list: $e');
+      // You can show a snackbar or a user-friendly error message here
     }
   }
 
   Future<void> fetchPosts(String? authToken) async {
     try {
-      List<Post> fetchedPosts = await postService.fetchPosts(authToken!);
-      print('Response Body: $fetchedPosts');
-      setState(() {
-        posts = fetchedPosts;
-      });
+      // Check if cached posts data is available
+      List<Post> cachedPosts = await getCachedPosts();
+      if (cachedPosts.isNotEmpty) {
+        setState(() {
+          posts = cachedPosts;
+        });
+      } else {
+        // Fetch new posts data from the network
+        List<Post> fetchedPosts = await postService.fetchPosts(authToken!);
+        setState(() {
+          posts = fetchedPosts;
+        });
+        // Save fetched posts data to cache
+        savePostsToCache(fetchedPosts);
+      }
     } catch (e) {
       // Handle error
       print('Error fetching posts: $e');
+      // You can show a snackbar or a user-friendly error message here
     }
   }
 
+  // Add methods to get and save cached audio and posts data
+  Future<List<AudioModel>> getCachedAudioList() async {
+    // Implement logic to get cached audio data (e.g., using shared preferences)
+    // Return an empty list if no cached data is found
+    return [];
+  }
+
+  Future<void> saveAudioListToCache(List<AudioModel> audioList) async {
+    // Implement logic to save audio data to cache (e.g., using shared preferences)
+  }
+
+  Future<List<Post>> getCachedPosts() async {
+    // Implement logic to get cached posts data (e.g., using shared preferences)
+    // Return an empty list if no cached data is found
+    return [];
+  }
+
+  Future<void> savePostsToCache(List<Post> posts) async {
+    // Implement logic to save posts data to cache (e.g., using shared preferences)
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -97,8 +138,8 @@ class _AllTabContentState extends State<AllTabContent> {
             .map((post) => PostContainer(post: post))
             .toList(),
         const SizedBox(height: 24), // Remove "const" here
+        // Display the audio list
         AudioListWidget(audioList: audioList),
-        // SizedBox(height: 24), // Remove "const" here
         ...posts
             .skip(widget.currentIndex == 0
                 ? 1

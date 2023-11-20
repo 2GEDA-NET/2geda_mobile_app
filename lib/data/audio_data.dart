@@ -11,6 +11,20 @@ final List<AudioModel> audioList = [
     audioFile: 'https://example.com/audio/song1.mp3',
     coverImage:
         'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
+    artistId: 1,
+  ),
+
+  AudioModel(
+    title: 'Song 1',
+    duration: 'Song 1',
+    uploadedAt: 'Song 1',
+    downloadCount: 0,
+    streamCount: 0,
+    artist: 'Artist 1',
+    audioFile: 'https://example.com/audio/song1.mp3',
+    coverImage:
+        'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
+    artistId: 1,
   ),
   AudioModel(
     title: 'Song 1',
@@ -22,7 +36,9 @@ final List<AudioModel> audioList = [
     audioFile: 'https://example.com/audio/song1.mp3',
     coverImage:
         'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
+    artistId: 1,
   ),
+
   AudioModel(
     title: 'Song 1',
     duration: 'Song 1',
@@ -33,61 +49,7 @@ final List<AudioModel> audioList = [
     audioFile: 'https://example.com/audio/song1.mp3',
     coverImage:
         'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
-  ),
-  AudioModel(
-    title: 'Song 1',
-    duration: 'Song 1',
-    uploadedAt: 'Song 1',
-    downloadCount: 0,
-    streamCount: 0,
-    artist: 'Artist 1',
-    audioFile: 'https://example.com/audio/song1.mp3',
-    coverImage:
-        'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
-  ),
-  AudioModel(
-    title: 'Song 1',
-    duration: 'Song 1',
-    uploadedAt: 'Song 1',
-    downloadCount: 0,
-    streamCount: 0,
-    artist: 'Artist 1',
-    audioFile: 'https://example.com/audio/song1.mp3',
-    coverImage:
-        'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
-  ),
-  AudioModel(
-    title: 'Song 1',
-    duration: 'Song 1',
-    uploadedAt: 'Song 1',
-    downloadCount: 0,
-    streamCount: 0,
-    artist: 'Artist 1',
-    audioFile: 'https://example.com/audio/song1.mp3',
-    coverImage:
-        'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
-  ),
-  AudioModel(
-    title: 'Song 1',
-    duration: 'Song 1',
-    uploadedAt: 'Song 1',
-    downloadCount: 0,
-    streamCount: 0,
-    artist: 'Artist 1',
-    audioFile: 'https://example.com/audio/song1.mp3',
-    coverImage:
-        'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
-  ),
-  AudioModel(
-    title: 'Song 1',
-    duration: 'Song 1',
-    uploadedAt: 'Song 1',
-    downloadCount: 0,
-    streamCount: 0,
-    artist: 'Artist 1',
-    audioFile: 'https://example.com/audio/song1.mp3',
-    coverImage:
-        'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
+    artistId: 1,
   ),
   // Add more audio items as needed
 ];

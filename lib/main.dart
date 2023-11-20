@@ -1,15 +1,21 @@
 // ignore_for_file: unused_field, library_private_types_in_public_api
 
 import 'dart:async';
+import 'package:_2geda/SideBar/sidebar_layout.dart';
+import 'package:_2geda/auth_provider.dart';
 import 'package:_2geda/pages/onboardingScreens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthProvider(),
+      child: MyApp(),
+    ),
+  );
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -62,10 +68,12 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _animation;
   int _loadingDotCount = 1;
   String _loadingText = 'Loading';
+  bool isLoggedIn = false; // Move the initialization here
 
   @override
   void initState() {
     super.initState();
+    isLoggedIn = context.read<AuthProvider>().isLoggedIn;
     // Simulate progress with a Timer
     Timer.periodic(
       const Duration(milliseconds: 500), // Adjust the duration as needed
@@ -76,7 +84,8 @@ class _SplashScreenState extends State<SplashScreen>
           if (mounted) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (BuildContext context) => const OnboardingScreen(),
+                builder: (BuildContext context) =>
+                    isLoggedIn ? SideBarLayout() : OnboardingScreen(),
               ),
             );
           }
