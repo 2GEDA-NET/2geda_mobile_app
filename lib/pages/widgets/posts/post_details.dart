@@ -292,7 +292,7 @@ class _PostHeader extends StatelessWidget {
             ),
           ),
           Text(
-            post.formattedTimestampAgo ?? '',
+            post.formattedTimestampAgo,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 12.0,
