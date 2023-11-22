@@ -41,7 +41,76 @@ class StereoApiService {
     }
   }
 
-  Future<List<AudioModel>> parseAudioList(List<dynamic> list, String authToken) async {
+  Future<List<AudioModel>> fetchTopSongAudioList(String authToken) async {
+    try {
+      // Check if cached data is available
+      final String cachedData = await getLocalData('topSongAudioList');
+      if (cachedData.isNotEmpty) {
+        final List<dynamic> jsonList = json.decode(cachedData);
+        return parseAudioList(jsonList, authToken);
+      }
+
+      // If no cached data, fetch from the network
+      final response = await http.get(
+        Uri.parse('$baseUrl/stereo/top-songs/'),
+        headers: {
+          'Authorization': 'Token $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = json.decode(response.body);
+
+        // Save the fetched data to local cache
+        saveDataLocally('topSongAudioList', json.encode(jsonList));
+
+        return parseAudioList(jsonList, authToken);
+      } else {
+        throw Exception('Failed to load audio list');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      rethrow;
+    }
+  }
+
+  Future<List<AudioModel>> fetchbigHitSongAudioList(String authToken) async {
+    try {
+      // Check if cached data is available
+      final String cachedData = await getLocalData('bigHitSongAudioList');
+      if (cachedData.isNotEmpty) {
+        final List<dynamic> jsonList = json.decode(cachedData);
+        return parseAudioList(jsonList, authToken);
+      }
+
+      // If no cached data, fetch from the network
+      final response = await http.get(
+        Uri.parse('$baseUrl/stereo/top-songs/'),
+        headers: {
+          'Authorization': 'Token $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = json.decode(response.body);
+
+        // Save the fetched data to local cache
+        saveDataLocally('bigHitSongAudioList', json.encode(jsonList));
+
+        return parseAudioList(jsonList, authToken);
+      } else {
+        throw Exception('Failed to load audio list');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      rethrow;
+    }
+  }
+
+  Future<List<AudioModel>> parseAudioList(
+      List<dynamic> list, String authToken) async {
     // Create a list of Futures for fetching audio details
     final List<Future<AudioModel>> futures = list.map((json) async {
       final audioModel = await AudioModel.fromJson(json, authToken);
@@ -59,6 +128,7 @@ class StereoApiService {
 
   Future<String> getLocalData(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key) ?? ''; // Default to an empty string if no data is found
+    return prefs.getString(key) ??
+        ''; // Default to an empty string if no data is found
   }
 }

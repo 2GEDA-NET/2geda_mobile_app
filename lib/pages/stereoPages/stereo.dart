@@ -4,13 +4,17 @@ import 'package:_2geda/data/data.dart';
 import 'package:_2geda/models/audio_model.dart';
 import 'package:_2geda/models/user_model.dart';
 import 'package:_2geda/pages/stereoPages/artist_profile.dart';
+import 'package:_2geda/pages/stereoPages/big_hit_list.dart';
 import 'package:_2geda/pages/stereoPages/big_hits.dart';
+import 'package:_2geda/pages/stereoPages/chart.dart';
 import 'package:_2geda/pages/stereoPages/chart_details.dart';
 import 'package:_2geda/pages/stereoPages/library.dart';
+import 'package:_2geda/pages/stereoPages/local_music.dart';
 import 'package:_2geda/pages/stereoPages/mini_player.dart';
 import 'package:_2geda/pages/stereoPages/stereo_search.dart';
 import 'package:_2geda/pages/stereoPages/top_album.dart';
 import 'package:_2geda/pages/stereoPages/trending.dart';
+import 'package:_2geda/pages/stereoPages/trending_list.dart';
 import 'package:_2geda/pages/stereoPages/uploadMusic/upload.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -199,7 +203,7 @@ class _StereoScreenState extends State<StereoScreen> {
                             ),
                           ],
                         ),
-                        const MusicList(),
+                        const TrendingMusicList(),
                         Image.asset("assets/banner2.png"),
                         Row(
                           children: [
@@ -234,7 +238,7 @@ class _StereoScreenState extends State<StereoScreen> {
                             ),
                           ],
                         ),
-                        const MusicList(),
+                        const BigHitMusicList(),
                         Row(
                           children: [
                             const Text("Top albums",
@@ -422,11 +426,11 @@ class _StereoScreenState extends State<StereoScreen> {
         onPressed: () {
           // Add the functionality you want when the FAB is pressed
           Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const UploadMusicScreen(),
-        ),
-      );
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UploadMusicScreen(),
+            ),
+          );
         },
         child: const Icon(Icons.add), // You can use any icon you prefer
       ),
@@ -447,7 +451,9 @@ class _StereoScreenState extends State<StereoScreen> {
       children: [
         Column(
           children: [
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             for (User user in stickiedUsers)
               _buildUserRow(user, updateStickiedUsers),
             for (User user in remainingUsers)
@@ -462,11 +468,11 @@ class _StereoScreenState extends State<StereoScreen> {
     return InkWell(
       onTap: () {
         Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ArtistProfileScreen(user: user),
-        ),
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) => ArtistProfileScreen(user: user),
+          ),
+        );
       },
       child: Column(
         children: [
@@ -764,14 +770,16 @@ class MusicCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    title.length > 10 ? '${title.substring(0, 10)}...' : title,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   Text(
-                    artist,
+                    artist.length > 10
+                        ? '${artist.substring(0, 10)}...'
+                        : artist,
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -860,98 +868,6 @@ class PlayListCard extends StatelessWidget {
   }
 }
 
-class AlbumList extends StatelessWidget {
-  const AlbumList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: audioList.map((audio) {
-          return AlbumCard(
-            title: audio.title,
-            artist: audio.artist,
-            imageUrl: audio.coverImage ?? 'default_image_url',
-            url: audio.audioFile,
-          );
-        }).toList(),
-      ),
-    );
-  }
-}
-
-class AlbumCard extends StatelessWidget {
-  final String title;
-  final String artist;
-  final String imageUrl;
-  final String url;
-
-  const AlbumCard(
-      {super.key,
-      required this.title,
-      required this.artist,
-      required this.url,
-      required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // height: 200,
-      width: 200,
-      margin: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl,
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text("Are we annoyed?",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              )),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text("Billie Eilish",
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              )),
-        ],
-      ),
-    );
-  }
-}
-
-class LocalMusicCardList extends StatelessWidget {
-  const LocalMusicCardList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: audioList.map((audio) {
-          return LocalMusicCard(
-            title: audio.title,
-            artist: audio.artist,
-            url: audio.audioFile,
-            imageUrl: audio.coverImage ?? 'default_image_url',
-          );
-        }).toList(),
-      ),
-    );
-  }
-}
 
 class LocalMusicCard extends StatelessWidget {
   final String title;
@@ -1012,95 +928,6 @@ class LocalMusicCard extends StatelessWidget {
             IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
           ],
         ),
-      ),
-    );
-  }
-}
-
-class ChartCard extends StatelessWidget {
-  final String title;
-  final String artist;
-  final String url;
-  final String imageUrl;
-
-  const ChartCard({
-    super.key,
-    required this.title,
-    required this.artist,
-    required this.url,
-    required this.imageUrl,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChartCardDetail(
-              title: title,
-              artist: artist,
-              imageUrl: imageUrl,
-            ),
-          ),
-        );
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              imageUrl,
-            ),
-          ),
-          const Text("Top 100 new release",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              )),
-          const Text("100 songs",
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ))
-        ],
-      ),
-    );
-  }
-}
-
-class ChartGridList extends StatelessWidget {
-  const ChartGridList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16.0,
-              mainAxisSpacing: 16.0,
-            ),
-            itemCount: chartList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ChartCard(
-                title: chartList[index].title,
-                artist: chartList[index].artist,
-                url: chartList[index].url,
-                imageUrl: chartList[index].imageUrl,
-              );
-            },
-            shrinkWrap: true, // Allow the GridView to scroll inside the Column
-            physics:
-                const NeverScrollableScrollPhysics(), // Disable GridView scrolling
-          ),
-        ],
       ),
     );
   }

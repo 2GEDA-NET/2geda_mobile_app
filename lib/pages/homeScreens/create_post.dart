@@ -7,13 +7,14 @@ import 'package:_2geda/APIServices/api_config.dart';
 import 'package:_2geda/APIServices/post_api_service.dart';
 import 'package:_2geda/pages/authentication/profile/personal_profile_form.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
+import 'package:_2geda/pages/homeScreens/post_media_buttons.dart';
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Import the HTTP package
 
 class PostCreationScreen extends StatefulWidget {
@@ -337,10 +338,14 @@ class MediaUploadModel extends ChangeNotifier {
   List<XFile>? _videos;
   List<XFile>? _audios;
   List<Uint8List>? _voiceNotes;
+  List<RecorderController> _recorderControllers = [];
+
+  List<RecorderController> get recorderControllers => _recorderControllers;
 
   List<XFile>? get images => _images;
   List<XFile>? get videos => _videos;
   List<XFile>? get audios => _audios;
+  List<File>? wordDocs;
   List<Uint8List>? get voiceNotes => _voiceNotes;
 
   void addImage(XFile image) {
@@ -367,11 +372,18 @@ class MediaUploadModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeMedia(
-      {int? imageIndex,
-      int? videoIndex,
-      int? audioIndex,
-      int? voiceNoteIndex}) {
+  void addWordDoc(File wordDoc) {
+    wordDocs ??= [];
+    wordDocs!.add(wordDoc);
+    notifyListeners();
+  }
+
+  void removeMedia({
+    int? imageIndex,
+    int? videoIndex,
+    int? audioIndex,
+    int? voiceNoteIndex,
+  }) {
     if (imageIndex != null) {
       _images?.removeAt(imageIndex);
     }
@@ -384,6 +396,19 @@ class MediaUploadModel extends ChangeNotifier {
     if (voiceNoteIndex != null) {
       _voiceNotes?.removeAt(voiceNoteIndex);
     }
+    notifyListeners();
+  }
+
+  RecorderController createRecorderController() {
+    final controller = RecorderController();
+    _recorderControllers.add(controller);
+    return controller;
+  }
+
+  // Add a method to remove a RecorderController
+  void removeRecorderController(RecorderController controller) {
+    controller.dispose();
+    _recorderControllers.remove(controller);
     notifyListeners();
   }
 }
@@ -426,248 +451,6 @@ class ContainerItem extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class ContainerGrid extends StatelessWidget {
-  const ContainerGrid({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MediaUploadModel(),
-      child: Consumer<MediaUploadModel>(
-        builder: (context, model, _) {
-          final List<Widget> containers = [
-            ContainerItem(
-              text: 'Photos',
-              iconData: Icons.image,
-              onPressed: () async {
-                final ImagePicker _picker = ImagePicker();
-                XFile? image = await _picker.pickImage(
-                  source: ImageSource.gallery,
-                );
-
-                if (image != null) {
-                  Provider.of<MediaUploadModel>(context, listen: false)
-                      .addImage(image);
-                }
-              },
-            ),
-            ContainerItem(
-              text: 'Videos',
-              iconData: Icons.business,
-              onPressed: () async {
-                final ImagePicker _picker = ImagePicker();
-                XFile? video = await _picker.pickVideo(
-                  source: ImageSource.gallery,
-                );
-
-                if (video != null) {
-                  Provider.of<MediaUploadModel>(context, listen: false)
-                      .addVideo(video);
-                }
-              },
-            ),
-            ContainerItem(
-              text: 'Jobs',
-              iconData: Icons.shopping_bag_outlined,
-              iconColor: Colors.black,
-              onPressed: () {
-                // Add functionality for Photos
-                print('Photos clicked');
-              },
-            ),
-            ContainerItem(
-              text: 'Music',
-              iconData: Icons.music_note,
-              iconColor: Colors.red,
-              onPressed: () async {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: [
-                    'mp3',
-                    'wav'
-                  ], // Add more audio extensions if needed
-                );
-
-                if (result != null && result.files.isNotEmpty) {
-                  Provider.of<MediaUploadModel>(context, listen: false)
-                      .addAudio(XFile(result.files.single.path!));
-                }
-              },
-            ),
-            ContainerItem(
-              text: 'Voice Note',
-              iconData: Icons.mic_none_outlined,
-              iconColor: Colors.black,
-              onPressed: () async {
-                // Uint8List voiceNote = await recordVoiceNote();
-                // Provider.of<MediaUploadModel>(context, listen: false)
-                //     .addVoiceNote(voiceNote);
-              },
-            ),
-            ContainerItem(
-              text: 'Word Doc',
-              iconData: Icons.insert_drive_file,
-              onPressed: () {
-                // Add functionality for Photos
-                print('Photos clicked');
-              },
-            ),
-            ContainerItem(
-              text: 'Excel doc',
-              iconData: Icons.insert_drive_file,
-              onPressed: () {
-                // Add functionality for Photos
-                print('Photos clicked');
-              },
-            ),
-            ContainerItem(
-              text: 'Others',
-              iconData: Icons.insert_drive_file,
-              iconColor: Colors.black,
-              onPressed: () {
-                // Add functionality for Photos
-                print('Photos clicked');
-              },
-            ),
-            // ... (other ContainerItems with their onPressed functions)
-          ];
-
-          List<List<Widget>?> rows = [];
-          for (var i = 0; i < containers.length; i += 4) {
-            rows.add(containers.sublist(i, i + 4));
-          }
-
-          return ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              if (model.images != null || model.videos != null)
-                Wrap(
-                  children: [
-                    if (model.images != null)
-                      for (var i = 0; i < model.images!.length; i++)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.file(
-                                  File(model.images![i].path),
-                                  height: 120,
-                                  width: 120,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: IconButton(
-                                  icon: Icon(Icons.close),
-                                  onPressed: () {
-                                    Provider.of<MediaUploadModel>(context,
-                                            listen: false)
-                                        .removeMedia(imageIndex: i);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                    if (model.videos != null)
-                      for (var i = 0; i < model.videos!.length; i++)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Stack(
-                            children: [
-                              VideoPlayerWidget(
-                                videoFile: File(model.videos![i].path),
-                              ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: IconButton(
-                                  icon: Icon(Icons.close),
-                                  onPressed: () {
-                                    Provider.of<MediaUploadModel>(context,
-                                            listen: false)
-                                        .removeMedia(videoIndex: i);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                    if (model.audios != null)
-                      for (var i = 0; i < model.audios!.length; i++)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Stack(
-                            children: [
-                              // You can customize the audio icon or display more audio details
-                              Icon(Icons.music_note,
-                                  size: 50, color: Colors.red),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: IconButton(
-                                  icon: Icon(Icons.close),
-                                  onPressed: () {
-                                    Provider.of<MediaUploadModel>(context,
-                                            listen: false)
-                                        .removeMedia(audioIndex: i);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                    if (model.voiceNotes != null)
-                      for (var i = 0; i < model.voiceNotes!.length; i++)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Stack(
-                            children: [
-                              // You can customize the voice note icon or display more details
-                              Icon(Icons.mic_none_outlined,
-                                  size: 50, color: Colors.black),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: IconButton(
-                                  icon: Icon(Icons.close),
-                                  onPressed: () {
-                                    Provider.of<MediaUploadModel>(context,
-                                            listen: false)
-                                        .removeMedia(voiceNoteIndex: i);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                  ],
-                ),
-              for (var row in rows)
-                Row(
-                  children: [
-                    for (var container in row!)
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.all(5.0),
-                          child: container,
-                        ),
-                      ),
-                  ],
-                ),
-            ],
-          );
-        },
       ),
     );
   }
