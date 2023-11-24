@@ -278,7 +278,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
                               const url =
-                                  'https://example.com/privacy_policy'; // Replace with your actual URL
+                                  'https://2geda.net/privacy'; // Replace with your actual URL
                               if (await canLaunch(url)) {
                                 await launch(url);
                               } else {

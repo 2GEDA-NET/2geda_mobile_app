@@ -1,8 +1,7 @@
-// ignore_for_file: unused_field, library_private_types_in_public_api
-
 import 'dart:async';
 import 'package:_2geda/SideBar/sidebar_layout.dart';
 import 'package:_2geda/auth_provider.dart';
+import 'package:_2geda/pages/homeScreens/create_post.dart';
 import 'package:_2geda/pages/onboardingScreens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,12 +9,17 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => MediaUploadModel()),
+        // Add other providers if needed
+      ],
       child: MyApp(),
     ),
   );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

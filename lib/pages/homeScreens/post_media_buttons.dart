@@ -108,6 +108,7 @@ class _ContainerGridState extends State<ContainerGrid> {
           child: Consumer<MediaUploadModel>(
             builder: (context, model, _) {
               final List<Widget> containers = [
+                // Inside ContainerGrid widget
                 ContainerItem(
                   text: 'Photos',
                   iconData: Icons.image,
@@ -120,9 +121,15 @@ class _ContainerGridState extends State<ContainerGrid> {
                     if (image != null) {
                       Provider.of<MediaUploadModel>(context, listen: false)
                           .addImage(image);
+
+                      // Print the model here to check if the image is added
+                      MediaUploadModel model =
+                          Provider.of<MediaUploadModel>(context, listen: false);
+                      print('Media Upload Model after adding image: $model');
                     }
                   },
                 ),
+
                 ContainerItem(
                   text: 'Videos',
                   iconData: Icons.business,
@@ -208,20 +215,52 @@ class _ContainerGridState extends State<ContainerGrid> {
                 ContainerItem(
                   text: 'Excel doc',
                   iconData: Icons.insert_drive_file,
-                  onPressed: () {
-                    // Add functionality for Photos
-                    print('Photos clicked');
+                  onPressed: () async {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      allowedExtensions: [
+                        'xlxs',
+                        'csv'
+                      ], // Add more extensions if needed
+                    );
+
+                    if (result != null && result.files.isNotEmpty) {
+                      File excelDoc = File(result.files.single.path!);
+                      // Now you can use the wordDoc file for further processing or uploading.
+                      // For example, you can add it to your MediaUploadModel.
+
+                      Provider.of<MediaUploadModel>(context, listen: false)
+                          .addExcelDoc(excelDoc);
+                    }
                   },
                 ),
                 ContainerItem(
                   text: 'Others',
                   iconData: Icons.insert_drive_file,
-                  iconColor: Colors.black,
-                  onPressed: () {
-                    // Add functionality for Photos
-                    print('Photos clicked');
+                  onPressed: () async {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      allowedExtensions: [
+                        'pdf', 'doc', 'docx', 'txt', 'xlsx', 'csv', 'ppt',
+                        'pptx',
+                        'apk', 'exe', 'msi', 'bat', 'com', 'cmd', 'jar', 'sh',
+                        // Add more extensions as needed
+                      ],
+                    );
+
+                    if (result != null && result.files.isNotEmpty) {
+                      File otherFiles = File(result.files.single.path!);
+                      // Now you can use the documentFile for further processing or uploading.
+                      // For example, you can add it to your MediaUploadModel.
+
+                      Provider.of<MediaUploadModel>(context, listen: false)
+                          .addOtherFile(otherFiles);
+                    }
                   },
                 ),
+
                 // ... (other ContainerItems with their onPressed functions)
               ];
 
@@ -256,7 +295,7 @@ class _ContainerGridState extends State<ContainerGrid> {
                                     top: 0,
                                     right: 0,
                                     child: IconButton(
-                                      icon: Icon(Icons.close),
+                                      icon: const Icon(Icons.close),
                                       onPressed: () {
                                         Provider.of<MediaUploadModel>(context,
                                                 listen: false)
@@ -280,7 +319,7 @@ class _ContainerGridState extends State<ContainerGrid> {
                                     top: 0,
                                     right: 0,
                                     child: IconButton(
-                                      icon: Icon(Icons.close),
+                                      icon: const Icon(Icons.close),
                                       onPressed: () {
                                         Provider.of<MediaUploadModel>(context,
                                                 listen: false)
@@ -298,13 +337,13 @@ class _ContainerGridState extends State<ContainerGrid> {
                               child: Stack(
                                 children: [
                                   // You can customize the audio icon or display more audio details
-                                  Icon(Icons.music_note,
+                                  const Icon(Icons.music_note,
                                       size: 50, color: Colors.red),
                                   Positioned(
                                     top: 0,
                                     right: 0,
                                     child: IconButton(
-                                      icon: Icon(Icons.close),
+                                      icon: const Icon(Icons.close),
                                       onPressed: () {
                                         Provider.of<MediaUploadModel>(context,
                                                 listen: false)
@@ -322,17 +361,65 @@ class _ContainerGridState extends State<ContainerGrid> {
                               child: Stack(
                                 children: [
                                   // You can customize the voice note icon or display more details
-                                  Icon(Icons.mic_none_outlined,
+                                  const Icon(Icons.mic_none_outlined,
                                       size: 50, color: Colors.black),
                                   Positioned(
                                     top: 0,
                                     right: 0,
                                     child: IconButton(
-                                      icon: Icon(Icons.close),
+                                      icon: const Icon(Icons.close),
                                       onPressed: () {
                                         Provider.of<MediaUploadModel>(context,
                                                 listen: false)
                                             .removeMedia(voiceNoteIndex: i);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        if (model.wordDocs != null)
+                          for (var i = 0; i < model.wordDocs!.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Stack(
+                                children: [
+                                  // You can customize the voice note icon or display more details
+                                  const Icon(Icons.document_scanner,
+                                      size: 50, color: Colors.black),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: IconButton(
+                                      icon: const Icon(Icons.close),
+                                      onPressed: () {
+                                        Provider.of<MediaUploadModel>(context,
+                                                listen: false)
+                                            .removeMedia(wordDocsIndex: i);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        if (model.excelDocs != null)
+                          for (var i = 0; i < model.excelDocs!.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Stack(
+                                children: [
+                                  // You can customize the voice note icon or display more details
+                                  const Icon(Icons.document_scanner,
+                                      size: 50, color: Colors.black),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: IconButton(
+                                      icon: const Icon(Icons.close),
+                                      onPressed: () {
+                                        Provider.of<MediaUploadModel>(context,
+                                                listen: false)
+                                            .removeMedia(excelDocsIndex: i);
                                       },
                                     ),
                                   ),

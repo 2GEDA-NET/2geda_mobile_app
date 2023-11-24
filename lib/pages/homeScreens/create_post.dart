@@ -34,6 +34,7 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
   String? authToken;
   final String baseUrl = ApiConfig.baseUrl;
   final PostService postService = PostService();
+  List<String> receivedHashtags = [];
 
   // New property to track selected friends
   List<String> selectedFriends = [];
@@ -114,20 +115,36 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
 
     if (hasUpdatedProfile) {
       final postText = postTextController.text;
+      // Collect media files from the MediaUploadModel
+      MediaUploadModel model =
+          Provider.of<MediaUploadModel>(context, listen: false);
+
+      print('Media Upload Model before createPost: $model');
+      // Get all media files
+      List<File> allMediaFiles = model.getAllMedia();
 
       final result = await postService.createPost(
         authToken: authToken!,
         postText: postText,
-        // Add other necessary parameters for your API
+        hashtags: receivedHashtags,
+        allMediaFiles: allMediaFiles,
       );
 
       if (result['success']) {
         // Successfully created post
+
         print('Post created successfully');
         Navigator.pop(context);
       } else {
         // Failed to create post
         print('Failed to create post: ${result['error']}');
+        // Print the full response body for debugging
+        print('Response body: ${result['data']}');
+
+        // Print the error message if available
+        if (result['error'] != null) {
+          print('Error message: ${result['error']}');
+        }
       }
     } else {
       // If the profile is not updated, navigate to the profile update page
@@ -242,7 +259,13 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
               const SizedBox(
                 height: 10,
               ),
-              const HashtagInputTextField(),
+              HashtagInputTextField(
+                onHashtagsChanged: (hashtags) {
+                  setState(() {
+                    receivedHashtags = hashtags;
+                  });
+                },
+              ),
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -338,17 +361,25 @@ class MediaUploadModel extends ChangeNotifier {
   List<XFile>? _videos;
   List<XFile>? _audios;
   List<Uint8List>? _voiceNotes;
-  List<RecorderController> _recorderControllers = [];
+  List<File>? _wordDocs;
+  List<File>? _excelDocs;
+
+  List<File>? _otherFiles;
+  final List<RecorderController> _recorderControllers = [];
 
   List<RecorderController> get recorderControllers => _recorderControllers;
 
   List<XFile>? get images => _images;
   List<XFile>? get videos => _videos;
   List<XFile>? get audios => _audios;
-  List<File>? wordDocs;
+  List<File>? get wordDocs => _wordDocs;
+  List<File>? get excelDocs => _excelDocs;
+  List<File>? get otherFiles => _otherFiles;
+
   List<Uint8List>? get voiceNotes => _voiceNotes;
 
   void addImage(XFile image) {
+    print('Adding image: $image');
     _images ??= [];
     _images!.add(image);
     notifyListeners();
@@ -372,9 +403,21 @@ class MediaUploadModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addWordDoc(File wordDoc) {
-    wordDocs ??= [];
-    wordDocs!.add(wordDoc);
+  void addWordDoc(File wordDocs) {
+    _wordDocs ??= [];
+    _wordDocs!.add(wordDocs);
+    notifyListeners();
+  }
+
+  void addExcelDoc(File excelDocs) {
+    _excelDocs ??= [];
+    _excelDocs!.add(excelDocs);
+    notifyListeners();
+  }
+
+  void addOtherFile(File otherFiles) {
+    _otherFiles ??= [];
+    _otherFiles!.add(otherFiles);
     notifyListeners();
   }
 
@@ -383,6 +426,8 @@ class MediaUploadModel extends ChangeNotifier {
     int? videoIndex,
     int? audioIndex,
     int? voiceNoteIndex,
+    int? wordDocsIndex,
+    int? excelDocsIndex,
   }) {
     if (imageIndex != null) {
       _images?.removeAt(imageIndex);
@@ -396,7 +441,45 @@ class MediaUploadModel extends ChangeNotifier {
     if (voiceNoteIndex != null) {
       _voiceNotes?.removeAt(voiceNoteIndex);
     }
+    if (wordDocsIndex != null) {
+      _wordDocs?.removeAt(wordDocsIndex);
+    }
+    if (excelDocsIndex != null) {
+      _excelDocs?.removeAt(excelDocsIndex);
+    }
+
     notifyListeners();
+  }
+
+  List<File> getAllMedia() {
+    List<File> allMedia = [];
+
+    if (_images != null) {
+      allMedia.addAll(_images!.map((image) => File(image.path)));
+    }
+    if (_videos != null) {
+      allMedia.addAll(_videos!.map((video) => File(video.path)));
+    }
+    if (_audios != null) {
+      allMedia.addAll(_audios!.map((audio) => File(audio.path)));
+    }
+    if (_voiceNotes != null) {
+      allMedia
+          .addAll(_voiceNotes!.map((voiceNote) => File.fromRawPath(voiceNote)));
+    }
+    if (_wordDocs != null) {
+      allMedia.addAll(_wordDocs!);
+    }
+    if (_excelDocs != null) {
+      allMedia.addAll(_excelDocs!);
+    }
+    if (_otherFiles != null) {
+      allMedia.addAll(_otherFiles!);
+    }
+
+    print('All media files: $allMedia');
+
+    return allMedia;
   }
 
   RecorderController createRecorderController() {
@@ -500,9 +583,12 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 }
 
 class HashtagInputTextField extends StatefulWidget {
+  final void Function(List<String> hashtags) onHashtagsChanged;
+
   const HashtagInputTextField({
-    super.key,
-  });
+    Key? key,
+    required this.onHashtagsChanged,
+  }) : super(key: key);
 
   @override
   _HashtagInputTextFieldState createState() => _HashtagInputTextFieldState();
@@ -603,6 +689,9 @@ class _HashtagInputTextFieldState extends State<HashtagInputTextField> {
         hashtags.add(lastWord);
         _textEditingController.clear();
       });
+
+      // Call the callback function to notify the parent widget
+      widget.onHashtagsChanged(hashtags);
     }
   }
 
@@ -610,6 +699,9 @@ class _HashtagInputTextFieldState extends State<HashtagInputTextField> {
     setState(() {
       hashtags.remove(tag);
     });
+
+    // Call the callback function to notify the parent widget
+    widget.onHashtagsChanged(hashtags);
   }
 }
 

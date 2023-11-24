@@ -52,7 +52,11 @@ class _AllTabContentState extends State<AllTabContent> {
           fetchAudioListFromAI(authToken),
         ]);
         // Set the flag to true once data is loaded
-        isDataLoaded = true;
+        if (mounted) {
+          setState(() {
+            isDataLoaded = true;
+          });
+        }
       }
     } catch (e) {
       // Handle error
@@ -129,107 +133,120 @@ class _AllTabContentState extends State<AllTabContent> {
   Future<void> savePostsToCache(List<Post> posts) async {
     // Implement logic to save posts data to cache (e.g., using shared preferences)
   }
+
+  Future<void> _handleRefresh() async {
+    await _loadAuthTokenAndFetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...posts
-            .take(1) // Display the first post
-            .map((post) => PostContainer(post: post))
-            .toList(),
-        const SizedBox(height: 24), // Remove "const" here
-        // Display the audio list
-        AudioListWidget(audioList: audioList),
-        ...posts
-            .skip(widget.currentIndex == 0
-                ? 1
-                : 4) // Skip the appropriate number of posts
-            .take(1) // Take the next 3 posts
-            .map((post) => PostContainer(post: post))
-            .toList(),
-        // TicketWidget(),
-        const TicketListWidget(),
-        // SizedBox(height: 24), // Remove "const" here
-        ...posts
-            .skip(widget.currentIndex == 0
-                ? 1
-                : 4) // Skip the appropriate number of posts
-            .take(1) // Take the next 2 posts
-            .map((post) => PostContainer(post: post))
-            .toList(),
+    return RefreshIndicator(
+      onRefresh: _handleRefresh,
+      child: SingleChildScrollView(
+        // physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            ...posts
+                .take(1) // Display the first post
+                .map((post) => PostContainer(post: post))
+                .toList(),
+            const SizedBox(height: 24), // Remove "const" here
+            // Display the audio list
+            AudioListWidget(audioList: audioList),
+            ...posts
+                .skip(widget.currentIndex == 0
+                    ? 1
+                    : 4) // Skip the appropriate number of posts
+                .take(1) // Take the next 3 posts
+                .map((post) => PostContainer(post: post))
+                .toList(),
+            // TicketWidget(),
+            const TicketListWidget(),
+            // SizedBox(height: 24), // Remove "const" here
+            ...posts
+                .skip(widget.currentIndex == 0
+                    ? 1
+                    : 4) // Skip the appropriate number of posts
+                .take(1) // Take the next 2 posts
+                .map((post) => PostContainer(post: post))
+                .toList(),
 
-        VideoListWidget(),
-        ...posts
-            .skip(widget.currentIndex == 0
-                ? 1
-                : 2) // Skip the appropriate number of posts
-            .take(1) // Take the next 2 posts
-            .map((post) => PostContainer(post: post))
-            .toList(),
+            VideoListWidget(),
+            ...posts
+                .skip(widget.currentIndex == 0
+                    ? 1
+                    : 2) // Skip the appropriate number of posts
+                .take(1) // Take the next 2 posts
+                .map((post) => PostContainer(post: post))
+                .toList(),
 
-        const ProductListWidget(),
-        ...posts
-            .skip(widget.currentIndex == 0 ? 1 : 2)
-            .take(1)
-            .map((post) => PostContainer(post: post))
-            .toList(),
-        Padding(
-          padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context)
-                    .size
-                    .width, // Set the desired width of the image
-                height: 100, // Set the desired height of the image
-                child: CachedNetworkImage(
-                  imageUrl:
-                      'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
-                  fit: BoxFit.cover,
-                ),
+            const ProductListWidget(),
+            ...posts
+                .skip(widget.currentIndex == 0 ? 1 : 2)
+                .take(1)
+                .map((post) => PostContainer(post: post))
+                .toList(),
+            Padding(
+              padding:
+                  const EdgeInsets.all(16.0), // Adjust the padding as needed
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context)
+                        .size
+                        .width, // Set the desired width of the image
+                    height: 100, // Set the desired height of the image
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.play_arrow,
+                    size: 48, // Set the desired size of the play icon
+                    color:
+                        Colors.white, // Set the desired color of the play icon
+                  ),
+                ],
               ),
-              const Icon(
-                Icons.play_arrow,
-                size: 48, // Set the desired size of the play icon
-                color: Colors.white, // Set the desired color of the play icon
-              ),
-            ],
-          ),
+            ),
+
+            ...posts
+                .skip(widget.currentIndex == 0 ? 1 : 2)
+                .take(1)
+                .map((post) => PostContainer(post: post))
+                .toList(),
+            StackedCardCarousel(movies: movies),
+
+            ...posts
+                .skip(widget.currentIndex == 0 ? 1 : 2)
+                .take(1)
+                .map((post) => PostContainer(post: post))
+                .toList(),
+
+            const SizedBox(
+              height: 20,
+            ),
+
+            const UserListWidget(),
+
+            const SizedBox(
+              height: 20,
+            ),
+
+            const BusinessListWidget(),
+
+            const SizedBox(
+              height: 20,
+            ),
+
+            ...posts.map((post) => PostContainer(post: post)).toList(),
+            // Define the content specific to the "All" tab here
+          ],
         ),
-
-        ...posts
-            .skip(widget.currentIndex == 0 ? 1 : 2)
-            .take(1)
-            .map((post) => PostContainer(post: post))
-            .toList(),
-        StackedCardCarousel(movies: movies),
-
-        ...posts
-            .skip(widget.currentIndex == 0 ? 1 : 2)
-            .take(1)
-            .map((post) => PostContainer(post: post))
-            .toList(),
-
-        const SizedBox(
-          height: 20,
-        ),
-
-        const UserListWidget(),
-
-        const SizedBox(
-          height: 20,
-        ),
-
-        const BusinessListWidget(),
-
-        const SizedBox(
-          height: 20,
-        ),
-
-        ...posts.map((post) => PostContainer(post: post)).toList(),
-        // Define the content specific to the "All" tab here
-      ],
+      ),
     );
   }
 }

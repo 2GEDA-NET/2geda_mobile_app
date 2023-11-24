@@ -34,9 +34,11 @@ class _TicketListWidgetState extends State<TicketListWidget> {
           await ticketApiService.getTickets(authToken!);
 
       // Update the state with the fetched tickets
-      setState(() {
-        tickets = fetchedTickets.cast<Ticket>();
-      });
+      if (mounted) {
+        setState(() {
+          tickets = fetchedTickets.cast<Ticket>();
+        });
+      }
     } catch (e) {
       // Handle errors, e.g., show an error message
       print('Error loading tickets: $e');
