@@ -252,6 +252,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 20,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextButton(
                             onPressed: () {
@@ -272,9 +273,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                     .black, // Set the text color to your desired color
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.1,
                           ),
                           Row(
                             children: [

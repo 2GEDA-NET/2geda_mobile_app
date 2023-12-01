@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:_2geda/models/user_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:_2geda/data/data.dart';
 import 'dart:async';
@@ -111,25 +112,35 @@ class _UserListWidgetState extends State<UserListWidget> {
         Row(
           children: [
             ClipOval(
-              child: Image.network(
-                user.imageUrl,
+              child: CachedNetworkImage(
                 width: 48,
                 height: 48,
                 fit: BoxFit.cover,
+                imageUrl: user.imageUrl,
               ),
             ),
             const SizedBox(width: 16),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(user.name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400,)),
+                Text(user.name,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    )),
                 Text(
                   user.role,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 106, 105, 105)),
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromARGB(255, 106, 105, 105)),
                 ),
                 Text(
                   user.state,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.grey),
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey),
                 ),
               ],
             ),

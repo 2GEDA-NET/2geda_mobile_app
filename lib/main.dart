@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:_2geda/SideBar/sidebar_layout.dart';
 import 'package:_2geda/auth_provider.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/homeScreens/create_post.dart';
 import 'package:_2geda/pages/onboardingScreens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -77,10 +78,22 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    isLoggedIn = context.read<AuthProvider>().isLoggedIn;
+
+    checkLoggedInStatus();
+  }
+
+
+  Future<void> checkLoggedInStatus() async {
+    String? authToken = await TokenManager().getToken();
+
+    if (authToken != null) {
+      // Token exists, user is logged in
+      context.read<AuthProvider>().setLoggedIn(true);
+    }
+
     // Simulate progress with a Timer
     Timer.periodic(
-      const Duration(milliseconds: 500), // Adjust the duration as needed
+      const Duration(milliseconds: 500),
       (Timer timer) {
         if (_progressValue >= 1.0) {
           timer.cancel();
@@ -89,13 +102,13 @@ class _SplashScreenState extends State<SplashScreen>
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    isLoggedIn ? SideBarLayout() : OnboardingScreen(),
+                    context.read<AuthProvider>().isLoggedIn ? SideBarLayout() : OnboardingScreen(),
               ),
             );
           }
         } else {
           setState(() {
-            _progressValue += 0.1; // Adjust the progress increment as needed
+            _progressValue += 0.1;
           });
         }
       },
@@ -111,7 +124,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Timer to cycle loading text
     Timer.periodic(
-      const Duration(seconds: 1), // Adjust the duration as needed
+      const Duration(seconds: 1),
       (Timer timer) {
         if (mounted) {
           setState(() {
@@ -122,6 +135,7 @@ class _SplashScreenState extends State<SplashScreen>
       },
     );
   }
+
 
   @override
   void dispose() {

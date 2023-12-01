@@ -115,10 +115,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               width: 70,
               height: 70,
             ),
-            const SizedBox(height: 25),
+            // const SizedBox(height: 10),
              Expanded(
               child: SizedBox(
-                height: 200, // Set the desired height for the PageView
+                height: MediaQuery.of(context).size.height * 0.9, // Set the desired height for the PageView
                 child: PageView.builder(
                   controller: _pageController,
                   itemCount: onboardingPages.length,
@@ -140,7 +140,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height *
-                  0.2, // Adjust the fraction as needed
+                  0.1, // Adjust the fraction as needed
             ),
             SizedBox(
               height: 10,
@@ -259,7 +259,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
                               const url =
-                                  'https://example.com/terms_and_conditions'; // Replace with your actual URL
+                                  'https://2geda.net/terms_and_conditions'; // Replace with your actual URL
                               if (await canLaunch(url)) {
                                 await launch(url);
                               } else {

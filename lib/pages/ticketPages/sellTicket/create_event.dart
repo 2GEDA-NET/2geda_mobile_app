@@ -1,5 +1,13 @@
+import 'package:_2geda/APIServices/event_api_service.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
+import 'package:_2geda/pages/ticketPages/sellTicket/addition_info.dart';
+import 'package:_2geda/pages/ticketPages/sellTicket/create_ticket.dart';
+import 'package:_2geda/pages/ticketPages/sellTicket/event_info.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/success_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:meta/meta.dart';
 
 void main() => runApp(const MyApp());
 
@@ -23,9 +31,126 @@ class CreateTicketPage extends StatefulWidget {
 
 class _CreateTicketPageState extends State<CreateTicketPage> {
   int currentStep = 0;
+  final TokenManager tokenManager = TokenManager();
+  String? authToken;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> createTicketFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> eventInfoFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> addInfoFormKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController platformController = TextEditingController();
+  TextEditingController websiteUrlController = TextEditingController();
+  final TicketApiService apiService = TicketApiService();
+  TextEditingController imageController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+  TextEditingController feeSettingCategoryController = TextEditingController();
+  TextEditingController showRemainingTicketController = TextEditingController();
+  TextEditingController isPrivateController = TextEditingController();
+  TextEditingController isPublicController = TextEditingController();
+  late LatLng selectedLocation = LatLng(0.0, 0.0);
+
+  XFile? _selectedImage = XFile('');
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAuthToken();
+    // Initialize authToken using the TokenManager or any other method
+  }
+
+  _loadAuthToken() async {
+    authToken = await tokenManager.getToken();
+    print('Auth Token: $authToken');
+    print('Token $authToken');
+  }
+
+  void _submitForm() async {
+    // Validate each form separately
+    bool eventInfoValid = eventInfoFormKey.currentState?.validate() ?? false;
+    bool createTicketValid =
+        createTicketFormKey.currentState?.validate() ?? false;
+    bool addInfoValid = addInfoFormKey.currentState?.validate() ?? false;
+
+    // Check if all forms are valid
+    if (eventInfoValid && createTicketValid && addInfoValid) {
+      // Process the form data, e.g., submit to an API
+      // Reset the forms
+      eventInfoFormKey.currentState!.reset();
+      createTicketFormKey.currentState!.reset();
+      addInfoFormKey.currentState!.reset();
+      // titleController.clear();
+      // descriptionController.clear();
+      // platformController.clear();
+      // websiteUrlController.clear();
+      // nameController.clear();
+      // priceController.clear();
+      // categoryController.clear();
+      // locationController.clear();
+      // feeSettingCategoryController.clear();
+      // isPrivateController.clear();
+      // isPublicController.clear();
+      // showRemainingTicketController.clear();
+      // Clear other controllers as needed
+
+      setState(() {
+        currentStep = 0;
+      });
+
+      print('Auth Token: $authToken');
+
+      // Ensure _selectedImage is not null before using it
+      if (_selectedImage != null) {
+        XFile? selectedImageFile =
+            _selectedImage != null ? XFile(_selectedImage!.path) : null;
+        // Use the ApiService to submit the form data
+        bool success = await apiService.createEvent(
+          title: titleController.text,
+          description: descriptionController.text,
+          platform: platformController.text,
+          websiteUrl: websiteUrlController.text,
+          selectedImage: selectedImageFile,
+          location: selectedLocation,
+          ticketName: nameController.text,
+          quantity: quantityController.text.isNotEmpty
+              ? int.parse(quantityController.text)
+              : 0,
+          price: priceController.text,
+          category: categoryController.text,
+          address: locationController.text,
+          feeSettingCategory: feeSettingCategoryController.text,
+          isPrivate: isPrivateController.text.toLowerCase() == 'true',
+          isPublic: isPublicController.text.toLowerCase() == 'true',
+          showRemainingTicket:
+              showRemainingTicketController.text.toLowerCase() == 'true',
+          authToken: authToken!,
+
+          // Add other necessary form fields
+        );
+
+        if (success) {
+          // Form submission successful, navigate to success page
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const SuccessPage()),
+          );
+        } else {
+          // Form submission failed, show an error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Error submitting form. Please try again.'),
+            ),
+          );
+        }
+      } else {
+        // Handle the case when _selectedImage is null
+        print('Selected Image is null');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,23 +189,7 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                     currentStep += 1;
                   });
                 } else {
-                  // Handle form submission, e.g., save data
-                  if (formKey.currentState!.validate()) {
-                    // Process the form data, e.g., submit to an API
-                    // Reset the form
-                    formKey.currentState!.reset();
-                    titleController.clear();
-                    descriptionController.clear();
-                    setState(() {
-                      currentStep = 0;
-                    });
-                    // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    //   content: Text('Ticket submitted!'),
-                    // ));
-
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SuccessPage()));
-       
-                  }
+                  _submitForm();
                 }
               },
               onStepCancel: () {
@@ -100,10 +209,21 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                     ),
                   ),
                   content: EventInfoStep(
-                    formKey: formKey,
+                    formKey: eventInfoFormKey,
                     titleController: titleController,
                     descriptionController: descriptionController,
+                    platformController: platformController,
+                    websiteUrlController: websiteUrlController,
+                    imageController: imageController,
                     currentStep: currentStep,
+                    onImageSelected: (XFile? selectedImage) {
+                      // Handle the selected image here
+                      setState(() {
+                        _selectedImage = selectedImage!;
+                      });
+                    },
+                    selectedLocation: selectedLocation,
+                    locationController: locationController,
                   ),
                   isActive: currentStep == 0,
                 ),
@@ -115,7 +235,13 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  content: const CreateTicketStep(),
+                  content: CreateTicketStep(
+                    formKey: createTicketFormKey,
+                    nameController: nameController,
+                    quantityController: quantityController,
+                    priceController: priceController,
+                    categoryController: categoryController,
+                  ),
                   isActive: currentStep == 1,
                 ),
                 Step(
@@ -126,7 +252,14 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  content: const AdditionalInfoStep(),
+                  content: AdditionalInfoStep(
+                    formKey: addInfoFormKey,
+                    feeSettingCategoryController: feeSettingCategoryController,
+                    showRemainingTicketController:
+                        showRemainingTicketController,
+                    isPublicController: isPublicController,
+                    isPrivateController: isPrivateController,
+                  ),
                   isActive: currentStep == 2,
                 ),
               ],
@@ -139,759 +272,6 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class EventInfoStep extends StatefulWidget {
-  final GlobalKey<FormState> formKey;
-  final TextEditingController titleController;
-  final TextEditingController descriptionController;
-  final int currentStep;
-
-  EventInfoStep({
-    super.key,
-    required this.formKey,
-    required this.titleController,
-    required this.descriptionController,
-    required this.currentStep,
-  });
-
-  @override
-  State<EventInfoStep> createState() => _EventInfoStepState();
-}
-
-class _EventInfoStepState extends State<EventInfoStep> {
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: widget.formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Event info",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  )),
-              Text("Tell us a bit about your event",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ))
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              labelText: 'Event title', // Label text for the input field
-              hintStyle: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-              ),
-              hintText:
-                  'Enter your event title. Make it clear and concise', // Hint text for the input field
-              border: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular(8.0), // Set the border radius to 8
-              ), // Add a border to the input field
-            ),
-            keyboardType:
-                TextInputType.text, // Set the keyboard type to email address
-            validator: (value) {
-              // Add email validation logic here (e.g., check if it's a valid email)
-              if (value == null || value.isEmpty) {
-                return 'Please enter your event title';
-              }
-              // You can add more validation logic here as needed
-              return null; // Return null if validation passes
-            },
-          ),
-          const Text("0/50 words",
-              style: TextStyle(
-                fontSize: 8,
-                fontWeight: FontWeight.w400,
-              )),
-          const SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            maxLines: 5,
-            decoration: InputDecoration(
-              labelStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              labelText: 'Event description', // Label text for the input field
-              hintStyle: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-              ),
-              hintText:
-                  'Enter your event details. It may contain FAQs and what attendees should expect from the event', // Hint text for the input field
-              border: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular(8.0), // Set the border radius to 8
-              ), // Add a border to the input field
-            ),
-            keyboardType:
-                TextInputType.text, // Set the keyboard type to email address
-            validator: (value) {
-              // Add email validation logic here (e.g., check if it's a valid email)
-              if (value == null || value.isEmpty) {
-                return 'Please enter your event title';
-              }
-              // You can add more validation logic here as needed
-              return null; // Return null if validation passes
-            },
-          ),
-          // TextFormField(
-          //   controller: titleController,
-          //   decoration: InputDecoration(labelText: 'Title'),
-          //   validator: (value) {
-          //     if (value!.isEmpty) {
-          //       return 'Please enter a title';
-          //     }
-          //     return null;
-          //   },
-          // ),
-          // TextFormField(
-          //   controller: descriptionController,
-          //   decoration: InputDecoration(labelText: 'Description'),
-          //   validator: (value) {
-          //     if (value!.isEmpty) {
-          //       return 'Please enter a description';
-          //     }
-          //     return null;
-          //   },
-          // ),
-
-          const SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              labelText: 'Platform name', // Label text for the input field
-              hintStyle: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-              ),
-              hintText:
-                  'skype, google meet, webinar, etc.', // Hint text for the input field
-              border: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular(8.0), // Set the border radius to 8
-              ), // Add a border to the input field
-            ),
-            keyboardType:
-                TextInputType.text, // Set the keyboard type to email address
-            validator: (value) {
-              // Add email validation logic here (e.g., check if it's a valid email)
-              if (value == null || value.isEmpty) {
-                return 'Please enter your event venue';
-              }
-              // You can add more validation logic here as needed
-              return null; // Return null if validation passes
-            },
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          _uploadImage(),
-          TextButton(
-            onPressed: () {},
-            child: const Row(
-              children: [
-                Icon(Icons.location_on),
-                Text("Set location",
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ],
-            ),
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              labelStyle: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              labelText:
-                  'Website link or URL', // Label text for the input field
-              hintStyle: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-              ),
-              hintText:
-                  'https://www.example.com', // Hint text for the input field
-              border: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.circular(8.0), // Set the border radius to 8
-              ), // Add a border to the input field
-            ),
-            keyboardType:
-                TextInputType.text, // Set the keyboard type to email address
-            validator: (value) {
-              // Add email validation logic here (e.g., check if it's a valid email)
-              if (value == null || value.isEmpty) {
-                return 'Please enter your website link or URL';
-              }
-              // You can add more validation logic here as needed
-              return null; // Return null if validation passes
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _uploadImage() {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(
-        width: 1,
-      )),
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.upload_file,
-            ),
-          ),
-          const Text("Upload event image",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              )),
-          const Text(
-              textAlign: TextAlign.center,
-              "Upload a compelling image. We recommend using at least a 2160x1080px (2:1 ratio) image that's no larger than 10MB",
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-              )),
-        ],
-      ),
-    );
-  }
-}
-
-class CreateTicketStep extends StatefulWidget {
-  const CreateTicketStep({super.key});
-
-  @override
-  State<CreateTicketStep> createState() => _CreateTicketStepState();
-}
-
-class _CreateTicketStepState extends State<CreateTicketStep> {
-  final List<bool> _selection = [true, false];
-  String selectedValue = 'Option 1';
-  // Initial value
-  List<String> dropdownItems = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("Create ticket",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            )),
-        const Text("Create ticket type(s) you want for this event",
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            )),
-        Container(
-          margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(30)),
-          child: Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selection[0] = true;
-                      _selection[1] = false;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: _selection[0]
-                          ? const Color.fromRGBO(230, 210, 255, 1.0)
-                          : Colors.white,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        bottomLeft: Radius.circular(30),
-                      ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Icon(Icons.add),
-                          Text(
-                            "Free ticket",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selection[0] = false;
-                      _selection[1] = true;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: _selection[1]
-                          ? const Color.fromRGBO(230, 210, 255, 1.0)
-                          : Colors.white,
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Icon(Icons.add),
-                          Text(
-                            "Paid ticket",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Colors.grey),
-              borderRadius: BorderRadius.circular(10)),
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  labelStyle: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  labelText: 'Ticket name', // Label text for the input field
-                  hintStyle: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  hintText:
-                      'e.g early bird, regular, etc', // Hint text for the input field
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                        8.0), // Set the border radius to 8
-                  ), // Add a border to the input field
-                ),
-                keyboardType: TextInputType
-                    .text, // Set the keyboard type to email address
-                validator: (value) {
-                  // Add email validation logic here (e.g., check if it's a valid email)
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your ticket name';
-                  }
-                  // You can add more validation logic here as needed
-                  return null; // Return null if validation passes
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelStyle: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        labelText: 'Quantity', // Label text for the input field
-                        hintStyle: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        hintText:
-                            'e.g early bird, regular, etc', // Hint text for the input field
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              8.0), // Set the border radius to 8
-                        ), // Add a border to the input field
-                      ),
-                      keyboardType: TextInputType
-                          .text, // Set the keyboard type to email address
-                      validator: (value) {
-                        // Add email validation logic here (e.g., check if it's a valid email)
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your ticket name';
-                        }
-                        // You can add more validation logic here as needed
-                        return null; // Return null if validation passes
-                      },
-                    ),
-                  ),
-                  const Spacer(),
-                  Expanded(
-                    child: TextFormField(
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        labelStyle: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        labelText: 'Price', // Label text for the input field
-                        hintStyle: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        hintText: _selection[0] ? 'FREE TICKET' : 'PAID TICKET',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              8.0), // Set the border radius to 8
-                        ), // Add a border to the input field
-                      ),
-                      keyboardType: TextInputType
-                          .text, // Set the keyboard type to email address
-                      validator: (value) {
-                        // Add email validation logic here (e.g., check if it's a valid email)
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your ticket name';
-                        }
-                        // You can add more validation logic here as needed
-                        return null; // Return null if validation passes
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Spacer(),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.red),
-                    ),
-                    child: const Text("Delete",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        )),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Text("Event category",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            )),
-        SizedBox(
-          height: 5,
-        ),
-        InputDecorator(
-          decoration: const InputDecoration(
-            hintText: 'Select an option', // Label text
-            contentPadding: EdgeInsets.symmetric(horizontal: 10),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            ),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: selectedValue,
-              icon: const Icon(Icons.arrow_drop_down),
-              iconSize: 24,
-              elevation: 16,
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedValue = newValue!;
-                });
-              },
-              items:
-                  dropdownItems.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-
-        
-      ],
-    );
-  }
-}
-
-class AdditionalInfoStep extends StatefulWidget {
-  const AdditionalInfoStep({super.key});
-
-  @override
-  State<AdditionalInfoStep> createState() => _AdditionalInfoStepState();
-}
-
-class _AdditionalInfoStepState extends State<AdditionalInfoStep> {
-  bool _showRemaningTicket = false; // Define the 'value' variable
-  bool _isPublic = false; // Define the 'value' variable
-  bool _isPrivate = false; // Define the 'value' variable
-  String selectedValue = 'Option 1';
-  // Initial value
-  List<String> dropdownItems = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("Additional information",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            )),
-        const Text("Tell us a bit more about your event",
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            )),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            const Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Show remaining tickets",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      )),
-                  Text("Show the number of remaining tickets on your events",
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      )),
-                ],
-              ),
-            ),
-            Switch(
-              value: _showRemaningTicket,
-              onChanged: (newValue) {
-                // You can handle the onChanged event here
-                setState(() {
-                  _showRemaningTicket = newValue;
-                });
-              },
-            ),
-          ],
-        ),
-        const Divider(),
-        const SizedBox(
-          height: 5,
-        ),
-        const Text("Event Listing Privacy",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            )),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Public",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    )),
-                Text(
-                    "Your event can be found by anyone on our app, our\npromotion partners, and search engines",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ))
-              ],
-            ),
-            Switch(
-              value: _isPublic,
-              onChanged: (newValue) {
-                // You can handle the onChanged event here
-                setState(() {
-                  _isPublic = newValue;
-                });
-              },
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Private",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    )),
-                Text("Only people you share invite link can find your event",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ))
-              ],
-            ),
-            Switch(
-              value: _isPrivate,
-              onChanged: (newValue) {
-                // You can handle the onChanged event here
-                setState(() {
-                  _isPrivate = newValue;
-                });
-              },
-            ),
-          ],
-        ),
-        const Divider(),
-        const SizedBox(
-          height: 5,
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Fees settings",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                )),
-            const SizedBox(
-              height: 5,
-            ),
-            const Text(
-                "Please specify if transaction fees would be passed on to buyers or charged from your account. We charge 5% + N200.",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                )),
-            const SizedBox(
-              height: 5,
-            ),
-            InputDecorator(
-              decoration: const InputDecoration(
-                hintText: 'Select an option', // Label text
-                contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: selectedValue,
-                  icon: const Icon(Icons.arrow_drop_down),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedValue = newValue!;
-                    });
-                  },
-                  items: dropdownItems
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          ],
-        )
-      ],
     );
   }
 }

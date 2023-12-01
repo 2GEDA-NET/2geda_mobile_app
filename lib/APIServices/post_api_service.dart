@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:_2geda/APIServices/api_config.dart';
 import 'package:_2geda/models/post_model.dart';
-import 'package:_2geda/pages/homeScreens/create_post.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -26,6 +25,7 @@ class PostService {
       // Add headers
       request.headers['Authorization'] = 'Token $authToken';
       request.headers['Content-Type'] = 'multipart/form-data';
+
 
       // Add post content
       request.fields['content'] = postText;
