@@ -113,17 +113,6 @@ class VotingScreen extends StatelessWidget {
                   ),
                 );
               }),
-              const SizedBox(
-                height: 10,
-              ),
-              containerButton(Icons.wallet, "Payments", SizedBox(), () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CastVoteScreen(),
-                  ),
-                );
-              })
             ],
           ),
         ));

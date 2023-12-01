@@ -41,79 +41,95 @@ class PollDetailsPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              leading: ClipOval(
-                child: CachedNetworkImage(
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                  imageUrl: imageUrl,
+      body: SingleChildScrollView(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                leading: ClipOval(
+                  child: CachedNetworkImage(
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                    imageUrl: imageUrl,
+                  ),
                 ),
+                title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(username,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          )),
+                      Text(timestamp,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                          )),
+                    ]),
               ),
-              title: Row(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(question,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    )),
+              ),
+        
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CachedNetworkImage(imageUrl: imageUrl),
+              ),
+              VotingProgressBar(
+                progress: progress,
+                text: 'Python',
+              ), // Represents 60% progress
+        
+              ListTile(
+                leading: const Icon(Icons.watch_later),
+                title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(username,
+                    Text(remainingDays,
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.w400,
                         )),
-                    Text(timestamp,
+                    Text(votesCount,
                         style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w300,
-                        )),
-                  ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(question,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                  )),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CachedNetworkImage(imageUrl: imageUrl),
-            ),
-            VotingProgressBar(
-              progress: progress,
-              text: 'Python',
-            ), // Represents 60% progress
-
-            ListTile(
-              leading: const Icon(Icons.watch_later),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(remainingDays,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      )),
-                  Text(votesCount,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ))
-                ],
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ))
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset("assets/banner2.png"),
-            )
-          ]),
+        
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: const Color.fromRGBO(255, 138, 21, 1),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: const Text("You have 10 votes",
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white)),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.15,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset("assets/banner2.png"),
+              ),
+            ]),
+      ),
     );
   }
 }

@@ -1,11 +1,26 @@
+import 'package:_2geda/SideBar/sidebar_layout.dart';
+import 'package:_2geda/pages/widgets/polls/polls_success.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 
-class VotingProgressBar extends StatelessWidget {
+class VotingProgressBar extends StatefulWidget {
   final double progress;
   final String text;
 
   VotingProgressBar({super.key, required this.progress, required this.text});
+
+  static const token = '908AD23M';
+
+  @override
+  State<VotingProgressBar> createState() => _VotingProgressBarState();
+}
+
+class _VotingProgressBarState extends State<VotingProgressBar> {
+  TextEditingController _votesController = TextEditingController();
+  TextEditingController _voteNumbercontroller = TextEditingController();
+  String selectedValue = 'USD';
+  double exchangeRateUSDToNGN = 410.0; // Replace with actual exchange rates
+  double exchangeRateUSDtoEuro = 0.85; // Replace with actual exchange rates
 
   void copyToClipboard(BuildContext context, String textToCopy) {
     FlutterClipboard.copy(textToCopy).then((_) {
@@ -22,8 +37,6 @@ class VotingProgressBar extends StatelessWidget {
     });
   }
 
-  static const token = '908AD23M';
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -36,7 +49,7 @@ class VotingProgressBar extends StatelessWidget {
           children: [
             LinearProgressIndicator(
               minHeight: 25,
-              value: progress,
+              value: widget.progress,
               backgroundColor: Colors.black,
               valueColor:
                   const AlwaysStoppedAnimation<Color>(Color(0xFF4E0CA2)),
@@ -50,14 +63,14 @@ class VotingProgressBar extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(text,
+                      Text(widget.text,
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: Colors.white,
                           )),
                       Text(
-                        '${(progress * 100).toInt()}%',
+                        '${(widget.progress * 100).toInt()}%',
                         style: const TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
@@ -108,10 +121,10 @@ class VotingProgressBar extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(token),
+                        const Text(VotingProgressBar.token),
                         IconButton(
                           onPressed: () {
-                            copyToClipboard(context, token);
+                            copyToClipboard(context, VotingProgressBar.token);
                           },
                           icon: const Icon(
                             Icons.copy,
@@ -156,8 +169,8 @@ class VotingProgressBar extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        const Size(250, 40), // Adjust the width and height as needed
+                    minimumSize: const Size(
+                        250, 40), // Adjust the width and height as needed
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           8.0), // Adjust the border radius
@@ -232,8 +245,8 @@ class VotingProgressBar extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        const Size(250, 40), // Adjust the width and height as needed
+                    minimumSize: const Size(
+                        250, 40), // Adjust the width and height as needed
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           8.0), // Adjust the border radius
@@ -304,8 +317,8 @@ class VotingProgressBar extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        const Size(250, 40), // Adjust the width and height as needed
+                    minimumSize: const Size(
+                        250, 40), // Adjust the width and height as needed
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           8.0), // Adjust the border radius
@@ -350,21 +363,106 @@ class VotingProgressBar extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Number your votes',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(),
-                    ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: TextFormField(
+                          controller: _votesController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: 'Number of votes',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              calculateTotalPrice(); // Update conversion when votes change
+                            });
+                          },
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 60,
+                              child: DropdownButtonFormField<String>(
+                                value: selectedValue,
+                                items:
+                                    ['USD', 'NGN', 'Euro'].map((String item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: SizedBox(
+                                      height: 20,
+                                      child: Center(
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedValue = newValue!;
+                                  });
+                                  // Call calculateTotalPrice() here to update the conversion
+                                  calculateTotalPrice();
+                                },
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                icon: const Icon(
+                                  Icons.arrow_drop_down_rounded,
+                                  size: 30,
+                                ),
+                                decoration: const InputDecoration.collapsed(
+                                  hintText: '',
+                                ),
+                              ),
+                            ),
+                            Text(
+                              ' ${calculateTotalPrice()}',
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
 
                       // Show the next dialog
-                      // _showNextDialog(context);
+                      _showPaymentDialog(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff4e0ca2),
@@ -385,8 +483,8 @@ class VotingProgressBar extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        const Size(250, 40), // Adjust the width and height as needed
+                    minimumSize: const Size(
+                        250, 40), // Adjust the width and height as needed
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           8.0), // Adjust the border radius
@@ -400,6 +498,203 @@ class VotingProgressBar extends StatelessWidget {
                     ),
                   ),
                 )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  double calculateTotalPrice() {
+    // Calculate total price based on entered votes and selected currency
+    double votes = double.tryParse(_votesController.text) ?? 0.0;
+    double price = votes;
+
+    if (selectedValue == 'NGN') {
+      price *= exchangeRateUSDToNGN;
+    } else if (selectedValue == 'Euro') {
+      price *= exchangeRateUSDtoEuro;
+    }
+
+    return price;
+  }
+
+  void _showPaymentDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+              children: [
+                const Text("You are paying",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF4E0CA2),
+                    )),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text("NGN 4,700.00",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF4E0CA2),
+                    )),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text("Being payment for",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF4E0CA2),
+                    )),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(color: Colors.grey[400]),
+                  child: const Text("40 votes",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFF4E0CA2),
+                      )),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+
+                      // Show the next dialog
+                      // _showPaidPollDialog(context);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PollsPaymentSuccess(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff4e0ca2),
+                      minimumSize: const Size(
+                          250, 40), // Adjust the width and height as needed
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            8.0), // Adjust the border radius
+                      ),
+                    ),
+                    child: const Text("Pay now",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white))),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(
+                        250, 40), // Adjust the width and height as needed
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          8.0), // Adjust the border radius
+                    ),
+                  ),
+                  child: const Text(
+                    "Go back",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _makeVoteDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+              children: [
+                const Text(
+                    "How many votes do you want to cast for this selection?",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    )),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _voteNumbercontroller,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: 'Enter amount',
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 8.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle the "All" button press
+                          print('All button pressed');
+                        },
+                        child: Text('All'),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+
+                      // Show the next dialog
+                      // _showPaidPollDialog(context);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SideBarLayout(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff4e0ca2),
+                      minimumSize: const Size(
+                          250, 40), // Adjust the width and height as needed
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            8.0), // Adjust the border radius
+                      ),
+                    ),
+                    child: const Text("Vote",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white))),
               ],
             ),
           ),
