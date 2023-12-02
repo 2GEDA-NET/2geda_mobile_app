@@ -3,7 +3,6 @@ import 'package:_2geda/SideBar/sidebar_layout.dart';
 import 'package:_2geda/auth_provider.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/homeScreens/create_post.dart';
-import 'package:_2geda/pages/homeScreens/post_media_buttons.dart';
 import 'package:_2geda/pages/onboardingScreens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,7 +52,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: customPrimaryColor,
         fontFamily: 'Ubuntu',
       ),
-      home: const PostCreationScreen(),
+      home: const SplashScreen(),
       // Other MaterialApp configurations
     );
   }

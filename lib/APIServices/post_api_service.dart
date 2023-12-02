@@ -4,13 +4,8 @@ import 'package:_2geda/APIServices/api_config.dart';
 import 'package:_2geda/models/mediamodel.dart';
 import 'package:_2geda/models/post_model.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 
 class PostService {
   final String baseUrl = ApiConfig.baseUrl;
