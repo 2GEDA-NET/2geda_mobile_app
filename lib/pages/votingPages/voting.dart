@@ -1,5 +1,4 @@
 import 'package:_2geda/pages/votingPages/cast_vote.dart';
-import 'package:_2geda/pages/votingPages/create_poll.dart';
 import 'package:_2geda/pages/votingPages/my_polls.dart';
 import 'package:flutter/material.dart';
 

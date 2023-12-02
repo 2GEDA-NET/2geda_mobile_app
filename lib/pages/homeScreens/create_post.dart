@@ -42,6 +42,7 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
   int wordCount = 0;
   final int maxWordCount = 1000;
 
+  //Set this bck to false
   bool hasUpdatedProfile = false;
 
   @override
@@ -63,6 +64,8 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
     if (savedProfileState != null) {
       setState(() {
         hasUpdatedProfile = savedProfileState;
+        //set the value back to: savedProfileState
+        hasUpdatedProfile = true;
       });
     } else {
       final response = await http.get(

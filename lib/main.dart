@@ -21,7 +21,6 @@ void main() {
   );
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   final customPrimaryColor = const MaterialColor(
@@ -82,7 +81,6 @@ class _SplashScreenState extends State<SplashScreen>
     checkLoggedInStatus();
   }
 
-
   Future<void> checkLoggedInStatus() async {
     String? authToken = await TokenManager().getToken();
 
@@ -135,7 +133,6 @@ class _SplashScreenState extends State<SplashScreen>
       },
     );
   }
-
 
   @override
   void dispose() {

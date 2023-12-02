@@ -24,7 +24,7 @@ class PollsCard extends StatelessWidget {
               imageUrl: poll.imageUrl,
               progress: poll.progress,
               remainingDays: poll.remainingDays,
-              votesCount: poll.votesCount,
+              votesCount: poll.voteCount,
             ),
           ),
         );

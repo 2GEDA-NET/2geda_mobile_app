@@ -113,8 +113,8 @@ class _ContainerGridState extends State<ContainerGrid> {
                   text: 'Photos',
                   iconData: Icons.image,
                   onPressed: () async {
-                    final ImagePicker _picker = ImagePicker();
-                    XFile? image = await _picker.pickImage(
+                    final ImagePicker picker = ImagePicker();
+                    XFile? image = await picker.pickImage(
                       source: ImageSource.gallery,
                     );
 
@@ -134,8 +134,8 @@ class _ContainerGridState extends State<ContainerGrid> {
                   text: 'Videos',
                   iconData: Icons.business,
                   onPressed: () async {
-                    final ImagePicker _picker = ImagePicker();
-                    XFile? video = await _picker.pickVideo(
+                    final ImagePicker picker = ImagePicker();
+                    XFile? video = await picker.pickVideo(
                       source: ImageSource.gallery,
                     );
 
