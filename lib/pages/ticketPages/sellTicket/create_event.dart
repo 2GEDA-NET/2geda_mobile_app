@@ -7,7 +7,6 @@ import 'package:_2geda/pages/ticketPages/sellTicket/success_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meta/meta.dart';
 
 void main() => runApp(const MyApp());
 

@@ -571,6 +571,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
+                      color: Colors.white,
                     ),
                   ),
                 ),

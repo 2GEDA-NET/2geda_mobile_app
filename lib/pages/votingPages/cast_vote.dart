@@ -1,3 +1,5 @@
+import 'package:_2geda/APIServices/polls_api_service.dart';
+import 'package:_2geda/models/polls_model.dart';
 import 'package:_2geda/pages/widgets/polls/polls_carousel.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +12,42 @@ class CastVoteScreen extends StatefulWidget {
 
 class _CastVoteScreenState extends State<CastVoteScreen> {
   int _selectedIndex = 0;
+  final PollApiService pollApiService = PollApiService();
+  final TokenManager tokenManager = TokenManager();
+  String? authToken;
+  List<Poll> allPolls = [];
+  List<Poll> publicPolls = [];
+  List<Poll> privatePolls = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch polls when the screen is first loaded
+    _fetchPolls();
+    _loadAuthToken();
+  }
+
+  _loadAuthToken() async {
+    authToken = await tokenManager.getToken();
+    print('Auth Token: $authToken');
+    print('Token $authToken');
+  }
+
+  Future<void> _fetchPolls() async {
+    try {
+      final List<Poll> polls =
+          await pollApiService.getPolls(authToken: authToken!);
+
+      setState(() {
+        allPolls = polls;
+        publicPolls = polls.where((poll) => poll.privacy == 'Public').toList();
+        privatePolls =
+            polls.where((poll) => poll.privacy == 'Private').toList();
+      });
+    } catch (e) {
+      print('Error fetching polls: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +121,7 @@ class _CastVoteScreenState extends State<CastVoteScreen> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              PollsCard(),
+              // PollsCard(),
               const SizedBox(
                 height: 10,
               ),
@@ -142,46 +180,20 @@ class _CastVoteScreenState extends State<CastVoteScreen> {
   }
 
   Widget _buildAllTabContent() {
-    // Implement content for the "All" tab
     return Column(
-      children: [
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        
-        // Add more items as needed
-      ],
+      children: allPolls.map((poll) => PollsCard(poll: poll)).toList(),
     );
   }
 
   Widget _buildPublicTabContent() {
-    // Implement content for the "Public" tab
     return Column(
-      children: [
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-      ],
+      children: publicPolls.map((poll) => PollsCard(poll: poll)).toList(),
     );
   }
 
   Widget _buildPrivateTabContent() {
-    // Implement content for the "Private" tab
     return Column(
-      children: [
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-        PollsCard(),
-      ],
+      children: privatePolls.map((poll) => PollsCard(poll: poll)).toList(),
     );
   }
 }
