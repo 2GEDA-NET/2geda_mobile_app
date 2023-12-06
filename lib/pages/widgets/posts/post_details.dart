@@ -126,20 +126,20 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                         margin: const EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            Text(widget.post.content ?? ''),
-                            Text(widget.post.hashtag ?? ''),
+                            Text(widget.post.content),
+                            Text(widget.post.hashtags as String),
                           ],
                         )),
                     const SizedBox.shrink(),
                   ],
                 ),
                 Column(
-                  children: (widget.post.media ?? []).map((imageUrl) {
+                  children: (widget.post.eachMedia).map((media) {
+                    final imageUrl = media.media; // Assuming 'url' is the property in the Media class that contains the URL
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: ClipRRect(
-                        borderRadius: BorderRadius
-                            .zero, // Set to BorderRadius.zero to remove border radius
+                        borderRadius: BorderRadius.zero,
                         child: CachedNetworkImage(
                           imageUrl: imageUrl,
                           width: width,
@@ -150,6 +150,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                     );
                   }).toList(),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: _PostStats(post: widget.post),
@@ -160,7 +161,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
             const SizedBox(
               height: 20,
             ),
-            CommentSection(comments: widget.post.comments ?? []),
+            CommentSection(comments: widget.post.commentText),
           ],
         ),
       ),
@@ -267,14 +268,14 @@ class _PostHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ProfileAvatar(imageUrl: post.userImg ?? 'https://drive.google.com/file/d/1v5XqMZem1FEP0-LS2vQj_IFI67ll6Nbl'),
+          ProfileAvatar(imageUrl: post.userProfile!.userImage.profileImage),
           const SizedBox(width: 10.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  post.username ?? '',
+                  post.user.username,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -282,7 +283,7 @@ class _PostHeader extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  post.userWork ?? '',
+                  post.userProfile!.work,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12.0,
@@ -292,7 +293,7 @@ class _PostHeader extends StatelessWidget {
             ),
           ),
           Text(
-            post.formattedTimestampAgo,
+            post.timeSince,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 12.0,
@@ -332,7 +333,7 @@ class _PostStats extends StatelessWidget {
             const SizedBox(width: 4.0),
             Expanded(
               child: Text(
-                '${post.reaction}',
+                '${post.likes}',
                 style: TextStyle(
                   color: Colors.grey[600],
                 ),
@@ -351,7 +352,7 @@ class _PostStats extends StatelessWidget {
                       color: Colors.grey[600],
                       size: 28.0,
                     ),
-                    label: '${post.reaction}',
+                    label: '${post.likes}',
                     onTap: () => print('Like'),
                   ),
                   _PostButton(
@@ -360,7 +361,7 @@ class _PostStats extends StatelessWidget {
                       color: Colors.grey[600],
                       size: 28,
                     ),
-                    label: '${post.commentsCount ?? 0}',
+                    label: '${post.comment}',
                     onTap: () => print('Comment'),
                   ),
                   _PostButton(
@@ -369,7 +370,7 @@ class _PostStats extends StatelessWidget {
                       color: Colors.grey[600],
                       size: 28.0,
                     ),
-                    label: '${post.sharesCount}',
+                    label: '${post.shares}',
                     onTap: () => print('Share'),
                   )
                 ],

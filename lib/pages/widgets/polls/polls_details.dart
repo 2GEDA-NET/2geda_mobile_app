@@ -1,3 +1,4 @@
+import 'package:_2geda/models/polls_model.dart';
 import 'package:_2geda/pages/widgets/polls/vote_progress_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ class PollDetailsPage extends StatelessWidget {
   final String imageUrl;
   final double progress;
   final String remainingDays;
-  final String votesCount;
+  final String optionContent;
+  final int votesCount;
+  final Option? selectedOption;
 
   const PollDetailsPage({
     Key? key,
@@ -17,9 +20,11 @@ class PollDetailsPage extends StatelessWidget {
     required this.timestamp,
     required this.question,
     required this.imageUrl,
+    required this.selectedOption,
     required this.progress,
     required this.remainingDays,
     required this.votesCount,
+    required this.optionContent,
   }) : super(key: key);
 
   @override
@@ -79,16 +84,29 @@ class PollDetailsPage extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     )),
               ),
-        
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CachedNetworkImage(imageUrl: imageUrl),
+
+              Visibility(
+                visible: imageUrl != null && imageUrl.isNotEmpty,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                  ),
+                ),
               ),
-              VotingProgressBar(
-                progress: progress,
-                text: 'Python',
-              ), // Represents 60% progress
-        
+              // Dynamic list of options with progress bars
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: selectedOption?.votee.length ?? 0,
+                itemBuilder: (BuildContext context, int index) {
+                  final option = selectedOption?.votee[index];
+                  return VotingProgressBar(
+                    progress: option!.allVote.toDouble(),
+                    text: option.content,
+                  );
+                },
+              ),
+
               ListTile(
                 leading: const Icon(Icons.watch_later),
                 title: Row(
@@ -99,7 +117,7 @@ class PollDetailsPage extends StatelessWidget {
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                         )),
-                    Text(votesCount,
+                    Text("$votesCount Votes",
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -107,7 +125,7 @@ class PollDetailsPage extends StatelessWidget {
                   ],
                 ),
               ),
-        
+
               Center(
                 child: Container(
                   padding: const EdgeInsets.all(10),

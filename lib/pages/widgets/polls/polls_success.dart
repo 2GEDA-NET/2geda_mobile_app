@@ -37,7 +37,7 @@ class PollsPaymentSuccess extends StatelessWidget {
                             'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
                         progress: 0.6,
                         remainingDays: "2 days remaining",
-                        votesCount: "500 votes",
+                        votesCount: 500, optionContent: '', selectedOption: null,
                       ),
                     ),
                   );

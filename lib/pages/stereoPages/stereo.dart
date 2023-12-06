@@ -480,7 +480,7 @@ class _StereoScreenState extends State<StereoScreen> {
             children: [
               ClipOval(
                 child: Image.network(
-                  user.imageUrl,
+                  user.userProfile!.userImage.profileImage,
                   width: 48,
                   height: 48,
                   fit: BoxFit.cover,
@@ -490,7 +490,7 @@ class _StereoScreenState extends State<StereoScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(user.name,
+                  Text(user.username,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,

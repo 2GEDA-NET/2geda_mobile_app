@@ -15,8 +15,11 @@ class PollApiService {
     required String type,
     required String privacy,
     required List<XFile?> mediaFiles,
+     DateTime? endTime, // New parameter
   }) async {
     try {
+      String formattedEndTime = endTime?.toIso8601String() ?? '';
+
       final response = await http.post(
         Uri.parse('$baseUrl/poll/polls/'), // Update the endpoint as needed
         headers: {
@@ -30,6 +33,8 @@ class PollApiService {
           'type': type,
           'privacy': privacy,
           'media_files': mediaFiles.map((file) => file?.path).toList(),
+          'end_time': formattedEndTime, // Include endTime in the payload
+   
         }),
       );
 
@@ -58,6 +63,8 @@ class PollApiService {
           'Content-Type': 'application/json',
         },
       );
+
+      print(response.body);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);

@@ -125,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          const SavedPosts(), // Replace with the actual screen
+                          SavedPosts(), // Replace with the actual screen
                     ),
                   );
                 },

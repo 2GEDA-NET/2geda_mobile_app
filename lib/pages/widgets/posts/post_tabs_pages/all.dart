@@ -104,13 +104,25 @@ class _AllTabContentState extends State<AllTabContent> {
           posts = fetchedPosts;
         });
         // Save fetched posts data to cache
-        savePostsToCache(fetchedPosts);
+        await savePostsToCache(fetchedPosts);
       }
     } catch (e) {
       // Handle error
       print('Error fetching posts: $e');
       // You can show a snackbar or a user-friendly error message here
     }
+  }
+
+// Assuming getCachedPosts returns List<Post> directly
+  Future<List<Post>> getCachedPosts() async {
+    // Implement logic to get cached posts data (e.g., using shared preferences)
+    // Return an empty list if no cached data is found
+    return [];
+  }
+
+// Assuming savePostsToCache handles asynchronous operations correctly
+  Future<void> savePostsToCache(List<Post> posts) async {
+    // Implement logic to save posts data to cache (e.g., using shared preferences)
   }
 
   // Add methods to get and save cached audio and posts data
@@ -122,16 +134,6 @@ class _AllTabContentState extends State<AllTabContent> {
 
   Future<void> saveAudioListToCache(List<AudioModel> audioList) async {
     // Implement logic to save audio data to cache (e.g., using shared preferences)
-  }
-
-  Future<List<Post>> getCachedPosts() async {
-    // Implement logic to get cached posts data (e.g., using shared preferences)
-    // Return an empty list if no cached data is found
-    return [];
-  }
-
-  Future<void> savePostsToCache(List<Post> posts) async {
-    // Implement logic to save posts data to cache (e.g., using shared preferences)
   }
 
   Future<void> _handleRefresh() async {

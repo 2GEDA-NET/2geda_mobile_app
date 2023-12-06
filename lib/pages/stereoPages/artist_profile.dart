@@ -68,7 +68,7 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.user.name,
+                          Text(widget.user.username,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
@@ -94,7 +94,7 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
                         borderRadius: BorderRadius.circular(
                             8), // Replace 8 with your desired border radius
                         child: CachedNetworkImage(
-                          imageUrl: widget.user.imageUrl,
+                          imageUrl: widget.user.userProfile!.userImage.profileImage,
                           width: 150,
                         ),
                       )

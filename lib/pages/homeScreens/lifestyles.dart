@@ -1,5 +1,7 @@
+import 'package:_2geda/pages/homeScreens/lifestyles/upload_lifestyle.dart';
 import 'package:_2geda/pages/widgets/lifestyle/lifestyles.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Lifestyle extends StatelessWidget {
   const Lifestyle({super.key});
@@ -15,7 +17,7 @@ class Lifestyle extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // Your existing code for the first circular button and text
-            _buildCircularButton("Your lifestyle", Icons.add),
+            _buildCircularButton(context, "Your lifestyle", Icons.add),
             const SizedBox(width: 15.0),
             // Add your _buildStory widgets here with circular buttons and text
             _buildStory(
@@ -44,7 +46,8 @@ class Lifestyle extends StatelessWidget {
                 "https://wallpaperaccess.com/full/16568.png",
                 "https://i.pinimg.com/originals/2e/c6/b5/2ec6b5e14fe0cba0cb0aa5d2caeeccc6.jpg",
               ],
-            ),_buildStory(
+            ),
+            _buildStory(
               name: "First Story",
               thumbnailUrl:
                   "https://assets.materialup.com/uploads/82eae29e-33b7-4ff7-be10-df432402b2b6/preview",
@@ -52,7 +55,8 @@ class Lifestyle extends StatelessWidget {
                 "https://wallpaperaccess.com/full/16568.png",
                 "https://i.pinimg.com/originals/2e/c6/b5/2ec6b5e14fe0cba0cb0aa5d2caeeccc6.jpg",
               ],
-            ),_buildStory(
+            ),
+            _buildStory(
               name: "First Story",
               thumbnailUrl:
                   "https://assets.materialup.com/uploads/82eae29e-33b7-4ff7-be10-df432402b2b6/preview",
@@ -60,7 +64,8 @@ class Lifestyle extends StatelessWidget {
                 "https://wallpaperaccess.com/full/16568.png",
                 "https://i.pinimg.com/originals/2e/c6/b5/2ec6b5e14fe0cba0cb0aa5d2caeeccc6.jpg",
               ],
-            ),_buildStory(
+            ),
+            _buildStory(
               name: "First Story",
               thumbnailUrl:
                   "https://assets.materialup.com/uploads/82eae29e-33b7-4ff7-be10-df432402b2b6/preview",
@@ -68,7 +73,8 @@ class Lifestyle extends StatelessWidget {
                 "https://wallpaperaccess.com/full/16568.png",
                 "https://i.pinimg.com/originals/2e/c6/b5/2ec6b5e14fe0cba0cb0aa5d2caeeccc6.jpg",
               ],
-            ),_buildStory(
+            ),
+            _buildStory(
               name: "First Story",
               thumbnailUrl:
                   "https://assets.materialup.com/uploads/82eae29e-33b7-4ff7-be10-df432402b2b6/preview",
@@ -76,7 +82,8 @@ class Lifestyle extends StatelessWidget {
                 "https://wallpaperaccess.com/full/16568.png",
                 "https://i.pinimg.com/originals/2e/c6/b5/2ec6b5e14fe0cba0cb0aa5d2caeeccc6.jpg",
               ],
-            ),_buildStory(
+            ),
+            _buildStory(
               name: "First Story",
               thumbnailUrl:
                   "https://assets.materialup.com/uploads/82eae29e-33b7-4ff7-be10-df432402b2b6/preview",
@@ -84,7 +91,8 @@ class Lifestyle extends StatelessWidget {
                 "https://wallpaperaccess.com/full/16568.png",
                 "https://i.pinimg.com/originals/2e/c6/b5/2ec6b5e14fe0cba0cb0aa5d2caeeccc6.jpg",
               ],
-            ),_buildStory(
+            ),
+            _buildStory(
               name: "First Story",
               thumbnailUrl:
                   "https://assets.materialup.com/uploads/82eae29e-33b7-4ff7-be10-df432402b2b6/preview",
@@ -92,7 +100,8 @@ class Lifestyle extends StatelessWidget {
                 "https://wallpaperaccess.com/full/16568.png",
                 "https://i.pinimg.com/originals/2e/c6/b5/2ec6b5e14fe0cba0cb0aa5d2caeeccc6.jpg",
               ],
-            ),_buildStory(
+            ),
+            _buildStory(
               name: "First Story",
               thumbnailUrl:
                   "https://assets.materialup.com/uploads/82eae29e-33b7-4ff7-be10-df432402b2b6/preview",
@@ -108,7 +117,23 @@ class Lifestyle extends StatelessWidget {
     );
   }
 
-  Widget _buildCircularButton(String buttonText, IconData iconData) {
+  Future<void> _uploadFromGallery(BuildContext context) async {
+  final ImagePicker _picker = ImagePicker();
+  final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+  if (pickedFile != null) {
+    // Navigate to the new page with the selected image
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UploadLifeStyle(imagePath: pickedFile.path),
+      ),
+    );
+  }
+}
+
+
+  Widget _buildCircularButton(BuildContext context, String buttonText, IconData iconData) {
     return Column(
       children: [
         Container(
@@ -137,9 +162,7 @@ class Lifestyle extends StatelessWidget {
               ),
             ),
             child: IconButton(
-              onPressed: () {
-                // Add your onPressed logic here
-              },
+              onPressed: () => _uploadFromGallery(context),
               icon: Icon(iconData, color: const Color(0xff4e0ca2)),
             ),
           ),

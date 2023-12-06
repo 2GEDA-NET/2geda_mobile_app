@@ -119,14 +119,14 @@ class _CommentHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(imageUrl: comment.user.imageUrl),
+        ProfileAvatar(imageUrl: comment.user.userProfile!.userImage.profileImage),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                comment.user.name,
+                comment.user.username,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -136,7 +136,7 @@ class _CommentHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    comment.user.role,
+                    comment.user.userProfile!.work,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12.0,

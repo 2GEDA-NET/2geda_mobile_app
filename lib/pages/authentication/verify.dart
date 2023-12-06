@@ -126,18 +126,6 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
     startCountdown();
   }
 
-  // void startCountdown() {
-  //   Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     setState(() {
-  //       if (countdown > 0) {
-  //         countdown--;
-  //       } else {
-  //         timer.cancel(); // Stop the countdown when it reaches 0
-  //       }
-  //     });
-  //   });
-  // }
-
   void startCountdown() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {

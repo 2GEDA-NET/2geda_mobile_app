@@ -54,7 +54,28 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
     try {
       final List<String> options =
           optionControllers.map((controller) => controller.text).toList();
+// Convert the selected duration to a DateTime object
+      DateTime now = DateTime.now();
+      DateTime endTime;
 
+      switch (selectedDuration) {
+        case '24 hours':
+          endTime = now.add(Duration(hours: 24));
+          break;
+        case '7 days':
+          endTime = now.add(Duration(days: 7));
+          break;
+        case '1 month':
+          endTime = now.add(Duration(days: 30));
+          break;
+        case '6 months':
+          endTime = now.add(Duration(days: 180));
+          break;
+        default:
+          // Handle the case where an unknown duration is selected
+          print('Unknown duration selected');
+          return;
+      }
       // Check if any option is empty
       if (options.any((option) => option.isEmpty)) {
         // Display an error message or handle accordingly
@@ -71,6 +92,8 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
         privacy: selectedPrivacy,
         mediaFiles: mediaFiles,
         authToken: authToken!,
+        endTime: endTime, // Pass the calculated endTime to the API service
+ 
       );
 
       // Check if the poll was created successfully
