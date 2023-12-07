@@ -104,10 +104,6 @@ class Post {
       final authToken = await TokenManager().getToken();
       final user = await PostUser.fromJson(json['user'] ?? {}, authToken!);
 
-      print(user.username);
-      print(user.id);
-      print(user);
-
       final commentText = (json['comment_text'] as List<dynamic>?)
               ?.map((item) => Comment.fromJson(item as Map<String, dynamic>))
               .toList() ??
@@ -235,33 +231,54 @@ class PostUser {
   }
 
   Future<void> fetchUserDetails(String authToken) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/users-list/$id/'),
-      headers: {
-        'Authorization': 'Token $authToken',
-        'Content-Type': 'application/json',
-      },
-    );
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/users-list/$id/'),
+        headers: {
+          'Authorization': 'Token $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> userJson = json.decode(response.body);
-      if (userJson['user_profile'] is List) {
-        List<dynamic> userProfileList = userJson['user_profile'];
-        if (userProfileList.isNotEmpty && userProfileList.first is Map) {
-          Map<String, dynamic> userProfile = userProfileList.first;
-          work = userProfile['work'] ?? '';
+      if (response.statusCode == 200) {
+        final dynamic decodedJson = json.decode(response.body);
+
+        if (decodedJson is List) {
+          // Handle the case where the JSON response is a List
+          // You might need to iterate through the list and extract the necessary information
+        } else if (decodedJson is Map<String, dynamic>) {
+          // Handle the case where the JSON response is a Map
+          final Map<String, dynamic> userJson = decodedJson;
+
+          if (userJson.containsKey('user_profile')) {
+            final dynamic userProfile = userJson['user_profile'];
+
+            if (userProfile is List &&
+                userProfile.isNotEmpty &&
+                userProfile.first is Map<String, dynamic>) {
+              // Handle the case where 'user_profile' is a list with at least one map
+              work = userProfile.first['work'] ?? '';
+            } else if (userProfile is Map<String, dynamic>) {
+              // Handle the case where 'user_profile' is a map directly
+              work = userProfile['work'] ?? '';
+            } else {
+              work =
+                  ''; // Set a default value or handle it as per your requirement
+            }
+          } else {
+            work =
+                ''; // Set a default value or handle it as per your requirement
+          }
         } else {
-          work = ''; // Set a default value or handle it as per your requirement
+          throw Exception('Invalid JSON response');
         }
-      } else if (userJson['user_profile'] is Map<String, dynamic>) {
-        // Handle the case where 'user_profile' is a map directly
-        Map<String, dynamic> userProfile = userJson['user_profile'];
-        work = userProfile['work'] ?? '';
       } else {
-        work = ''; // Set a default value or handle it as per your requirement
+        throw Exception('Failed to load user details: ${response.statusCode}');
       }
-    } else {
-      throw Exception('Failed to load artist details');
+    } catch (e, stackTrace) {
+      print("Error fetching user details: $e\n$stackTrace");
+
+      throw Exception('Failed to fetch user details');
     }
   }
 }

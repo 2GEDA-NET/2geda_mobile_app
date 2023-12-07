@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:_2geda/APIServices/api_config.dart';
 import 'package:_2geda/APIServices/post_api_service.dart';
 import 'package:_2geda/pages/authentication/profile/personal_profile_form.dart';

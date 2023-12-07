@@ -97,74 +97,99 @@ class PostService {
 
   //!
 
- Future<List<Post>> fetchPosts(String authToken) async {
-  try {
-    final response = await http.get(
-      Uri.parse('$baseUrl/feed/create_post/'),
-      headers: {
-        'Authorization': 'Token $authToken',
-        'Content-Type': 'application/json',
-      },
-    );
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
+  Future<List<Post>> fetchPosts(String authToken,
+      {int page = 1, int limit = 10}) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/feed/create_post/?page=$page&limit=$limit'),
+        headers: {
+          'Authorization': 'Token $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
 
-      if (data.isNotEmpty) {
-        // Use Future.wait to wait for all the futures to complete
-        return Future.wait(
-          data.map((json) async => await Post.fromJson(json)).toList(),
-        );
+        if (data.isNotEmpty) {
+          // Use Future.wait to wait for all the futures to complete
+          return Future.wait(
+            data.map((json) async => await Post.fromJson(json)).toList(),
+          );
+        } else {
+          // If the data is empty, return an empty list
+          return [];
+        }
       } else {
-        // If the data is empty, return an empty list
-        return [];
+        print('API Error: ${response.statusCode} - ${response.body}');
+        throw Exception('Failed to load posts');
       }
-    } else {
-      print('API Error: ${response.statusCode} - ${response.body}');
+    } catch (error) {
+      print('Network Error: $error');
       throw Exception('Failed to load posts');
     }
-  } catch (error) {
-    print('Network Error: $error');
-    throw Exception('Failed to load posts');
   }
-}
 
+  Future<List<Post>> fetchSavedPosts(
+    String authToken,
+  ) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/feed/saved-post/'),
+        headers: {
+          'Authorization': 'Token $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
 
-Future<List<Post>> fetchSavedPosts(String authToken) async {
-  try {
-    final response = await http.get(
-      Uri.parse('$baseUrl/feed/saved-post/'),
-      headers: {
-        'Authorization': 'Token $authToken',
-        'Content-Type': 'application/json',
-      },
-    );
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
 
-    print(response.body);
-
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-
-      if (data.isNotEmpty) {
-        // Use Future.wait to wait for all the futures to complete
-        return Future.wait(
-          data.map((json) async => await Post.fromJson(json)).toList(),
-        );
+        if (data.isNotEmpty) {
+          // Use Future.wait to wait for all the futures to complete
+          return Future.wait(
+            data.map((json) async => await Post.fromJson(json)).toList(),
+          );
+        } else {
+          return [];
+        }
       } else {
-        // If the data is empty, return an empty list
-        return [];
+        print('API Error: ${response.statusCode} - ${response.body}');
+        throw Exception('Failed to load posts');
       }
-    } else {
-      print('API Error: ${response.statusCode} - ${response.body}');
+    } catch (error) {
+      print('Network Error: $error');
       throw Exception('Failed to load posts');
     }
-  } catch (error) {
-    print('Network Error: $error');
-    throw Exception('Failed to load posts');
   }
-}
 
- 
-  
+  Future<void> addReaction(
+    String authToken,
+    int postId,
+    String reaction,
+  ) async {
+    try {
+      final response = await http.post(
+        Uri.parse('https://king-prawn-app-venn6.ondigitalocean.app/feed/react/'),
+        headers: {
+          'Authorization': 'Token $authToken',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'post_id': postId,
+          'reaction_type': reaction,
+        }),
+      );
 
-  // ... Rest of the class
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        print('Reaction added successfully!');
+      } else {
+        print('Failed to add reaction. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+
+  }
 }

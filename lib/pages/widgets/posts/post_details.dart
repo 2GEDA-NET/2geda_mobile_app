@@ -1,8 +1,7 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:_2geda/models/post_model.dart';
 import 'package:_2geda/pages/widgets/posts/comment/post_comment.dart';
-import 'package:_2geda/pages/widgets/posts/profile_avatar.dart';
+import 'package:_2geda/pages/widgets/posts/post_header.dart';
+import 'package:_2geda/pages/widgets/posts/post_stats.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -119,7 +118,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _PostHeader(
+                    PostHeader(
                       post: widget.post,
                     ),
                     Container(
@@ -127,7 +126,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                         child: Column(
                           children: [
                             Text(widget.post.content),
-                            Text(widget.post.hashtags as String),
+                            Text(widget.post.formattedHashtags)
                           ],
                         )),
                     const SizedBox.shrink(),
@@ -135,7 +134,8 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 ),
                 Column(
                   children: (widget.post.eachMedia).map((media) {
-                    final imageUrl = media.media; // Assuming 'url' is the property in the Media class that contains the URL
+                    final imageUrl = media
+                        .media; // Assuming 'url' is the property in the Media class that contains the URL
                     return Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: ClipRRect(
@@ -153,7 +153,11 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: _PostStats(post: widget.post),
+                  child: PostStats(
+                    post: widget.post,
+                    context: context,
+                    postStatsKey: GlobalKey(),
+                  ),
                 ),
                 // FeedComments(),
               ],
@@ -197,16 +201,23 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
             heroTag: "btn1",
             onPressed: isRecording ? stopRecording : startRecording,
             backgroundColor: const Color.fromARGB(255, 12, 162, 62),
-            child:
-                isRecording ? const Icon(Icons.mic_off) : const Icon(Icons.mic),
+            child: isRecording
+                ? const Icon(
+                    Icons.mic_off,
+                    color: Colors.white,
+                  )
+                : const Icon(
+                    Icons.mic,
+                    color: Colors.white,
+                  ),
           ),
-          const SizedBox(height: 16),
-          if (!isRecording)
-            FloatingActionButton(
-                heroTag: "btn_play",
-                onPressed: playRecording,
-                backgroundColor: const Color.fromARGB(255, 12, 162, 62),
-                child: const Icon(Icons.play_arrow)),
+          // const SizedBox(height: 16),
+          // if (!isRecording)
+          //   FloatingActionButton(
+          //       heroTag: "btn_play",
+          //       onPressed: playRecording,
+          //       backgroundColor: const Color.fromARGB(255, 12, 162, 62),
+          //       child: const Icon(Icons.play_arrow)),
           const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: "btn2",
@@ -218,7 +229,10 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
               }
             },
             backgroundColor: const Color.fromARGB(255, 9, 125, 161),
-            child: const Icon(Icons.tv),
+            child: const Icon(
+              Icons.tv,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
@@ -231,7 +245,10 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
               }
             },
             backgroundColor: Colors.red,
-            child: const Icon(Icons.image),
+            child: const Icon(
+              Icons.image,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
@@ -240,63 +257,9 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
               // Add your onPressed logic for the first button here
             },
             backgroundColor: Colors.orange,
-            child: const Icon(Icons.edit_square),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PostHeader extends StatelessWidget {
-  final Post post;
-
-  const _PostHeader({
-    required this.post,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xff6e2da2), Color(0xff4e0ca2)],
-        ),
-      ),
-      child: Row(
-        children: [
-          ProfileAvatar(imageUrl: post.userProfile!.userImage.profileImage),
-          const SizedBox(width: 10.0),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  post.user.username,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
-                Text(
-                  post.userProfile!.work,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            post.timeSince,
-            style: const TextStyle(
+            child: const Icon(
+              Icons.edit_square,
               color: Colors.white,
-              fontSize: 12.0,
             ),
           ),
         ],
@@ -305,130 +268,3 @@ class _PostHeader extends StatelessWidget {
   }
 }
 
-class _PostStats extends StatelessWidget {
-  final Post post;
-
-  const _PostStats({
-    required this.post,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(3.0),
-              decoration: const BoxDecoration(
-                color: Color(0xff4e0ca2),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.thumb_up,
-                size: 10.0,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 4.0),
-            Expanded(
-              child: Text(
-                '${post.likes}',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  _PostButton(
-                    icon: Icon(
-                      Icons.thumb_up_outlined,
-                      color: Colors.grey[600],
-                      size: 28.0,
-                    ),
-                    label: '${post.likes}',
-                    onTap: () => print('Like'),
-                  ),
-                  _PostButton(
-                    icon: Icon(
-                      Icons.message_outlined,
-                      color: Colors.grey[600],
-                      size: 28,
-                    ),
-                    label: '${post.comment}',
-                    onTap: () => print('Comment'),
-                  ),
-                  _PostButton(
-                    icon: Icon(
-                      Icons.share_outlined,
-                      color: Colors.grey[600],
-                      size: 28.0,
-                    ),
-                    label: '${post.shares}',
-                    onTap: () => print('Share'),
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(
-              width: 50,
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.more_horiz_outlined,
-                color: Colors.grey[600],
-                size: 28.0,
-              ),
-              onPressed: () {
-                // Add your onPressed logic here
-                // This function will be called when the button is pressed.
-              },
-            )
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _PostButton extends StatelessWidget {
-  final Icon icon;
-  final String label;
-  final VoidCallback onTap;
-
-  const _PostButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Material(
-        color: Colors.white,
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            height: 25.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                icon,
-                const SizedBox(width: 4.0),
-                Text(label),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

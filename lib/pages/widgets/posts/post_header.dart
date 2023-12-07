@@ -39,7 +39,7 @@ class PostHeaderState extends State<PostHeader> {
               Row(
                 children: [
                   Text(
-                    widget.post.user.work ?? '',
+                    widget.post.user.work,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12.0,

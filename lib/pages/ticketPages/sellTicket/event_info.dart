@@ -330,7 +330,6 @@ class _EventInfoStepState extends State<EventInfoStep> {
         ],
       ),
     );
-    ;
   }
 
   // Function to show the location picker

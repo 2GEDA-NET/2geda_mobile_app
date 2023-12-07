@@ -35,23 +35,20 @@ class _AllTabContentState extends State<AllTabContent> {
   List<Post> posts = [];
   List<AudioModel> audioList = [];
   bool isDataLoaded = false; // Add a flag to track whether data is loaded
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _loadAuthTokenAndFetchData();
+    _scrollController.addListener(_onScroll);
   }
 
   Future<void> _loadAuthTokenAndFetchData() async {
     try {
       authToken = await tokenManager.getToken();
-      // Fetch both posts and audio data only if data is not already loaded
       if (!isDataLoaded) {
-        await Future.wait([
-          fetchPosts(authToken),
-          fetchAudioListFromAI(authToken),
-        ]);
-        // Set the flag to true once data is loaded
+        await fetchPosts(authToken!, 0); // Fetch the initial set of posts
         if (mounted) {
           setState(() {
             isDataLoaded = true;
@@ -59,7 +56,6 @@ class _AllTabContentState extends State<AllTabContent> {
         }
       }
     } catch (e) {
-      // Handle error
       print('Error fetching data: $e');
     }
   }
@@ -89,27 +85,27 @@ class _AllTabContentState extends State<AllTabContent> {
     }
   }
 
-  Future<void> fetchPosts(String? authToken) async {
+  Future<void> fetchPosts(String authToken, int page) async {
     try {
-      // Check if cached posts data is available
-      List<Post> cachedPosts = await getCachedPosts();
-      if (cachedPosts.isNotEmpty) {
-        setState(() {
-          posts = cachedPosts;
-        });
-      } else {
-        // Fetch new posts data from the network
-        List<Post> fetchedPosts = await postService.fetchPosts(authToken!);
-        setState(() {
-          posts = fetchedPosts;
-        });
-        // Save fetched posts data to cache
-        await savePostsToCache(fetchedPosts);
-      }
+      List<Post> fetchedPosts =
+          await postService.fetchPosts(authToken, page: page);
+      setState(() {
+        posts.addAll(fetchedPosts);
+      });
     } catch (e) {
-      // Handle error
       print('Error fetching posts: $e');
-      // You can show a snackbar or a user-friendly error message here
+    }
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      // User has reached the end of the list
+      if (!isDataLoaded) {
+        // Fetch more posts only if data is not already loaded
+        fetchPosts(
+            authToken!, posts.length ~/ 10); // Adjust the page size as needed
+      }
     }
   }
 
@@ -141,11 +137,17 @@ class _AllTabContentState extends State<AllTabContent> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: _handleRefresh,
       child: SingleChildScrollView(
-        // physics: const AlwaysScrollableScrollPhysics(),
+        controller: _scrollController,
         child: Column(
           children: [
             ...posts

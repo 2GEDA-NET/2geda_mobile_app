@@ -1,3 +1,5 @@
+import 'package:_2geda/APIServices/post_api_service.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:_2geda/models/post_model.dart';
 import 'package:_2geda/pages/widgets/posts/post_options/report_abuse.dart';
@@ -19,8 +21,22 @@ class PostStats extends StatefulWidget {
 }
 
 class _PostStatsState extends State<PostStats> {
+  final TokenManager tokenManager = TokenManager();
+  String? authToken;
   String selectedReaction = 'None';
   OverlayEntry? overlayEntry;
+  PostService postService = PostService(); // Create an instance of PostService
+
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAuthToken();
+  }
+
+  _loadAuthToken() async {
+    authToken = await tokenManager.getToken();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +80,14 @@ class _PostStatsState extends State<PostStats> {
                       size: 28.0,
                     ),
                     label: '${widget.post.likes}',
-                    onTap: () => print('Like'),
+                    onTap: () {
+                      handleReactionSelection(
+                          'Like'); // Directly handle 'Like' reaction on tap
+                      Navigator.pop(context);
+                    },
                     onLongPress: () {
-                      showReactionMenu(context);
+                      showReactionMenu(
+                          context); // Show the reaction menu on long press
                     },
                   ),
                   PostButton(
@@ -136,7 +157,11 @@ class _PostStatsState extends State<PostStats> {
           ),
         );
       },
-    );
+    ).then((selectedReaction) {
+      if (selectedReaction != null) {
+        handleReactionSelection(selectedReaction);
+      }
+    });
   }
 
   IconData getReactionIcon(String selectedReaction) {
@@ -173,6 +198,7 @@ class _PostStatsState extends State<PostStats> {
   void handleReactionSelection(String reaction) {
     // Handle the selected reaction here
     print('Selected reaction: $reaction');
+    postService.addReaction(authToken!, widget.post.id, reaction);
     setState(() {
       selectedReaction = reaction; // Update the class-level variable
     });
