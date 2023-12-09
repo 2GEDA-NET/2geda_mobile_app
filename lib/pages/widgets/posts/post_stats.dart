@@ -27,7 +27,6 @@ class _PostStatsState extends State<PostStats> {
   OverlayEntry? overlayEntry;
   PostService postService = PostService(); // Create an instance of PostService
 
-
   @override
   void initState() {
     super.initState();
@@ -198,6 +197,7 @@ class _PostStatsState extends State<PostStats> {
   void handleReactionSelection(String reaction) {
     // Handle the selected reaction here
     print('Selected reaction: $reaction');
+    print('Selected post id: ${widget.post.id}');
     postService.addReaction(authToken!, widget.post.id, reaction);
     setState(() {
       selectedReaction = reaction; // Update the class-level variable

@@ -246,7 +246,11 @@ class _AllTabContentState extends State<AllTabContent> {
               height: 20,
             ),
 
-            ...posts.map((post) => PostContainer(post: post)).toList(),
+            // ...posts.map((post) => PostContainer(post: post)).toList(),
+            ...posts
+                .take(5)
+                .map((post) => PostContainer(post: post))
+                .toList(),
             // Define the content specific to the "All" tab here
           ],
         ),

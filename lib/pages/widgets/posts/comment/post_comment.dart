@@ -1,11 +1,58 @@
+import 'package:_2geda/APIServices/post_api_service.dart';
 import 'package:_2geda/models/post_model.dart';
+import 'package:_2geda/models/user_model.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/posts/profile_avatar.dart';
 import 'package:flutter/material.dart';
 
-class CommentSection extends StatelessWidget {
-  final List<Comment> comments;
+class CommentSection extends StatefulWidget {
+  final int postId;
 
-  const CommentSection({super.key, required this.comments});
+  const CommentSection({super.key, required this.postId});
+
+  @override
+  State<CommentSection> createState() => _CommentSectionState();
+}
+
+class _CommentSectionState extends State<CommentSection> {
+  late List<Comment> _comments = [];
+  final TokenManager tokenManager = TokenManager();
+  final PostService postService = PostService();
+  String? authToken;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAuthToken();
+  }
+
+  _loadAuthToken() async {
+    authToken = await tokenManager.getToken();
+    print('Auth Token: $authToken');
+    print('Token $authToken');
+    await _fetchComments(); // Call _fetchComments to initialize _comments list
+  }
+
+  Future<void> _fetchComments() async {
+    try {
+      print(
+          'Fetching comments for post ID: ${widget.postId}, authToken: $authToken');
+      // Fetch comments based on the post ID
+
+      List<Comment> comments =
+          await postService.getComments(authToken!, widget.postId);
+      print('Fetched comments: $comments');
+
+      // Fetch user details for each comment
+
+      setState(() {
+        _comments = comments;
+      });
+    } catch (error) {
+      // Handle the error, show an error message, etc.
+      print('Error fetching comments: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +86,7 @@ class CommentSection extends StatelessWidget {
           ),
         ),
         const Divider(),
-        for (final comment in comments) _CommentTile(comment: comment),
+        for (final comment in _comments) _CommentTile(comment: comment),
         SizedBox(
           height: MediaQuery.of(context).size.height *
               0.02, // 20% of the screen's height
@@ -61,17 +108,24 @@ class CommentSection extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           height: 60,
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
       ],
     );
   }
 }
 
-class _CommentTile extends StatelessWidget {
+class _CommentTile extends StatefulWidget {
   final Comment comment;
 
   const _CommentTile({required this.comment});
 
+  @override
+  State<_CommentTile> createState() => _CommentTileState();
+}
+
+class _CommentTileState extends State<_CommentTile> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -82,10 +136,12 @@ class _CommentTile extends StatelessWidget {
           // Use a Column to stack the header and comment
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _CommentHeader(comment: comment), // Place the header here
+            _CommentHeader(
+              comment: widget.comment,
+            ), // Place the header here
             const SizedBox(
                 height: 20), // Add spacing between header and comment
-            Text(comment.text),
+            Text(widget.comment.content),
             const SizedBox(height: 4),
             Row(
               children: [
@@ -97,7 +153,7 @@ class _CommentTile extends StatelessWidget {
                     size: 28,
                   ),
                 ),
-                Text('${comment.likes}'),
+                Text('${widget.comment.reactionCount}'),
               ],
             ),
             const Divider(),
@@ -108,7 +164,7 @@ class _CommentTile extends StatelessWidget {
   }
 }
 
-class _CommentHeader extends StatelessWidget {
+class _CommentHeader extends StatefulWidget {
   final Comment comment;
 
   const _CommentHeader({
@@ -116,17 +172,57 @@ class _CommentHeader extends StatelessWidget {
   });
 
   @override
+  State<_CommentHeader> createState() => _CommentHeaderState();
+}
+
+class _CommentHeaderState extends State<_CommentHeader> {
+  late User? _user; 
+  final TokenManager tokenManager = TokenManager();
+  final PostService postService = PostService();
+  String? authToken;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAuthToken();
+  }
+
+  _loadAuthToken() async {
+    authToken = await tokenManager.getToken();
+    print('Auth Token: $authToken');
+    print('Token $authToken');
+    await _fetchUserDetails(); // Call _fetchComments to initialize _comments list
+  }
+
+  Future<void> _fetchUserDetails() async {
+    try {
+      User userDetails =
+          await postService.fetchUserDetails(authToken!, widget.comment.userId);
+      setState(() {
+        _user = userDetails;
+      });
+    } catch (error) {
+      // Handle the error, show an error message, etc.
+      print('Error fetching user details: $error');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(imageUrl: comment.user.userProfile!.userImage.profileImage),
+        ProfileAvatar(
+          imageUrl:
+              _user?.userProfile?.userImage.profileImage ?? "defaultImage.png",
+        ),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                comment.user.username,
+                _user?.username ??
+                    'Loading...', // Show loading text if _user is null
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -136,7 +232,7 @@ class _CommentHeader extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    comment.user.userProfile!.work,
+                    _user?.userProfile?.work ?? '',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12.0,
@@ -148,7 +244,7 @@ class _CommentHeader extends StatelessWidget {
           ),
         ),
         Text(
-          comment.timeAgo,
+          widget.comment.timestamp,
           style: TextStyle(
             color: Colors.grey[600],
             fontSize: 12.0,

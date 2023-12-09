@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:_2geda/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'api_config.dart';
@@ -149,6 +150,19 @@ class AuthenticationApiService {
     } else {
       // Handle error, you can throw an exception or return a default value
       return false;
+    }
+  }
+
+  Future<User> fetchUserDetails(int userId) async {
+    final response = await http.get(Uri.parse('$baseUrl$userId/'));
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the user details
+      final Map<String, dynamic> data = json.decode(response.body);
+      return User.fromJson(data);
+    } else {
+      // If the server did not return a 200 OK response, throw an exception
+      throw Exception('Failed to load user details');
     }
   }
 }

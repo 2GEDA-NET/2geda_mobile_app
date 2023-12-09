@@ -7,6 +7,7 @@ import 'package:_2geda/APIServices/post_api_service.dart';
 import 'package:_2geda/pages/authentication/profile/personal_profile_form.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/homeScreens/post_media_buttons.dart';
+import 'package:_2geda/pages/homeScreens/tag_users.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -704,92 +705,5 @@ class _HashtagInputTextFieldState extends State<HashtagInputTextField> {
 
     // Call the callback function to notify the parent widget
     widget.onHashtagsChanged(hashtags);
-  }
-}
-
-class TagFriendsPage extends StatefulWidget {
-  final List<String> initialSelectedFriends;
-
-  const TagFriendsPage({super.key, required this.initialSelectedFriends});
-
-  @override
-  _TagFriendsPageState createState() => _TagFriendsPageState();
-}
-
-class _TagFriendsPageState extends State<TagFriendsPage> {
-  late List<String> selectedFriends;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize selectedFriends with the initialSelectedFriends
-    selectedFriends = List.from(widget.initialSelectedFriends);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Tag Friends",
-            style: TextStyle(color: Colors.black),
-          ),
-          centerTitle: true, // Center the title
-          backgroundColor: Colors.white, // Set the background color to white
-          elevation: 0,
-          iconTheme: const IconThemeData(
-              color: Colors.black), // Set the color of icons in the AppBar
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(20), // Add padding to the entire body
-          child: Column(
-            children: [
-              // Widget for selecting friends, update selectedFriends accordingly
-              TextField(
-                decoration: InputDecoration(
-                  // labelText: "Tag Friends",
-                  hintText: "Type a name",
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(100.0), // Set the border radius
-                  ),
-                ),
-              ),
-
-              const Expanded(
-                child: SizedBox(
-                  height: 20,
-                ),
-              ),
-
-              SizedBox(
-                width: MediaQuery.of(context)
-                    .size
-                    .width, // Set the width to the device width
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Add your upload logic here
-                    Navigator.pop(context, selectedFriends);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(
-                          0xff4e0ca2), // Set the background color to purple
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10), // Set the border radius
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 20)),
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      color: Colors.white, // Set the text color to white
-                      fontSize: 20, // Increase the font size
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ));
   }
 }

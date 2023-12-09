@@ -8,6 +8,7 @@ import 'package:_2geda/pages/connectPages/connect.dart';
 import 'package:_2geda/pages/educationPages/education.dart';
 import 'package:_2geda/pages/homeScreens/home_screen.dart';
 import 'package:_2geda/pages/homeScreens/searchPages/search_screen.dart';
+import 'package:_2geda/pages/walletPages/wallet.dart';
 import 'package:_2geda/pages/widgets/posts/post_details.dart';
 import 'package:_2geda/pages/livePages/live.dart';
 import 'package:_2geda/pages/profilePages/profile.dart';
@@ -58,6 +59,8 @@ class SideBarLayout extends StatelessWidget {
                   // return PostDetailsPage();
                 } else if (state == NavigationStates.SearchPageScreenState) {
                   return SearchScreen();
+                }else if (state == NavigationStates.WalletPageScreenState) {
+                  return WalletScreen();
                 }
                 // Handle other states or return a default widget.
                 return Container();

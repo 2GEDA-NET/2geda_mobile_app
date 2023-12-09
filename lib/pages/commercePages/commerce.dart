@@ -23,12 +23,13 @@ class CommerceScreen extends StatelessWidget {
           ),
         ),
         toolbarHeight: 80,
-        title: const Text('Commerce'),
+        backgroundColor: Color(0xFF4E0CA2),
+        title: const Text('Commerce', style: TextStyle(color: Colors.white),),
         centerTitle: true,
         elevation: 1,
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart, color: Colors.white,),
             onPressed: () {
               // Handle the search action
               Navigator.push(
@@ -40,7 +41,7 @@ class CommerceScreen extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.search, color: Colors.white,),
             onPressed: () {
               // Handle the notifications action
               Navigator.push(

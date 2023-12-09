@@ -20,6 +20,7 @@ enum NavigationStates {
   EducationScreenState,
   PostDetailScreenState,
   SearchPageScreenState,
+  WalletPageScreenState,
   // Add more states as needed
 }
 
@@ -39,6 +40,7 @@ enum NavigationEvents {
   OpenSidebarEvent,
   PostDetailClickEvent,
   SearchPageClickEvent,
+  WalletPageClickEvent,
 }
 
 class NavigationBloc extends Bloc<NavigationEvents, NavigationStates> {
@@ -72,6 +74,8 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationStates> {
         emit(NavigationStates.PostDetailScreenState);
       } else if (event == NavigationEvents.SearchPageClickEvent) {
         emit(NavigationStates.SearchPageScreenState);
+      } else if (event == NavigationEvents.WalletPageClickEvent) {
+        emit(NavigationStates.WalletPageScreenState);
       }
       // Add more event handling logic for other events
     });
@@ -104,6 +108,8 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationStates> {
       yield NavigationStates.PostDetailScreenState;
     } else if (event == NavigationEvents.SearchPageClickEvent) {
       yield NavigationStates.SearchPageScreenState;
+    }else if (event == NavigationEvents.WalletPageClickEvent) {
+      yield NavigationStates.WalletPageScreenState;
     }
     // Handle other events...
   }

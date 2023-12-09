@@ -86,7 +86,7 @@ class PollDetailsPage extends StatelessWidget {
               ),
 
               Visibility(
-                visible: imageUrl != null && imageUrl.isNotEmpty,
+                visible: imageUrl.isNotEmpty,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CachedNetworkImage(

@@ -238,6 +238,16 @@ class _SideBarState extends State<SideBar>
 
                           },
                         ),
+                        MenuItem(
+                          icon: Icons.wallet,
+                          title: "Wallet",
+                          onTap: () {
+                            onIconPressed();
+                            // Add navigation logic here
+                            navigationBloc.add(NavigationEvents.WalletPageClickEvent);
+
+                          },
+                        ),
                       ],
                     ),
                   ),

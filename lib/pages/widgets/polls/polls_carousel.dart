@@ -1,4 +1,4 @@
-import 'package:_2geda/models/polls_model.dart';
+import 'package:_2geda/pages/votingPages/poll_result.dart';
 import 'package:_2geda/pages/widgets/polls/polls_details.dart';
 import 'package:_2geda/pages/widgets/polls/vote_progress_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -211,7 +211,26 @@ class MyPollsCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PollResultScreen(
+                                username: "Kayode Wills",
+                                timestamp: "Today @ 12:09PM",
+                                question:
+                                    "What is your preferred programming language",
+                                imageUrl:
+                                    'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
+                                progress: 0.6,
+                                remainingDays: "2 days remaining",
+                                votesCount: 500,
+                                optionContent: '',
+                                selectedOption: null,
+                              ),
+                            ),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                           minimumSize: const Size(80, 40),

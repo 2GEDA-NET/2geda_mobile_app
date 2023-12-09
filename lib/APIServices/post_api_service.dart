@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:_2geda/APIServices/api_config.dart';
 import 'package:_2geda/models/mediamodel.dart';
 import 'package:_2geda/models/post_model.dart';
+import 'package:_2geda/models/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -169,7 +170,8 @@ class PostService {
   ) async {
     try {
       final response = await http.post(
-        Uri.parse('https://king-prawn-app-venn6.ondigitalocean.app/feed/react/'),
+        Uri.parse(
+            '$baseUrl/feed/react/post/'),
         headers: {
           'Authorization': 'Token $authToken',
           'Content-Type': 'application/json',
@@ -190,6 +192,92 @@ class PostService {
     } catch (e) {
       print('Error: $e');
     }
+  }
 
+  Future<void> createComment(String authToken, int postId, String comment,
+      List<String> filePaths) async {
+    final url = Uri.parse('$baseUrl/feed/create-comment/');
+
+    try {
+      var request = http.MultipartRequest('POST', url)
+        ..headers['Authorization'] = 'Token $authToken'
+        ..headers['Content-Type'] = 'multipart/form-data'
+        ..fields['post_id'] = postId.toString()
+        ..fields['content'] = comment;
+
+      for (var i = 0; i < filePaths.length; i++) {
+        var file = await http.MultipartFile.fromPath('files[$i]', filePaths[i]);
+        request.files.add(file);
+      }
+
+      var response = await http.Response.fromStream(await request.send());
+      print(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Comment created successfully
+        print('Comment created successfully');
+      } else {
+        // Handle error
+        print('Failed to create comment. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle network error
+      print('Error creating comment: $e');
+    }
+  }
+
+  Future<List<Comment>> getComments(String authToken, int postId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/feed/get-comment/$postId/'),
+        headers: {
+          'Authorization': 'Token $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+
+        if (data.isNotEmpty) {
+          // Use Future.wait to wait for all the futures to complete
+          return Future.wait(
+            data.map((json) async => Comment.fromJson(json)).toList(),
+          );
+        } else {
+          // If the data is empty, return an empty list
+          return [];
+        }
+      } else {
+        print('API Error: ${response.statusCode} - ${response.body}');
+        throw Exception('Failed to load comments');
+      }
+    } catch (error) {
+      print('Network Error: $error');
+      throw Exception('Failed to load comments');
+    }
+  }
+
+  Future<User> fetchUserDetails(String authToken, int userId) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl$userId/'),
+      headers: {
+        'Authorization': 'Token $authToken',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the user details
+      final Map<String, dynamic> data = json.decode(response.body);
+      return User.fromJson(data);
+    } else {
+      // If the server did not return a 200 OK response, throw an exception
+      throw Exception('Failed to load user details');
+    }
   }
 }

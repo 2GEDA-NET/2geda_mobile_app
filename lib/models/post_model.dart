@@ -10,43 +10,45 @@ import 'user_model.dart';
 const String baseUrl = ApiConfig.baseUrl;
 
 class Comment {
-  final User user;
-  final String imageUrl;
-  final String role;
-  final String timeAgo;
-  final String text;
-  final int likes;
+  final int id;
+  final int userId;
+  final int postId;
+  final String content;
+  final String timestamp;
+  final int? parentId; // Nullable for top-level comments
+  final int responsesCount;
+  final int reactionCount;
 
   Comment({
-    required this.user,
-    required this.imageUrl,
-    required this.role,
-    required this.timeAgo,
-    required this.text,
-    required this.likes,
+    required this.id,
+    required this.userId,
+    required this.postId,
+    required this.content,
+    required this.timestamp,
+    required this.parentId,
+    required this.responsesCount,
+    required this.reactionCount,
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
-      user: User.fromJson(json['user'] ?? {}),
-      imageUrl: json['imageUrl'] ??
-          '', // provide a default value or handle it accordingly
-      role: json['role'] ??
-          '', // provide a default value or handle it accordingly
-      timeAgo: json['timeAgo'] ??
-          '', // provide a default value or handle it accordingly
-      text: json['text'] ??
-          '', // provide a default value or handle it accordingly
-      likes: json['likes'] ??
-          0, // provide a default value or handle it accordingly
+      id: json['id'] ?? 0,
+      userId: json['user_id'] ?? 0,
+      postId: json['post_id'] ?? 0,
+      content: json['content'] ?? '',
+      timestamp: json['timestamp'] ?? '',
+      parentId: json['parent_id'] ?? 0,
+      responsesCount: json['responses_count'] ?? 0,
+      reactionCount: json['reaction_count'] ?? 0,
     );
   }
 }
 
+
 class Post {
   final int id;
   final PostUser user;
-  final List<Comment> commentText;
+  // final List<Comment> commentText;
   final List<Media> eachMedia;
   final List<Hashtag> hashtags;
   final String content;
@@ -72,7 +74,7 @@ class Post {
   Post({
     required this.id,
     required this.user,
-    required this.commentText,
+    // required this.commentText,
     required this.eachMedia,
     required this.hashtags,
     required this.content,
@@ -104,10 +106,10 @@ class Post {
       final authToken = await TokenManager().getToken();
       final user = await PostUser.fromJson(json['user'] ?? {}, authToken!);
 
-      final commentText = (json['comment_text'] as List<dynamic>?)
-              ?.map((item) => Comment.fromJson(item as Map<String, dynamic>))
-              .toList() ??
-          [];
+      // final commentText = (json['comment_text'] as List<dynamic>?)
+      //         ?.map((item) => Comment.fromJson(item as Map<String, dynamic>))
+      //         .toList() ??
+      //     [];
       final eachMedia = (json['each_media'] as List<dynamic>?)
               ?.map((item) => Media.fromJson(item ?? {}))
               .toList() ??
@@ -155,7 +157,7 @@ class Post {
       return Post(
         id: id,
         user: user,
-        commentText: commentText,
+        // commentText: commentText,
         timeStamp: parsedTimeStamp,
         eachMedia: eachMedia,
         hashtags: hashtags,
@@ -225,12 +227,12 @@ class PostUser {
     );
 
     // Fetch artist details and update the artist name
-    await postUserModel.fetchUserDetails(authToken);
+    await postUserModel.fetchPostUserDetails(authToken);
 
     return postUserModel;
   }
 
-  Future<void> fetchUserDetails(String authToken) async {
+  Future<void> fetchPostUserDetails(String authToken) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/users-list/$id/'),
