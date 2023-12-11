@@ -349,9 +349,9 @@ class _BusinessInformationSectionState
                   child: const Text(
                     "Continue",
                     style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
                   ),
                 ),
               ),
@@ -602,9 +602,9 @@ class _DocumentDetailsSectionState extends State<DocumentDetailsSection> {
                   child: const Text(
                     "Continue",
                     style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
                   ),
                 ),
               ),
@@ -843,9 +843,9 @@ class _ContactInformationSectionState extends State<ContactInformationSection> {
                   child: const Text(
                     "Continue",
                     style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
                   ),
                 ),
               ),

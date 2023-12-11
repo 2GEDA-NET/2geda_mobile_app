@@ -7,7 +7,6 @@ import 'package:_2geda/pages/stereoPages/artist_profile.dart';
 import 'package:_2geda/pages/stereoPages/big_hit_list.dart';
 import 'package:_2geda/pages/stereoPages/big_hits.dart';
 import 'package:_2geda/pages/stereoPages/chart.dart';
-import 'package:_2geda/pages/stereoPages/chart_details.dart';
 import 'package:_2geda/pages/stereoPages/library.dart';
 import 'package:_2geda/pages/stereoPages/local_music.dart';
 import 'package:_2geda/pages/stereoPages/mini_player.dart';

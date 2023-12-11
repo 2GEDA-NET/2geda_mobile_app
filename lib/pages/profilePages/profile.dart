@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:_2geda/pages/profilePages/change_password.dart';
 import 'package:_2geda/pages/profilePages/manage_advert.dart';
 import 'package:_2geda/pages/profilePages/device_reg.dart';
+import 'package:_2geda/pages/profilePages/reward/earn_reward.dart';
+import 'package:_2geda/pages/profilePages/reward/reward_page.dart';
 import 'package:_2geda/pages/profilePages/saved_post.dart';
 import 'package:_2geda/pages/profilePages/verification.dart';
 import 'package:flutter/material.dart';
@@ -177,7 +179,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const Divider(),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const EarnReward(), // Replace with the actual screen
+                    ),
+                  );
+                },
                 child: const Text(
                   "Earn rewards",
                   style: TextStyle(

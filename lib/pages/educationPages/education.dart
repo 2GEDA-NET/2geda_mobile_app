@@ -254,7 +254,7 @@ class _EducationScreenState extends State<EducationScreen> {
     return Container(
       padding: const EdgeInsets.all(10),
       width: 180,
-      height: 200,
+      height: 210,
       decoration: BoxDecoration(
           color: const Color.fromARGB(255, 224, 224, 224),
           borderRadius: BorderRadius.circular(10)),

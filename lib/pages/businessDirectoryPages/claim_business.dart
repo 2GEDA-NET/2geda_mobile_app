@@ -214,14 +214,16 @@ class ClaimBusinessPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ClaimBusinessForm(),
+                        builder: (context) => const ClaimBusinessForm(),
                       ),
                     );
                   },
@@ -234,9 +236,9 @@ class ClaimBusinessPage extends StatelessWidget {
                   child: const Text(
                     "Proceed to claim",
                     style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
                   ),
                 ),
               ),

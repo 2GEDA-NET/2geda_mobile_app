@@ -346,9 +346,9 @@ class BusinessCard extends StatelessWidget {
                       child: const Text(
                         "Claim business",
                         style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
                       ),
                     ),
                     Spacer(),
@@ -363,9 +363,9 @@ class BusinessCard extends StatelessWidget {
                       ),
                       child: const Text("Visit page",
                           style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          )),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white)),
                     ),
                   ],
                 )

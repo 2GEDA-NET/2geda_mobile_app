@@ -153,6 +153,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -170,6 +171,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
+                            color: Colors.white,
                           ),
                         ),
                       ),
