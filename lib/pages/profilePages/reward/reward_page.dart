@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:_2geda/data/reward_data.dart';
 import 'package:_2geda/pages/profilePages/reward/more_rewards.dart';
+import 'package:_2geda/pages/profilePages/reward/referral/referral.dart';
+import 'package:_2geda/pages/profilePages/reward/referral/withdraw.dart';
+import 'package:_2geda/pages/profilePages/reward/reward_history.dart';
 import 'package:_2geda/pages/widgets/reward/reward_card.dart';
 import 'package:flutter/material.dart';
 
@@ -56,7 +59,14 @@ class RewardScreen extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                               color: Colors.white)),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RewardHistory(),
+                            ),
+                          );
+                        },
                         child: const Text("View history",
                             style: TextStyle(
                                 fontSize: 10,
@@ -77,7 +87,14 @@ class RewardScreen extends StatelessWidget {
                   ),
                   Center(
                     child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const WithDrawScreen(),
+                            ),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius:
@@ -90,7 +107,6 @@ class RewardScreen extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ))),
                   ),
-                  Container(),
                 ],
               ),
             ),
@@ -157,7 +173,15 @@ class RewardScreen extends StatelessWidget {
                                       fontWeight: FontWeight.w400,
                                       color: Colors.white)),
                               ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ReferralPage(),
+                                      ),
+                                    );
+                                  },
                                   child: const Text("Start earning",
                                       style: TextStyle(
                                         fontSize: 12,
