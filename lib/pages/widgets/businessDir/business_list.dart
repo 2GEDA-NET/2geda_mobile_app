@@ -9,15 +9,21 @@ class BusinessListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Businesses around you', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),),
+          const Text(
+            'Businesses around you',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
+                //  for (Business business in businesses) ...[
+                //   BusinessItem(business: business)
+                // ],
                 for (Business business in businesses)
                   BusinessItem(business: business),
               ],

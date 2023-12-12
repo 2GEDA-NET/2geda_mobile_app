@@ -5,18 +5,32 @@ packages:
     dependency: "direct main"
     description:
       name: agora_rtc_engine
+<<<<<<< HEAD
       sha256: "1ff249665a6a86fe0db13c7026853a92a715abeb819d8ad68bf5927f890e2c45"
       url: "https://pub.dev"
     source: hosted
     version: "6.2.6"
+=======
+      sha256: e3e07fb79f90417ad1ab0a3b30f2a299e33c311193fafa09bb769a69081d8e5c
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.4"
+>>>>>>> origin/DAAA
   agora_rtm:
     dependency: transitive
     description:
       name: agora_rtm
+<<<<<<< HEAD
       sha256: "6c65cf6c9658acc9024322798c546e9dc61c39605b67d0af069793d4ee81d199"
       url: "https://pub.dev"
     source: hosted
     version: "1.5.9"
+=======
+      sha256: f53057125845494048e19ee6b8826fcee88937512d4c206d47a74345914e9a04
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.8"
+>>>>>>> origin/DAAA
   agora_uikit:
     dependency: "direct main"
     description:
@@ -77,10 +91,17 @@ packages:
     dependency: transitive
     description:
       name: audio_session
+<<<<<<< HEAD
       sha256: "6fdf255ed3af86535c96452c33ecff1245990bb25a605bfb1958661ccc3d467f"
       url: "https://pub.dev"
     source: hosted
     version: "0.1.18"
+=======
+      sha256: "8a2bc5e30520e18f3fb0e366793d78057fb64cd5287862c76af0c8771f2a52ad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.16"
+>>>>>>> origin/DAAA
   audio_waveforms:
     dependency: "direct main"
     description:
@@ -93,18 +114,32 @@ packages:
     dependency: "direct main"
     description:
       name: audioplayers
+<<<<<<< HEAD
       sha256: c05c6147124cd63e725e861335a8b4d57300b80e6e92cea7c145c739223bbaef
       url: "https://pub.dev"
     source: hosted
     version: "5.2.1"
+=======
+      sha256: d9f6ca8e9b3e5af5e73d4c814404566f72698ee7ba35487bdf2baa6749e7503f
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.0"
+>>>>>>> origin/DAAA
   audioplayers_android:
     dependency: transitive
     description:
       name: audioplayers_android
+<<<<<<< HEAD
       sha256: b00e1a0e11365d88576320ec2d8c192bc21f1afb6c0e5995d1c57ae63156acb5
       url: "https://pub.dev"
     source: hosted
     version: "4.0.3"
+=======
+      sha256: fb01b9481f431fe04ac60f1f97ce8158383f2dc754558820592f795d81ca9d53
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
+>>>>>>> origin/DAAA
   audioplayers_darwin:
     dependency: transitive
     description:
@@ -229,10 +264,17 @@ packages:
     dependency: transitive
     description:
       name: cross_file
+<<<<<<< HEAD
       sha256: fedaadfa3a6996f75211d835aaeb8fede285dae94262485698afd832371b9a5e
       url: "https://pub.dev"
     source: hosted
     version: "0.3.3+8"
+=======
+      sha256: "445db18de832dba8d851e287aff8ccf169bed30d2e94243cb54c7d2f1ed2142c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3+6"
+>>>>>>> origin/DAAA
   crypto:
     dependency: transitive
     description:
@@ -269,10 +311,25 @@ packages:
     dependency: "direct main"
     description:
       name: dio
+<<<<<<< HEAD
       sha256: "797e1e341c3dd2f69f2dad42564a6feff3bfb87187d05abb93b9609e6f1645c3"
       url: "https://pub.dev"
     source: hosted
     version: "5.4.0"
+=======
+      sha256: "417e2a6f9d83ab396ec38ff4ea5da6c254da71e4db765ad737a42af6930140b7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.3.3"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      name: dots_indicator
+      sha256: "58b6a365744aa62aa1b70c4ea29e5106fbe064f5edaf7e9652e9b856edbfd9bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
+>>>>>>> origin/DAAA
   english_words:
     dependency: "direct main"
     description:
@@ -374,6 +431,17 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
+<<<<<<< HEAD
+=======
+  flutter_card_swiper:
+    dependency: "direct main"
+    description:
+      name: flutter_card_swiper
+      sha256: bd4a63d512ce3992b1950f6c46efeff4a0890e117e36c0fa7101b578bd0fdf3a
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0"
+>>>>>>> origin/DAAA
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -470,6 +538,17 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.2.13"
+<<<<<<< HEAD
+=======
+  flutter_svg:
+    dependency: "direct main"
+    description:
+      name: flutter_svg
+      sha256: d39e7f95621fc84376bc0f7d504f05c3a41488c562f4a8ad410569127507402c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.9"
+>>>>>>> origin/DAAA
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -588,18 +667,32 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_android
+<<<<<<< HEAD
       sha256: "4279a338b79288fad5c8b03e5ae6ec30888bff210e0bab10b1f31f31e5a90558"
       url: "https://pub.dev"
     source: hosted
     version: "2.6.0"
+=======
+      sha256: "4023e79184c762e63efe04da629d876085e0c296a7ca26745fb5750d4acd0aa2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.3"
+>>>>>>> origin/DAAA
   google_maps_flutter_ios:
     dependency: transitive
     description:
       name: google_maps_flutter_ios
+<<<<<<< HEAD
       sha256: "6ad65362aeeeda44b7c2c807e36bf578ef4b1c163882e085bdb040bf2934b246"
       url: "https://pub.dev"
     source: hosted
     version: "2.3.3"
+=======
+      sha256: "2aa28eb9b9d5dfdce6932a7b7f096430bf83a1a09b4e21e81939351f407c787f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
+>>>>>>> origin/DAAA
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
@@ -612,10 +705,17 @@ packages:
     dependency: transitive
     description:
       name: google_maps_flutter_web
+<<<<<<< HEAD
       sha256: f893d1542c6562bc8299ef768fbbe92ade83c220ab3209b9477ec9f81ad585e4
       url: "https://pub.dev"
     source: hosted
     version: "0.5.4+2"
+=======
+      sha256: "05067c5aa762ebee44b7ef4902a311ed8cf891ef655e2798bae063aa3050c8d9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.4+1"
+>>>>>>> origin/DAAA
   html:
     dependency: transitive
     description:
@@ -628,10 +728,17 @@ packages:
     dependency: "direct main"
     description:
       name: http
+<<<<<<< HEAD
       sha256: d4872660c46d929f6b8a9ef4e7a7eff7e49bbf0c4ec3f385ee32df5119175139
       url: "https://pub.dev"
     source: hosted
     version: "1.1.2"
+=======
+      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+>>>>>>> origin/DAAA
   http_parser:
     dependency: transitive
     description:
@@ -724,10 +831,17 @@ packages:
     dependency: transitive
     description:
       name: iris_method_channel
+<<<<<<< HEAD
       sha256: "708a862849b26452d86a0ab1ff010eb43d03cc811084b185270ceda45ff473e6"
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0-dev.4"
+=======
+      sha256: "2bcaa69e9a9ac0ca88380f28ef400095fecb3bb3da2faf0c798db6eef8131088"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0-dev.3"
+>>>>>>> origin/DAAA
   js:
     dependency: transitive
     description:
@@ -756,18 +870,32 @@ packages:
     dependency: "direct main"
     description:
       name: just_audio_background
+<<<<<<< HEAD
       sha256: "3454ffc97edfa1282b7f42759bfa8aa13d9114a24465f4101e0d3ae58a9327fb"
       url: "https://pub.dev"
     source: hosted
     version: "0.0.1-beta.11"
+=======
+      sha256: d290c9c450083aee40cc481e2cb4c088dcbca35961598970ea1b6a6f6c68ae13
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1-beta.10"
+>>>>>>> origin/DAAA
   just_audio_platform_interface:
     dependency: transitive
     description:
       name: just_audio_platform_interface
+<<<<<<< HEAD
       sha256: c3dee0014248c97c91fe6299edb73dc4d6c6930a2f4f713579cd692d9e47f4a1
       url: "https://pub.dev"
     source: hosted
     version: "4.2.2"
+=======
+      sha256: d8409da198bbc59426cd45d4c92fca522a2ec269b576ce29459d6d6fcaeb44df
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.1"
+>>>>>>> origin/DAAA
   libphonenumber_platform_interface:
     dependency: transitive
     description:
@@ -828,10 +956,17 @@ packages:
     dependency: "direct main"
     description:
       name: meta
+<<<<<<< HEAD
       sha256: a6e590c838b18133bb482a2745ad77c5bb7715fb0451209e1a7567d416678b8e
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+=======
+      sha256: "3c74dbf8763d36539f114c799d8a2d87343b5067e9d796ca22b5eb8437090ee3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.9.1"
+>>>>>>> origin/DAAA
   mime:
     dependency: transitive
     description:
@@ -864,6 +999,17 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+<<<<<<< HEAD
+=======
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      sha256: e3e67b1629e6f7e8100b367d3db6ba6af4b1f0bb80f64db18ef1fbabd2fa9ccf
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
+>>>>>>> origin/DAAA
   path_provider:
     dependency: "direct main"
     description:
@@ -916,22 +1062,37 @@ packages:
     dependency: "direct main"
     description:
       name: permission_handler
+<<<<<<< HEAD
       sha256: "860c6b871c94c78e202dc69546d4d8fd84bd59faeb36f8fb9888668a53ff4f78"
       url: "https://pub.dev"
     source: hosted
     version: "11.1.0"
+=======
+      sha256: "284a66179cabdf942f838543e10413246f06424d960c92ba95c84439154fcac8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.0.1"
+>>>>>>> origin/DAAA
   permission_handler_android:
     dependency: transitive
     description:
       name: permission_handler_android
+<<<<<<< HEAD
       sha256: "2f1bec180ee2f5665c22faada971a8f024761f632e93ddc23310487df52dcfa6"
       url: "https://pub.dev"
     source: hosted
     version: "12.0.1"
+=======
+      sha256: f9fddd3b46109bd69ff3f9efa5006d2d309b7aec0f3c1c5637a60a2d5659e76e
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.1.0"
+>>>>>>> origin/DAAA
   permission_handler_apple:
     dependency: transitive
     description:
       name: permission_handler_apple
+<<<<<<< HEAD
       sha256: "1a816084338ada8d574b1cb48390e6e8b19305d5120fe3a37c98825bacc78306"
       url: "https://pub.dev"
     source: hosted
@@ -944,22 +1105,50 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.0+1"
+=======
+      sha256: "99e220bce3f8877c78e4ace901082fb29fa1b4ebde529ad0932d8d664b34f3f5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.1.4"
+>>>>>>> origin/DAAA
   permission_handler_platform_interface:
     dependency: transitive
     description:
       name: permission_handler_platform_interface
+<<<<<<< HEAD
       sha256: d87349312f7eaf6ce0adaf668daf700ac5b06af84338bd8b8574dfbd93ffe1a1
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+=======
+      sha256: "6760eb5ef34589224771010805bea6054ad28453906936f843a8cc4d3a55c4a4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.12.0"
+>>>>>>> origin/DAAA
   permission_handler_windows:
     dependency: transitive
     description:
       name: permission_handler_windows
+<<<<<<< HEAD
       sha256: "1e8640c1e39121128da6b816d236e714d2cf17fac5a105dd6acdd3403a628004"
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+=======
+      sha256: cc074aace208760f1eee6aa4fae766b45d947df85bc831cde77009cdb4720098
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.3"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      sha256: eeb2d1428ee7f4170e2bd498827296a18d4e7fc462b71727d111c0ac7707cfa6
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.1"
+>>>>>>> origin/DAAA
   pin_code_fields:
     dependency: "direct main"
     description:
@@ -980,18 +1169,32 @@ packages:
     dependency: transitive
     description:
       name: plugin_platform_interface
+<<<<<<< HEAD
       sha256: f4f88d4a900933e7267e2b353594774fc0d07fb072b47eedcd5b54e1ea3269f8
       url: "https://pub.dev"
     source: hosted
     version: "2.1.7"
+=======
+      sha256: da3fdfeccc4d4ff2da8f8c556704c08f912542c5fb3cf2233ed75372384a034d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.6"
+>>>>>>> origin/DAAA
   provider:
     dependency: "direct main"
     description:
       name: provider
+<<<<<<< HEAD
       sha256: "9a96a0a19b594dbc5bf0f1f27d2bc67d5f95957359b461cd9feb44ed6ae75096"
       url: "https://pub.dev"
     source: hosted
     version: "6.1.1"
+=======
+      sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.5"
+>>>>>>> origin/DAAA
   recase:
     dependency: transitive
     description:
@@ -1001,7 +1204,11 @@ packages:
     source: hosted
     version: "4.1.0"
   record:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: transitive
+>>>>>>> origin/DAAA
     description:
       name: record
       sha256: f703397f5a60d9b2b655b3acc94ba079b2d9a67dc0725bdb90ef2fee2441ebf7
@@ -1084,10 +1291,17 @@ packages:
     dependency: transitive
     description:
       name: scrollview_observer
+<<<<<<< HEAD
       sha256: "72b806ea64d446efffac1000c0e0c0b03b06ce019b0fcc7d24d3b1f86e93fb0d"
       url: "https://pub.dev"
     source: hosted
     version: "1.18.2"
+=======
+      sha256: "3e736a2bd81a3d59f9d1f16b913d3b46f52bef301442f929389d72bbaad1cee8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.17.0"
+>>>>>>> origin/DAAA
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1132,10 +1346,17 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_web
+<<<<<<< HEAD
       sha256: "7b15ffb9387ea3e237bb7a66b8a23d2147663d391cafc5c8f37b2e7b4bde5d21"
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+=======
+      sha256: d762709c2bbe80626ecc819143013cc820fa49ca5e363620ee20a8b15a3e3daf
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.1"
+>>>>>>> origin/DAAA
   shared_preferences_windows:
     dependency: transitive
     description:
@@ -1185,10 +1406,17 @@ packages:
     dependency: transitive
     description:
       name: sqflite_common
+<<<<<<< HEAD
       sha256: bb4738f15b23352822f4c42a531677e5c6f522e079461fd240ead29d8d8a54a6
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0+2"
+=======
+      sha256: "1b92f368f44b0dee2425bb861cfa17b6f6cf3961f762ff6f941d20b33355660a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.0"
+>>>>>>> origin/DAAA
   stack_trace:
     dependency: transitive
     description:
@@ -1281,10 +1509,17 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
+<<<<<<< HEAD
       sha256: b1c9e98774adf8820c96fbc7ae3601231d324a7d5ebd8babe27b6dfac91357ba
       url: "https://pub.dev"
     source: hosted
     version: "6.2.1"
+=======
+      sha256: "47e208a6711459d813ba18af120d9663c20bdf6985d6ad39fe165d2538378d27"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.14"
+>>>>>>> origin/DAAA
   url_launcher_android:
     dependency: transitive
     description:
@@ -1297,10 +1532,17 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
+<<<<<<< HEAD
       sha256: bba3373219b7abb6b5e0d071b0fe66dfbe005d07517a68e38d4fc3638f35c6d3
       url: "https://pub.dev"
     source: hosted
     version: "6.2.1"
+=======
+      sha256: "4ac97281cf60e2e8c5cc703b2b28528f9b50c8f7cebc71df6bdf0845f647268a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.0"
+>>>>>>> origin/DAAA
   url_launcher_linux:
     dependency: transitive
     description:
@@ -1329,10 +1571,17 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_web
+<<<<<<< HEAD
       sha256: "138bd45b3a456dcfafc46d1a146787424f8d2edfbf2809c9324361e58f851cf7"
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+=======
+      sha256: ba140138558fcc3eead51a1c42e92a9fb074a1b1149ed3c73e66035b2ccd94f2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.19"
+>>>>>>> origin/DAAA
   url_launcher_windows:
     dependency: transitive
     description:
@@ -1349,6 +1598,33 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+<<<<<<< HEAD
+=======
+  vector_graphics:
+    dependency: transitive
+    description:
+      name: vector_graphics
+      sha256: "0f0c746dd2d6254a0057218ff980fc7f5670fd0fcf5e4db38a490d31eed4ad43"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.9+1"
+  vector_graphics_codec:
+    dependency: transitive
+    description:
+      name: vector_graphics_codec
+      sha256: "0edf6d630d1bfd5589114138ed8fada3234deacc37966bec033d3047c29248b7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.9+1"
+  vector_graphics_compiler:
+    dependency: transitive
+    description:
+      name: vector_graphics_compiler
+      sha256: d24333727332d9bd20990f1483af4e09abdb9b1fc7c3db940b56ab5c42790c26
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.9+1"
+>>>>>>> origin/DAAA
   vector_math:
     dependency: transitive
     description:
@@ -1361,10 +1637,17 @@ packages:
     dependency: "direct main"
     description:
       name: video_player
+<<<<<<< HEAD
       sha256: e16f0a83601a78d165dabc17e4dac50997604eb9e4cc76e10fa219046b70cef3
       url: "https://pub.dev"
     source: hosted
     version: "2.8.1"
+=======
+      sha256: "74b86e63529cf5885130c639d74cd2f9232e7c8a66cbecbddd1dcb9dbd060d1e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.7.2"
+>>>>>>> origin/DAAA
   video_player_android:
     dependency: transitive
     description:
@@ -1377,10 +1660,17 @@ packages:
     dependency: transitive
     description:
       name: video_player_avfoundation
+<<<<<<< HEAD
       sha256: bc923884640d6dc403050586eb40713cdb8d1d84e6886d8aca50ab04c59124c2
       url: "https://pub.dev"
     source: hosted
     version: "2.5.2"
+=======
+      sha256: bf1a1322bf68bccd349982ba1f5a41314a3880861fb9a93d25d6d0a2345845f0
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.11"
+>>>>>>> origin/DAAA
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -1393,10 +1683,17 @@ packages:
     dependency: transitive
     description:
       name: video_player_web
+<<<<<<< HEAD
       sha256: ab7a462b07d9ca80bed579e30fb3bce372468f1b78642e0911b10600f2c5cb5b
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+=======
+      sha256: "9c34a243785feca23148bfcd772dbb803d63c9304488177ec4f3f4463802fcb7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.17"
+>>>>>>> origin/DAAA
   wave:
     dependency: "direct main"
     description:
@@ -1409,18 +1706,32 @@ packages:
     dependency: transitive
     description:
       name: web
+<<<<<<< HEAD
       sha256: afe077240a270dcfd2aafe77602b4113645af95d0ad31128cc02bce5ac5d5152
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
+=======
+      sha256: dc8ccd225a2005c1be616fe02951e2e342092edf968cf0844220383757ef8f10
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4-beta"
+>>>>>>> origin/DAAA
   win32:
     dependency: transitive
     description:
       name: win32
+<<<<<<< HEAD
       sha256: b0f37db61ba2f2e9b7a78a1caece0052564d1bc70668156cf3a29d676fe4e574
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
+=======
+      sha256: "350a11abd2d1d97e0cc7a28a81b781c08002aa2864d9e3f192ca0ffa18b06ed3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.9"
+>>>>>>> origin/DAAA
   xdg_directories:
     dependency: transitive
     description:
@@ -1429,6 +1740,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
+<<<<<<< HEAD
 sdks:
   dart: ">=3.2.0 <4.0.0"
   flutter: ">=3.16.0"
+=======
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      sha256: af5e77e9b83f2f4adc5d3f0a4ece1c7f45a2467b695c2540381bac793e34e556
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.4.2"
+sdks:
+  dart: ">=3.1.3 <4.0.0"
+  flutter: ">=3.10.0"
+>>>>>>> origin/DAAA
