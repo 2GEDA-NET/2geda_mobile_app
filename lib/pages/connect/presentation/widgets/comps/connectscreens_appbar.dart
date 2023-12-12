@@ -39,6 +39,10 @@ class _MAppBarState extends State<MAppBar> {
           height: 40,
         ),
       ),
+      title: const Text(
+        'Connect with other users',
+        style: TextStyle(color: Colors.black),
+      ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 24),

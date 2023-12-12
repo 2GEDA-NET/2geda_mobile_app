@@ -4,6 +4,7 @@ import 'package:_2geda/SideBar/bloc_navigation/navigation_bloc.dart';
 import 'package:_2geda/pages/businessDirectoryPages/business_directory.dart';
 import 'package:_2geda/pages/chatPages/chat.dart';
 import 'package:_2geda/pages/commercePages/commerce.dart';
+import 'package:_2geda/pages/connect/presentation/connect.dart';
 import 'package:_2geda/pages/connectPages/connect.dart';
 import 'package:_2geda/pages/educationPages/education.dart';
 import 'package:_2geda/pages/homeScreens/home_screen.dart';
@@ -35,7 +36,7 @@ class SideBarLayout extends StatelessWidget {
                 if (state == NavigationStates.HomeScreenState) {
                   return const HomeScreen(); // Return your HomeScreen widget here.
                 } else if (state == NavigationStates.ConnectScreenState) {
-                  return const ConnectScreen(); // Return another screen widget here.
+                  return const ConnectWithOtherUsers(); // Return another screen widget here.
                 } else if (state == NavigationStates.CommerceScreenState) {
                   return const CommerceScreen();
                 } else if (state ==

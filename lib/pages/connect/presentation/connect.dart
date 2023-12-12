@@ -4,10 +4,8 @@ import 'package:_2geda/pages/connect/presentation/widgets/status_screen.dart';
 import 'package:_2geda/utils/constant/app_color.dart';
 import 'package:_2geda/pages/connect/presentation/widgets/comps/connectscreens_appbar.dart';
 import 'package:_2geda/utils/globals/searc_field.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
 import '../data/story_model.dart';

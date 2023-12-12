@@ -1,11 +1,8 @@
-import 'package:_2geda/pages/connect/data/get_conct_model.dart';
 import 'package:_2geda/pages/connect/data/story_model.dart';
 import 'package:_2geda/pages/connect/presentation/widgets/comps/bars.dart';
-import 'package:_2geda/pages/connect/providers/getconnectprov.dart';
 import 'package:_2geda/pages/connect/services/getconnect_srv.dart';
 import 'package:_2geda/utils/constant/app_color.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
 final GetConnectNotifier cnnctProvider = GetConnectNotifier();
