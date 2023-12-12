@@ -1,0 +1,31 @@
+import 'package:_2geda/models/payment.dart';
+
+List<Payment> paymentData = [
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  Payment(title: "Withdrawal", timestamp: "Aug 24, 1:05 PM", amount: 5000.00, status: "Successful"),
+  // Add more payment data entries here
+];
