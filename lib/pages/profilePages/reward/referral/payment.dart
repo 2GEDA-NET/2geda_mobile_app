@@ -1,3 +1,4 @@
+import 'package:_2geda/SideBar/sidebar_layout.dart';
 import 'package:flutter/material.dart';
 
 class RewardPayment extends StatefulWidget {
@@ -100,11 +101,11 @@ class _RewardPaymentState extends State<RewardPayment> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                       border: Border.all(width: 1),
                       borderRadius: BorderRadius.circular(10)),
@@ -117,7 +118,7 @@ class _RewardPaymentState extends State<RewardPayment> {
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           )),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       DropdownButtonFormField<String>(
@@ -165,7 +166,7 @@ class _RewardPaymentState extends State<RewardPayment> {
                           size: 30, // Adjust the icon size
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
@@ -184,7 +185,7 @@ class _RewardPaymentState extends State<RewardPayment> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
@@ -203,14 +204,16 @@ class _RewardPaymentState extends State<RewardPayment> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Center(
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showWithdrawDialog(context);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff4e0ca2),
                               shape: RoundedRectangleBorder(
@@ -228,7 +231,7 @@ class _RewardPaymentState extends State<RewardPayment> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Image.asset("assets/banner2.png")
@@ -236,5 +239,61 @@ class _RewardPaymentState extends State<RewardPayment> {
             ),
           ),
         ));
+  }
+
+  void showWithdrawDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Image.asset("assets/success.png", height: 200,),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.13,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                
+                const Text(
+                  "Your withdrawal request has been recieved and is being processed",
+                  style: TextStyle(
+                    fontSize: 12.863874435424805,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(
+                          context,
+                        );
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SideBarLayout(),
+                        ),
+                      );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xff4e0ca2),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        // padding: const EdgeInsets.symmetric(vertical: 20),
+                      ),
+                      child: const Text("Confirm request",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white))),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
