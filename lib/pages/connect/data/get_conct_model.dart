@@ -14,11 +14,11 @@ class GetConnectModel {
   });
 
   final int? id;
-  final String? email;
+  final dynamic email;
   final bool? isBusiness;
   final bool? isPersonal;
   final bool? isAdmin;
-  final String? username;
+  final dynamic username;
   final int? phoneNumber;
   final bool? isVerified;
   final List<Media> media;
@@ -68,7 +68,7 @@ class CoverImage {
   });
 
   final int? id;
-  final String? coverImage;
+  final dynamic coverImage;
   final int? user;
 
   factory CoverImage.fromJson(Map<String, dynamic> json) {
@@ -94,7 +94,7 @@ class Media {
   });
 
   final int? id;
-  final String? profileImage;
+  final dynamic profileImage;
   final int? user;
 
   factory Media.fromJson(Map<String, dynamic> json) {

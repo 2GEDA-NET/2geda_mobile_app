@@ -4,7 +4,8 @@ import 'package:_2geda/pages/connect/data/get_conct_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class GetConnectNotifier extends ValueNotifier<DataState<GetConnectModel>> {
+class GetConnectNotifier
+    extends ValueNotifier<DataState<List<GetConnectModel>>> {
   GetConnectNotifier() : super(DataState.loading());
 
   Future fetchData() async {
@@ -20,10 +21,19 @@ class GetConnectNotifier extends ValueNotifier<DataState<GetConnectModel>> {
           headers: serviceHeaders);
 
       if (response.statusCode == 200) {
-        final apiResponse =
-            GetConnectModel.fromJson(json.decode(response.body));
-        print('Suvvvvvvvvvvvvvvvvv');
-        return apiResponse;
+        final dynamic responseData = jsonDecode(response.body);
+
+        if (responseData is List<dynamic>) {
+          final List<dynamic> userList = responseData;
+          final List<GetConnectModel> modelsList = userList
+              .map((userData) => GetConnectModel.fromJson(userData))
+              .toList();
+
+          value = DataState.loaded(modelsList);
+          print('Data loaded successfully');
+
+          return modelsList;
+        }
       } else {
         throw Exception('Failed to load data');
       }
