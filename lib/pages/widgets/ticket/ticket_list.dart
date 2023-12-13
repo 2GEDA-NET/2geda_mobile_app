@@ -51,24 +51,26 @@ class _TicketListWidgetState extends State<TicketListWidget> {
   }
 
   Widget buildTicketList() {
-    List<Widget> ticketWidgets = [];
+  List<Widget> eventWidgets = [];
 
-    for (int index = 0; index < tickets.length; index++) {
-      Ticket ticket = tickets[index];
+  for (int index = 0; index < tickets.length; index++) {
+    Ticket currentTicket = tickets[index];
 
-      ticketWidgets.add(TicketWidget(
-        coverImageUrl: ticket.coverImageUrl,
-        title: ticket.title,
-        date: ticket.dateFormatted,
-        location: ticket.location,
-      ));
-    }
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: ticketWidgets,
-      ),
-    );
+    eventWidgets.add(TicketWidget(
+      coverImageUrl: currentTicket.event.image, // assuming you have an 'event' property in your Ticket model
+      title: currentTicket.event.title,
+      date: currentTicket.event.date,
+      location: currentTicket.event.location ?? currentTicket.event.platform,
+    ));
   }
+
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      children: eventWidgets,
+    ),
+  );
+}
+
+    
 }

@@ -18,8 +18,6 @@ class PostHeaderState extends State<PostHeader> {
 
   @override
   Widget build(BuildContext context) {
-    print('Time since: ${widget.post.timeSince}');
-    
     return Row(
       children: [
         ProfileAvatar(

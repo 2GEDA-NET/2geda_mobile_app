@@ -1,4 +1,3 @@
-import 'package:_2geda/data/ticket_data.dart';
 import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/ticketPages/event_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,7 +11,7 @@ class TicketList2Widget extends StatefulWidget {
 }
 
 class _TicketList2WidgetState extends State<TicketList2Widget> {
-  late List<Ticket> tickets = ticketsData; // Use the imported data
+  late List<Event> eventData; // Use the imported data
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +21,14 @@ class _TicketList2WidgetState extends State<TicketList2Widget> {
   Widget buildTicketList() {
     List<Widget> ticketWidgets = [];
 
-    for (int index = 0; index < tickets.length; index++) {
-      Ticket ticket = tickets[index];
+    for (int index = 0; index < eventData.length; index++) {
+      Event event = eventData[index];
 
       ticketWidgets.add(TicketWidget2(
-        coverImageUrl: ticket.coverImageUrl,
-        title: ticket.title,
-        date: ticket.date.toLocal().toString(),
-        location: ticket.location,
+        coverImageUrl: event.image,
+        title: event.title,
+        date: event.date.toLocal().toString(),
+        location: event.location ?? event.platform,
       ));
     }
 

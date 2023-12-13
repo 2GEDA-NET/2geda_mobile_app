@@ -1,5 +1,3 @@
-// account_screen.dart
-
 import 'package:_2geda/pages/ticketPages/sellTicket/create_event.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/my_event.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/request_withdrawal.dart';

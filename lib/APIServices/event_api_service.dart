@@ -47,16 +47,16 @@ class TicketApiService {
     XFile? selectedImage,
   }) async {
     try {
-       var request = http.MultipartRequest(
+      var request = http.MultipartRequest(
         'POST',
         Uri.parse('$baseUrl/ticket/events/'),
       );
 
       request.headers['Authorization'] = 'Token $authToken';
-      request.headers['Content-Type'] = 'application/json';
 
       print('Request Headers: ${request.headers}');
 
+      // Add form data
       request.fields['title'] = title;
       request.fields['desc'] = description;
       request.fields['platform'] = platform;
@@ -77,25 +77,17 @@ class TicketApiService {
 
       var response = await request.send();
 
-      // Check for a successful response (status code 2xx)
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        // Parse the response if necessary
-        // You might want to decode the response depending on your API
-        // For example, if your API returns JSON, you could do:
         var jsonResponse = json.decode(await response.stream.bytesToString());
-
-        // Form submission was successful
-        return true;
+        return true; // Return a value for success
       } else {
-        // Form submission failed
         print('Error: ${response.statusCode}');
         print('Body: ${await response.stream.bytesToString()}');
-        return false;
+        return false; // Return a value for failure
       }
     } catch (e) {
-      // Exception occurred during form submission
       print('Exception: $e');
-      return false;
+      return false; // Return a value for exception
     }
   }
 }

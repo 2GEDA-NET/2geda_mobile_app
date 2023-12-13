@@ -1,86 +1,4 @@
-import 'package:intl/intl.dart';
-
-class Ticket {
-  final int id;
-  final String coverImageUrl;
-  final String title;
-  final DateTime date;
-  final String description;
-  final String location;
-  final String dateFormatted; // Add this line
-
-  Ticket({
-    required this.id,
-    required this.coverImageUrl,
-    required this.title,
-    required this.date,
-    required this.description,
-    required this.location,
-    required this.dateFormatted,
-  });
-
-  factory Ticket.fromJson(Map<String, dynamic> json) {
-    final DateFormat formatter = DateFormat('EEE, dd MMM yyyy, h:mm a');
-
-    return Ticket(
-      id: json['id'] ?? 0,
-      coverImageUrl: json['coverImageUrl'] ?? 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZXZlbnR8ZW58MHx8MHx8fDA%3D',
-      title: json['title'] ?? '',
-      date:
-          json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
-      description: json['description'] ?? '',
-      location: json['location'] ?? '',
-      dateFormatted: json['date'] != null
-          ? formatter.format(DateTime.parse(json['date']))
-          : '', // Format the date if it's not null, otherwise use an empty string
-    );
-  }
-}
-
-class Event {
-  final String id;
-  final String title;
-  final String description;
-  final DateTime date;
-  final String location;
-  final Ticket ticket;
-
-  Event({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.date,
-    required this.location,
-    required this.ticket,
-  });
-
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
-      id: json['id'].toString(),
-      title: json['title'] ?? '',
-      description: json['desc'] ?? '',
-      date:
-          json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
-      location: json['location'] ?? '',
-      ticket: Ticket.fromJson(json['ticket'] ?? {}),
-    );
-  }
-
-  Ticket toTicket() {
-    final DateFormat formatter = DateFormat('EEE, dd MMM yyyy, h:mm a');
-
-    return Ticket(
-      id: int.parse(id),
-      coverImageUrl:
-          '', // Add the correct property from Event or adjust accordingly
-      title: title,
-      date: DateTime.parse(date.toIso8601String()),
-      description: description,
-      location: location,
-      dateFormatted: formatter.format(date), // Format the date as needed
-    );
-  }
-}
+import 'dart:convert';
 
 class TicketData {
   final String name;
@@ -90,4 +8,125 @@ class TicketData {
   final String price;
 
   TicketData(this.name, this.id, this.ticketType, this.date, this.price);
+}
+
+class Event {
+  int id;
+  List<dynamic> attendees;
+  dynamic image;
+  String title;
+  String desc;
+  String platform;
+  Category category;
+  DateTime date;
+  Ticket ticket;
+  String? location;
+  dynamic url;
+
+  Event({
+    required this.id,
+    required this.attendees,
+    required this.image,
+    required this.title,
+    required this.desc,
+    required this.platform,
+    required this.category,
+    required this.date,
+    required this.ticket,
+    required this.location,
+    required this.url,
+  });
+
+  factory Event.fromRawJson(String str) => Event.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Event.fromJson(Map<String, dynamic> json) => Event(
+        id: json["id"],
+        attendees: List<dynamic>.from(json["attendees"].map((x) => x)),
+        image: json["image"],
+        title: json["title"],
+        desc: json["desc"],
+        platform: json["platform"],
+        category: Category.fromJson(json["category"]),
+        date: DateTime.parse(json["date"]),
+        ticket: Ticket.fromJson(json["ticket"]),
+        location: json["location"],
+        url: json["url"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "attendees": List<dynamic>.from(attendees.map((x) => x)),
+        "image": image,
+        "title": title,
+        "desc": desc,
+        "platform": platform,
+        "category": category.toJson(),
+        "date": date.toIso8601String(),
+        "ticket": ticket.toJson(),
+        "location": location,
+        "url": url,
+      };
+}
+
+class Category {
+  int id;
+  String name;
+  dynamic image;
+
+  Category({
+    required this.id,
+    required this.name,
+    required this.image,
+  });
+
+  factory Category.fromRawJson(String str) =>
+      Category.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+        id: json["id"],
+        name: json["name"],
+        image: json["image"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "image": image,
+      };
+}
+
+class Ticket {
+  String category;
+  int price;
+  int quantity;
+  bool isSold;
+
+  Ticket({
+    required this.category,
+    required this.price,
+    required this.quantity,
+    required this.isSold,
+  });
+
+  factory Ticket.fromRawJson(String str) => Ticket.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Ticket.fromJson(Map<String, dynamic> json) => Ticket(
+        category: json["category"],
+        price: json["price"],
+        quantity: json["quantity"],
+        isSold: json["is_sold"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "category": category,
+        "price": price,
+        "quantity": quantity,
+        "is_sold": isSold,
+      };
 }
