@@ -135,7 +135,7 @@ class _MAppBarState extends State<MAppBar> {
                                   : const Color(0xFF4E0CA2),
                               onPressed: () {
                                 genderCheck.value = 'Male';
-                                setState(() {});
+
                                 print(genderCheck.value);
                               },
                               titl: 'Male',
@@ -155,7 +155,7 @@ class _MAppBarState extends State<MAppBar> {
                                   : const Color(0xFF4E0CA2),
                               onPressed: () {
                                 genderCheck.value = 'Female';
-                                setState(() {});
+
                                 print(genderCheck.value);
                               },
                               titl: 'Female',
@@ -175,7 +175,7 @@ class _MAppBarState extends State<MAppBar> {
                                   : const Color(0xFF4E0CA2),
                               onPressed: () {
                                 genderCheck.value = 'Others';
-                                setState(() {});
+
                                 print(genderCheck.value);
                               },
                               titl: 'Others',
@@ -293,9 +293,8 @@ class _MAppBarState extends State<MAppBar> {
                             return Checkbox(
                               value: isChecked.value,
                               onChanged: (bool? val) {
-                                setState(() {
-                                  isChecked.value = val ?? false;
-                                });
+                                isChecked.value = val ?? false;
+
                                 print(isChecked.value.toString());
                               },
                             );
@@ -315,6 +314,7 @@ class _MAppBarState extends State<MAppBar> {
                                 location: 'location',
                                 gender: 'gender',
                                 verifiedAccount: true);
+                            Navigator.pop(context);
                           },
                     child: Container(
                       height: 45,
