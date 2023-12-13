@@ -79,6 +79,7 @@ dependencies:
   flutter_svg: ^2.0.9
   dots_indicator: ^3.0.0
   flutter_card_swiper: ^6.0.0
+  story_view: ^0.16.0
 
 dev_dependencies:
   flutter_test:

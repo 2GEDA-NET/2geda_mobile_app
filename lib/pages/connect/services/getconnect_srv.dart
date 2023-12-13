@@ -31,6 +31,7 @@ class GetConnectNotifier
 
           value = DataState.loaded(modelsList);
           print('Data loaded successfully');
+          print(modelsList[0].media[0].profileImage);
 
           return modelsList;
         }
