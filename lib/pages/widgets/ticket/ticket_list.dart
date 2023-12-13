@@ -12,7 +12,7 @@ class TicketListWidget extends StatefulWidget {
 }
 
 class _TicketListWidgetState extends State<TicketListWidget> {
-  late List<Ticket> tickets = []; // Initialize tickets as an empty list
+  late List<Event> events = []; // Initialize tickets as an empty list
   final TokenManager tokenManager = TokenManager();
   String? authToken;
   @override
@@ -30,13 +30,13 @@ class _TicketListWidgetState extends State<TicketListWidget> {
       authToken = await tokenManager.getToken();
 
       // Fetch tickets from the API
-      List<Ticket> fetchedTickets =
+      List<Event> fetchedTickets =
           await ticketApiService.getTickets(authToken!);
 
       // Update the state with the fetched tickets
       if (mounted) {
         setState(() {
-          tickets = fetchedTickets.cast<Ticket>();
+          events = fetchedTickets.cast<Event>();
         });
       }
     } catch (e) {
@@ -51,26 +51,26 @@ class _TicketListWidgetState extends State<TicketListWidget> {
   }
 
   Widget buildTicketList() {
-  List<Widget> eventWidgets = [];
+    List<Widget> eventWidgets = [];
 
-  for (int index = 0; index < tickets.length; index++) {
-    Ticket currentTicket = tickets[index];
+    for (int index = 0; index < events.length; index++) {
+      Event currentEvent = events[index];
 
-    eventWidgets.add(TicketWidget(
-      coverImageUrl: currentTicket.event.image, // assuming you have an 'event' property in your Ticket model
-      title: currentTicket.event.title,
-      date: currentTicket.event.date,
-      location: currentTicket.event.location ?? currentTicket.event.platform,
-    ));
+      eventWidgets.add(TicketWidget(
+        coverImageUrl: currentEvent
+            .image ?? '', // assuming you have an 'event' property in your Ticket model
+        title: currentEvent.title,
+        date: currentEvent.date.toString(),
+
+        location: currentEvent.location ?? currentEvent.platform,
+      ));
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: eventWidgets,
+      ),
+    );
   }
-
-  return SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(
-      children: eventWidgets,
-    ),
-  );
-}
-
-    
 }

@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 class TicketApiService {
   final String baseUrl = ApiConfig.baseUrl;
 
-  Future<List<Ticket>> getTickets(String authToken) async {
+  Future<List<Event>> getTickets(String authToken) async {
     final response = await http.get(
       Uri.parse('$baseUrl/ticket/events'),
       headers: {
@@ -20,9 +20,9 @@ class TicketApiService {
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
 
-      List<Ticket> tickets = data.map((json) => Ticket.fromJson(json)).toList();
+      List<Event> events = data.map((json) => Event.fromJson(json)).toList();
 
-      return tickets;
+      return events;
     } else {
       throw Exception('Failed to load tickets');
     }

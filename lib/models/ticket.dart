@@ -44,7 +44,7 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) => Event(
         id: json["id"],
         attendees: List<dynamic>.from(json["attendees"].map((x) => x)),
-        image: json["image"],
+        image: json["image"] ?? 'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
         title: json["title"],
         desc: json["desc"],
         platform: json["platform"],

@@ -1,3 +1,4 @@
+import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/create_event.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/my_event.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/request_withdrawal.dart';
@@ -16,6 +17,7 @@ class SellTicketPage extends StatefulWidget {
 class _SellTicketPageState extends State<SellTicketPage> {
   String selectedValue = 'Monthly';
   String selectedMonth = "August"; // Default month
+  List<Event> events = [];
 
   final List<String> months = [
     "January",
@@ -94,7 +96,9 @@ class _SellTicketPageState extends State<SellTicketPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MyEventsPage(),
+                          builder: (context) => MyEventsPage(
+                            events: events,
+                          ),
                         ),
                       );
                     },
@@ -308,8 +312,7 @@ class _SellTicketPageState extends State<SellTicketPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const RequestWithdrawal()
-                          ),
+                              builder: (context) => const RequestWithdrawal()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
