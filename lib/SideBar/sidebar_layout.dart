@@ -9,6 +9,7 @@ import 'package:_2geda/pages/connectPages/connect.dart';
 import 'package:_2geda/pages/educationPages/education.dart';
 import 'package:_2geda/pages/homeScreens/home_screen.dart';
 import 'package:_2geda/pages/homeScreens/searchPages/search_screen.dart';
+import 'package:_2geda/pages/tvPages/tv_home.dart';
 import 'package:_2geda/pages/walletPages/wallet.dart';
 import 'package:_2geda/pages/widgets/posts/post_details.dart';
 import 'package:_2geda/pages/livePages/live.dart';
@@ -48,6 +49,8 @@ class SideBarLayout extends StatelessWidget {
                   return const ProfileScreen();
                 } else if (state == NavigationStates.TicketPageState) {
                   return const TicketPage();
+                } else if (state == NavigationStates.TvScreenState) {
+                  return const TvScreen();
                 } else if (state == NavigationStates.LiveScreenState) {
                   return const LiveScreen();
                 } else if (state == NavigationStates.StereoScreenState) {
@@ -59,9 +62,9 @@ class SideBarLayout extends StatelessWidget {
                 } else if (state == NavigationStates.PostDetailScreenState) {
                   // return PostDetailsPage();
                 } else if (state == NavigationStates.SearchPageScreenState) {
-                  return SearchScreen();
+                  return const SearchScreen();
                 }else if (state == NavigationStates.WalletPageScreenState) {
-                  return WalletScreen();
+                  return const WalletScreen();
                 }
                 // Handle other states or return a default widget.
                 return Container();

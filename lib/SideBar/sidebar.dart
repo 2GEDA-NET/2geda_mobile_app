@@ -204,7 +204,7 @@ class _SideBarState extends State<SideBar>
                           onTap: () {
                             onIconPressed();
                             // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.StereoClickedEvent);
+                            navigationBloc.add(NavigationEvents.TvClickedEvent);
 
                           },
                         ),

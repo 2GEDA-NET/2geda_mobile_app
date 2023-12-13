@@ -15,6 +15,7 @@ enum NavigationStates {
   ProfileScreenState,
   TicketPageState,
   LiveScreenState,
+  TvScreenState,
   StereoScreenState,
   VotingScreenState,
   EducationScreenState,
@@ -33,6 +34,7 @@ enum NavigationEvents {
   ProfileClickedEvent,
   TicketClickedEvent,
   LiveClickedEvent,
+  TvClickedEvent,
   StereoClickedEvent,
   VotingClickedEvent,
   EducationClickedEvent,
@@ -64,6 +66,8 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationStates> {
         emit(NavigationStates.TicketPageState);
       } else if (event == NavigationEvents.LiveClickedEvent) {
         emit(NavigationStates.LiveScreenState);
+      } else if (event == NavigationEvents.TvClickedEvent) {
+        emit(NavigationStates.TvScreenState);
       } else if (event == NavigationEvents.StereoClickedEvent) {
         emit(NavigationStates.StereoScreenState);
       } else if (event == NavigationEvents.VotingClickedEvent) {
@@ -98,6 +102,8 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationStates> {
       yield NavigationStates.TicketPageState;
     } else if (event == NavigationEvents.LiveClickedEvent) {
       yield NavigationStates.LiveScreenState;
+    } else if (event == NavigationEvents.TvClickedEvent) {
+      yield NavigationStates.TvScreenState;
     } else if (event == NavigationEvents.StereoClickedEvent) {
       yield NavigationStates.StereoScreenState;
     } else if (event == NavigationEvents.VotingClickedEvent) {
@@ -108,7 +114,7 @@ class NavigationBloc extends Bloc<NavigationEvents, NavigationStates> {
       yield NavigationStates.PostDetailScreenState;
     } else if (event == NavigationEvents.SearchPageClickEvent) {
       yield NavigationStates.SearchPageScreenState;
-    }else if (event == NavigationEvents.WalletPageClickEvent) {
+    } else if (event == NavigationEvents.WalletPageClickEvent) {
       yield NavigationStates.WalletPageScreenState;
     }
     // Handle other events...

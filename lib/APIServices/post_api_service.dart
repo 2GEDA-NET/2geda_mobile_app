@@ -226,7 +226,7 @@ class PostService {
     }
   }
 
-  Future<List<Comment>> getComments(String authToken, int postId) async {
+  Future<List<CommentText>> getComments(String authToken, int postId) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/feed/get-comment/$postId/'),
@@ -244,7 +244,7 @@ class PostService {
         if (data.isNotEmpty) {
           // Use Future.wait to wait for all the futures to complete
           return Future.wait(
-            data.map((json) async => Comment.fromJson(json)).toList(),
+            data.map((json) async => CommentText.fromJson(json)).toList(),
           );
         } else {
           // If the data is empty, return an empty list

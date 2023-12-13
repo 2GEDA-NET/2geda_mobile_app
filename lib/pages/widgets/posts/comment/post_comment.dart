@@ -15,7 +15,7 @@ class CommentSection extends StatefulWidget {
 }
 
 class _CommentSectionState extends State<CommentSection> {
-  late List<Comment> _comments = [];
+  late List<CommentText> _comments = [];
   final TokenManager tokenManager = TokenManager();
   final PostService postService = PostService();
   String? authToken;
@@ -39,7 +39,7 @@ class _CommentSectionState extends State<CommentSection> {
           'Fetching comments for post ID: ${widget.postId}, authToken: $authToken');
       // Fetch comments based on the post ID
 
-      List<Comment> comments =
+      List<CommentText> comments =
           await postService.getComments(authToken!, widget.postId);
       print('Fetched comments: $comments');
 
@@ -117,7 +117,7 @@ class _CommentSectionState extends State<CommentSection> {
 }
 
 class _CommentTile extends StatefulWidget {
-  final Comment comment;
+  final CommentText comment;
 
   const _CommentTile({required this.comment});
 
@@ -165,7 +165,7 @@ class _CommentTileState extends State<_CommentTile> {
 }
 
 class _CommentHeader extends StatefulWidget {
-  final Comment comment;
+  final CommentText comment;
 
   const _CommentHeader({
     required this.comment,
@@ -191,21 +191,9 @@ class _CommentHeaderState extends State<_CommentHeader> {
     authToken = await tokenManager.getToken();
     print('Auth Token: $authToken');
     print('Token $authToken');
-    await _fetchUserDetails(); // Call _fetchComments to initialize _comments list
-  }
-
-  Future<void> _fetchUserDetails() async {
-    try {
-      User userDetails =
-          await postService.fetchUserDetails(authToken!, widget.comment.userId);
-      setState(() {
-        _user = userDetails;
-      });
-    } catch (error) {
-      // Handle the error, show an error message, etc.
-      print('Error fetching user details: $error');
     }
-  }
+
+ 
 
   @override
   Widget build(BuildContext context) {

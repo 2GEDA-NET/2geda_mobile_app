@@ -102,15 +102,15 @@ class _PostContainerState extends State<PostContainer> {
                       post: widget.post,
                     ),
                     const SizedBox(height: 10.0),
-                    if (widget.post.content.isNotEmpty)
+                    if (widget.post.content!.isNotEmpty)
                       RichText(
                         text: TextSpan(
                           children: <TextSpan>[
                             TextSpan(
-                              text: paginateCaption(widget.post.content, 20),
+                              text: paginateCaption(widget.post.content ?? '', 20),
                               style: DefaultTextStyle.of(context).style,
                             ),
-                            if ((widget.post.content.split(' ').length) > 20 &&
+                            if ((widget.post.content!.split(' ').length) > 20 &&
                                 !showFullCaption)
                               TextSpan(
                                 text: ' Read More',
@@ -127,7 +127,8 @@ class _PostContainerState extends State<PostContainer> {
                           ],
                         ),
                       ),
-                    Text(widget.post.formattedHashtags)
+                  Text(widget.post.hashtags.map((hashtag) => hashtag.hashTags).join(', ')),
+
                   ],
                 ),
               ),

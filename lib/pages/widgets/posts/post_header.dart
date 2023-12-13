@@ -30,7 +30,7 @@ class PostHeaderState extends State<PostHeader> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.post.user.username,
+                widget.post.user!.username,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Color(0xff4e0ca2),
@@ -39,7 +39,7 @@ class PostHeaderState extends State<PostHeader> {
               Row(
                 children: [
                   Text(
-                    widget.post.user.work,
+                    widget.post.user!.address!.country,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 12.0,
@@ -51,7 +51,7 @@ class PostHeaderState extends State<PostHeader> {
           ),
         ),
         Text(
-          widget.post.formattedTimeSince,
+          widget.post.timeSince,
           style: TextStyle(
             color: Colors.grey[600],
             fontSize: 12.0,

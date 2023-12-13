@@ -149,8 +149,10 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.post.content),
-                            Text(widget.post.formattedHashtags)
+                            Text(widget.post.content ?? ''),
+                            Text(widget.post.hashtags
+                                .map((hashtag) => hashtag.hashTags)
+                                .join(', ')),
                           ],
                         )),
                     const SizedBox.shrink(),
@@ -190,7 +192,6 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
               height: 20,
             ),
             CommentSection(postId: widget.post.id),
-
           ],
         ),
       ),
