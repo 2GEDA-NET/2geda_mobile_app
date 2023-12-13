@@ -121,8 +121,14 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
       // Collect media files from the MediaUploadModel
       MediaUploadModel model =
           Provider.of<MediaUploadModel>(context, listen: false);
+      List<File> allMedia = model.getAllMedia();
 
       print('Media Upload Model before createPost: $model');
+
+      print('All Media Files:');
+      for (File file in allMedia) {
+        print(file.path);
+      }
       // Get all media files
       List<File> allMediaFiles = model.getAllMedia();
 

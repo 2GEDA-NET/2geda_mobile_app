@@ -7,7 +7,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:record/record.dart';
 import 'package:flutter/material.dart';
 
 // globals.dart
@@ -122,10 +121,19 @@ class _ContainerGridState extends State<ContainerGrid> {
                       Provider.of<MediaUploadModel>(context, listen: false)
                           .addImage(image);
 
+                      print(image.path);
+
                       // Print the model here to check if the image is added
                       MediaUploadModel model =
                           Provider.of<MediaUploadModel>(context, listen: false);
                       print('Media Upload Model after adding image: $model');
+
+                      List<File> allMedia = model.getAllMedia();
+
+                      print('All Media Files:');
+                      for (File file in allMedia) {
+                        print(file.path);
+                      }
                     }
                   },
                 ),

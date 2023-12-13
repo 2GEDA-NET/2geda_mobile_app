@@ -170,8 +170,7 @@ class PostService {
   ) async {
     try {
       final response = await http.post(
-        Uri.parse(
-            '$baseUrl/feed/react/post/'),
+        Uri.parse('$baseUrl/feed/react/post/'),
         headers: {
           'Authorization': 'Token $authToken',
           'Content-Type': 'application/json',
@@ -226,7 +225,7 @@ class PostService {
     }
   }
 
-  Future<List<CommentText>> getComments(String authToken, int postId) async {
+  Future<List<PostComment>> getComments(String authToken, int postId) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/feed/get-comment/$postId/'),
@@ -241,15 +240,9 @@ class PostService {
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
 
-        if (data.isNotEmpty) {
-          // Use Future.wait to wait for all the futures to complete
-          return Future.wait(
-            data.map((json) async => CommentText.fromJson(json)).toList(),
-          );
-        } else {
-          // If the data is empty, return an empty list
-          return [];
-        }
+        return data
+            .map<PostComment>((json) => PostComment.fromJson(json ?? {}))
+            .toList();
       } else {
         print('API Error: ${response.statusCode} - ${response.body}');
         throw Exception('Failed to load comments');

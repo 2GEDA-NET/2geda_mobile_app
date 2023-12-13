@@ -80,9 +80,8 @@ class _PostStatsState extends State<PostStats> {
                     ),
                     label: '${widget.post.likes}',
                     onTap: () {
-                      handleReactionSelection(
-                          'Like'); // Directly handle 'Like' reaction on tap
-                      Navigator.pop(context);
+                      handleReactionSelection('Like');
+                      
                     },
                     onLongPress: () {
                       showReactionMenu(
@@ -202,7 +201,7 @@ class _PostStatsState extends State<PostStats> {
     setState(() {
       selectedReaction = reaction; // Update the class-level variable
     });
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   void _showPostOptionsDialog(BuildContext context) {

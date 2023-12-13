@@ -191,7 +191,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
             const SizedBox(
               height: 20,
             ),
-            CommentSection(postId: widget.post.id),
+            CommentSection(commentText: widget.post.commentText),
           ],
         ),
       ),
@@ -219,7 +219,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                   print(filePath);
                   int postId =
                       widget.post.id; // Replace with the actual post ID
-                  String comment = textController.text;
+                  String comment = '';
                   List<String> filePaths = [
                     filePath!
                   ]; // Add the file paths as needed
@@ -256,7 +256,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 if (video != null) {
                   int postId =
                       widget.post.id; // Replace with the actual post ID
-                  String comment = textController.text;
+                  String comment = '';
                   List<String> filePaths = [
                     video.path
                   ]; // Add the file paths as needed
@@ -286,7 +286,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 if (image != null) {
                   int postId =
                       widget.post.id; // Replace with the actual post ID
-                  String comment = textController.text;
+                  String comment = '';
                   List<String> filePaths = [
                     image.path
                   ]; // Add the file paths as needed
