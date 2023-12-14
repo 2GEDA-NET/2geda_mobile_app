@@ -1,8 +1,50 @@
+import 'package:_2geda/APIServices/event_api_service.dart';
+import 'package:_2geda/models/ticket.dart';
+import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/ticket/ticket_card2.dart';
 import 'package:flutter/material.dart';
 
-class AllWeeklyEvents extends StatelessWidget {
+class AllWeeklyEvents extends StatefulWidget {
   const AllWeeklyEvents({super.key});
+
+  @override
+  State<AllWeeklyEvents> createState() => _AllWeeklyEventsState();
+}
+
+class _AllWeeklyEventsState extends State<AllWeeklyEvents> {
+  late List<Event> events = []; // Initialize tickets as an empty list
+
+  final TokenManager tokenManager = TokenManager();
+  String? authToken;
+  @override
+  void initState() {
+    super.initState();
+    _loadTickets();
+  }
+
+  Future<void> _loadTickets() async {
+    try {
+      // Instantiate the TicketApiService
+      TicketApiService ticketApiService = TicketApiService();
+
+      // Fetch the auth token
+      authToken = await tokenManager.getToken();
+
+      // Fetch tickets from the API
+      List<Event> fetchedTickets =
+          await ticketApiService.getTickets(authToken!);
+
+      // Update the state with the fetched tickets
+      if (mounted) {
+        setState(() {
+          events = fetchedTickets.cast<Event>();
+        });
+      }
+    } catch (e) {
+      // Handle errors, e.g., show an error message
+      print('Error loading tickets: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +87,9 @@ class AllWeeklyEvents extends StatelessWidget {
                   // Add any other properties and handlers as needed
                 ),
               ),
-              TicketList2Widget(),
-              
+              TicketList2Widget(
+                eventData: events,
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset('assets/banner2.png'),

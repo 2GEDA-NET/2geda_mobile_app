@@ -6,6 +6,9 @@ class CreateTicketStep extends StatefulWidget {
   final TextEditingController quantityController;
   final TextEditingController priceController;
   final TextEditingController categoryController;
+  final TextEditingController freeTicketController;
+  final TextEditingController paidTicketController;
+
   const CreateTicketStep({
     super.key,
     required this.formKey,
@@ -13,6 +16,8 @@ class CreateTicketStep extends StatefulWidget {
     required this.quantityController,
     required this.priceController,
     required this.categoryController,
+    required this.freeTicketController,
+    required this.paidTicketController,
   });
 
   @override
@@ -208,7 +213,7 @@ class _CreateTicketStepState extends State<CreateTicketStep> {
                     const Spacer(),
                     Expanded(
                       child: TextFormField(
-                        controller: widget.priceController,
+                        controller: _getSelectedController(),
                         readOnly: _selection[0] ? true : false,
                         decoration: InputDecoration(
                           labelStyle: const TextStyle(
@@ -310,5 +315,12 @@ class _CreateTicketStepState extends State<CreateTicketStep> {
         ],
       ),
     );
+  }
+
+  // New method to return the selected controller
+  TextEditingController _getSelectedController() {
+    return _selection[0]
+        ? widget.freeTicketController
+        : widget.paidTicketController;
   }
 }

@@ -1,8 +1,10 @@
+import 'package:_2geda/APIServices/event_api_service.dart';
 import 'package:_2geda/APIServices/post_api_service.dart';
 import 'package:_2geda/APIServices/stereo_api_service.dart';
 import 'package:_2geda/data/movie_data.dart';
 import 'package:_2geda/models/audio_model.dart';
 import 'package:_2geda/models/post_model.dart';
+import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/businessDir/business_list.dart';
 import 'package:_2geda/pages/widgets/movie/movie_caurosel.dart';
@@ -29,9 +31,11 @@ class AllTabContent extends StatefulWidget {
 
 class _AllTabContentState extends State<AllTabContent> {
   final PostService postService = PostService();
+  TicketApiService ticketApiService = TicketApiService();
   final StereoApiService stereoApiService = StereoApiService();
   final TokenManager tokenManager = TokenManager();
   String? authToken;
+  late List<Event> events = []; // Initialize tickets as an empty list
   List<Post> posts = [];
   List<AudioModel> audioList = [];
   bool isDataLoaded = false; // Add a flag to track whether data is loaded
@@ -41,6 +45,8 @@ class _AllTabContentState extends State<AllTabContent> {
   void initState() {
     super.initState();
     _loadAuthTokenAndFetchData();
+    _loadTickets();
+
     _scrollController.addListener(_onScroll);
   }
 
@@ -49,6 +55,7 @@ class _AllTabContentState extends State<AllTabContent> {
       authToken = await tokenManager.getToken();
       if (!isDataLoaded) {
         await fetchPosts(authToken!, 0); // Fetch the initial set of posts
+        fetchAudioListFromAI(authToken!);
         if (mounted) {
           setState(() {
             isDataLoaded = true;
@@ -57,6 +64,29 @@ class _AllTabContentState extends State<AllTabContent> {
       }
     } catch (e) {
       print('Error fetching data: $e');
+    }
+  }
+
+  Future<void> _loadTickets() async {
+    try {
+      // Instantiate the TicketApiService
+
+      // Fetch the auth token
+      authToken = await tokenManager.getToken();
+
+      // Fetch tickets from the API
+      List<Event> fetchedTickets =
+          await ticketApiService.getTickets(authToken!);
+
+      // Update the state with the fetched tickets
+      if (mounted) {
+        setState(() {
+          events = fetchedTickets.cast<Event>();
+        });
+      }
+    } catch (e) {
+      // Handle errors, e.g., show an error message
+      print('Error loading tickets: $e');
     }
   }
 
@@ -165,7 +195,7 @@ class _AllTabContentState extends State<AllTabContent> {
                 .map((post) => PostContainer(post: post))
                 .toList(),
             // TicketWidget(),
-            const TicketListWidget(),
+             TicketListWidget(events: events,),
             // SizedBox(height: 24), // Remove "const" here
             ...posts
                 .skip(widget.currentIndex == 0
@@ -247,10 +277,7 @@ class _AllTabContentState extends State<AllTabContent> {
             ),
 
             // ...posts.map((post) => PostContainer(post: post)).toList(),
-            ...posts
-                .take(5)
-                .map((post) => PostContainer(post: post))
-                .toList(),
+            ...posts.take(5).map((post) => PostContainer(post: post)).toList(),
             // Define the content specific to the "All" tab here
           ],
         ),

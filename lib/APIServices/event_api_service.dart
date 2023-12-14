@@ -43,6 +43,8 @@ class TicketApiService {
     required String price,
     required bool isPrivate,
     required bool isPublic,
+    required bool isPaid,
+    required bool isFree,
     required bool showRemainingTicket,
     XFile? selectedImage,
   }) async {
@@ -60,16 +62,19 @@ class TicketApiService {
       request.fields['title'] = title;
       request.fields['desc'] = description;
       request.fields['platform'] = platform;
+      request.fields['events_category_name'] = category;
       request.fields['url'] = websiteUrl;
       request.fields['location'] = address;
-      request.fields['ticket[category]'] = ticketName;
-      request.fields['ticket[price]'] = price.toString();
-      request.fields['ticket[quantity]'] = quantity.toString();
+      request.fields['is_paid'] = isPaid.toString();
+      // request.fields['is_free'] = isFree.toString();
+      request.fields['ticket_category'] = ticketName;
+      request.fields['ticket_price'] = price.toString();
+      request.fields['ticket_quantity'] = quantity.toString();
 
       // Add image file if available
       if (selectedImage != null) {
         var file = await http.MultipartFile.fromPath(
-          'image',
+          'events_category_image',
           selectedImage.path,
         );
         request.files.add(file);

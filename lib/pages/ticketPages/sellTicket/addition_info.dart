@@ -106,7 +106,7 @@ class _AdditionalInfoStepState extends State<AdditionalInfoStep> {
                         fontWeight: FontWeight.w400,
                       )),
                   Text(
-                      "Your event can be found by anyone on our app, our\npromotion partners, and search engines",
+                      "Your event can be found by anyone on our app\nour promotion partners, and search engines",
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -143,7 +143,7 @@ class _AdditionalInfoStepState extends State<AdditionalInfoStep> {
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       )),
-                  Text("Only people you share invite link can find your event",
+                  Text("Only people you share invite link can find\nyour event",
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,

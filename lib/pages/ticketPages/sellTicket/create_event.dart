@@ -46,6 +46,9 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController freeTicketController = TextEditingController();
+  TextEditingController paidTicketController = TextEditingController();
+
   TextEditingController categoryController = TextEditingController();
   TextEditingController feeSettingCategoryController = TextEditingController();
   TextEditingController showRemainingTicketController = TextEditingController();
@@ -127,6 +130,8 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
           showRemainingTicket:
               showRemainingTicketController.text.toLowerCase() == 'true',
           authToken: authToken!,
+          isFree: freeTicketController.text.toLowerCase() == 'true',
+          isPaid: freeTicketController.text.toLowerCase() == 'true',
 
           // Add other necessary form fields
         );
@@ -240,6 +245,8 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                     quantityController: quantityController,
                     priceController: priceController,
                     categoryController: categoryController,
+                    freeTicketController: freeTicketController,
+                    paidTicketController: paidTicketController,
                   ),
                   isActive: currentStep == 1,
                 ),

@@ -4,14 +4,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class TicketList2Widget extends StatefulWidget {
-  const TicketList2Widget({super.key});
+  late List<Event> eventData;
+
+  TicketList2Widget({super.key, required this.eventData});
 
   @override
   _TicketList2WidgetState createState() => _TicketList2WidgetState();
 }
 
 class _TicketList2WidgetState extends State<TicketList2Widget> {
-  late List<Event> eventData; // Use the imported data
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize eventData with some data, you can fetch it from your API or set it as needed
+    widget.eventData = []; // Replace this with your data-fetching logic
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +29,8 @@ class _TicketList2WidgetState extends State<TicketList2Widget> {
   Widget buildTicketList() {
     List<Widget> ticketWidgets = [];
 
-    for (int index = 0; index < eventData.length; index++) {
-      Event event = eventData[index];
+    for (int index = 0; index < widget.eventData.length; index++) {
+      Event event = widget.eventData[index];
 
       ticketWidgets.add(TicketWidget2(
         coverImageUrl: event.image,
@@ -81,12 +89,12 @@ class TicketWidget2 extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   Positioned(
-                    right: 0,
+                      right: 0,
                       child: Image.asset(
-                    'assets/2geda-logo.png',
-                    width: 20,
-                    height: 20,
-                  ))
+                        'assets/2geda-logo.png',
+                        width: 20,
+                        height: 20,
+                      ))
                 ],
               ),
             ),
