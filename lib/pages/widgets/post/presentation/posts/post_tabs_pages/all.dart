@@ -59,9 +59,12 @@ class _AllTabContentState extends State<AllTabContent> {
           future: fetchHomePGPosts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                child: RecentActivityLoadingState(),
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                child: RecentActivityLoadingState(
+                  itemCount: 2,
+                ),
               );
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
