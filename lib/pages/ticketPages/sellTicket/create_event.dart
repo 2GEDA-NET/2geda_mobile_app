@@ -33,6 +33,8 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
   final TokenManager tokenManager = TokenManager();
   String? authToken;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final List<TicketFormData> _ticketForms = [];
+
   final GlobalKey<FormState> createTicketFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> eventInfoFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> addInfoFormKey = GlobalKey<FormState>();
@@ -54,7 +56,14 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
   TextEditingController showRemainingTicketController = TextEditingController();
   TextEditingController isPrivateController = TextEditingController();
   TextEditingController isPublicController = TextEditingController();
-  late LatLng selectedLocation = LatLng(0.0, 0.0);
+  late LatLng selectedLocation = const LatLng(0.0, 0.0);
+  String selectedValue = 'Festival';
+  List<String> dropdownItems = [
+    'Festival',
+    'Food and drinks',
+    'Fashion',
+    'Others'
+  ];
 
   XFile? _selectedImage = XFile('');
 
@@ -239,14 +248,92 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  content: CreateTicketStep(
-                    formKey: createTicketFormKey,
-                    nameController: nameController,
-                    quantityController: quantityController,
-                    priceController: priceController,
-                    categoryController: categoryController,
-                    freeTicketController: freeTicketController,
-                    paidTicketController: paidTicketController,
+                  content: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Create ticket",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const Text(
+                        "Create ticket type(s) you want for this event",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.45,
+                        child: ListView.builder(
+                          itemCount: _ticketForms.length,
+                          itemBuilder: (context, index) {
+                            return CreateTicketStep(
+                              key: UniqueKey(),
+                              formKey: GlobalKey<FormState>(),
+                              nameController:
+                                  _ticketForms[index].nameController,
+                              quantityController:
+                                  _ticketForms[index].quantityController,
+                              priceController:
+                                  _ticketForms[index].priceController,
+                              freeTicketController:
+                                  _ticketForms[index].freeTicketController,
+                              paidTicketController:
+                                  _ticketForms[index].paidTicketController,
+                            );
+                          },
+                        ),
+                      ),
+                      const Text(
+                        "Event category",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      InputDecorator(
+                        decoration: const InputDecoration(
+                          hintText: 'Select a category', // Label text
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: selectedValue,
+                            icon: const Icon(Icons.arrow_drop_down),
+                            iconSize: 24,
+                            elevation: 16,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                categoryController.text = newValue!;
+                              });
+                            },
+                            items: dropdownItems
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   isActive: currentStep == 1,
                 ),
@@ -271,11 +358,11 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
               ],
             ),
           ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset('assets/banner2.png'),
-          ),
+          // const SizedBox(height: 10),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Image.asset('assets/banner2.png'),
+          // ),
         ],
       ),
     );

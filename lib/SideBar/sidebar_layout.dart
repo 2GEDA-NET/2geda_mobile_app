@@ -1,17 +1,13 @@
-// ignore_for_file: unused_import
-
 import 'package:_2geda/SideBar/bloc_navigation/navigation_bloc.dart';
 import 'package:_2geda/pages/businessDirectoryPages/business_directory.dart';
 import 'package:_2geda/pages/chatPages/chat.dart';
 import 'package:_2geda/pages/commercePages/commerce.dart';
 import 'package:_2geda/pages/connect/presentation/connect.dart';
-import 'package:_2geda/pages/connectPages/connect.dart';
 import 'package:_2geda/pages/educationPages/education.dart';
 import 'package:_2geda/pages/homeScreens/home_screen.dart';
 import 'package:_2geda/pages/homeScreens/searchPages/search_screen.dart';
 import 'package:_2geda/pages/tvPages/tv_home.dart';
 import 'package:_2geda/pages/walletPages/wallet.dart';
-import 'package:_2geda/pages/widgets/posts/post_details.dart';
 import 'package:_2geda/pages/livePages/live.dart';
 import 'package:_2geda/pages/profilePages/profile.dart';
 import 'package:_2geda/pages/stereoPages/stereo.dart';
