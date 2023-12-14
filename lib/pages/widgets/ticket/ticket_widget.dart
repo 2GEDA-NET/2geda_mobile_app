@@ -1,3 +1,4 @@
+import 'package:_2geda/pages/ticketPages/event_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -117,6 +118,19 @@ class TicketWidget extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               // Add action when the "Get Ticket" button is pressed
+              // Add action when the "Get Ticket" button is pressed
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => EventDetailsPage(
+                          // Pass event details to the EventDetailsPage widget
+                          title: title,
+                          date: date,
+                          location: location,
+                          coverImageUrl: coverImageUrl,
+                          // Add any other event details as needed
+                        ),
+                      ),
+                    );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(

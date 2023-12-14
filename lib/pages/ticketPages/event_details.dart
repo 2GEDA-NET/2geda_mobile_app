@@ -136,7 +136,6 @@ class EventDetailsPage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     width: MediaQuery.of(context).size.width,
-                    height: 200,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       border: Border.all(
