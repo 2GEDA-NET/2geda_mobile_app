@@ -27,7 +27,7 @@ class PastEventCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
                     image: CachedNetworkImageProvider(
-                      eventData.image,
+                      eventData.image ?? '',
                     ),
                     fit: BoxFit
                         .cover, // You can adjust the fit as needed (e.g., BoxFit.fill)

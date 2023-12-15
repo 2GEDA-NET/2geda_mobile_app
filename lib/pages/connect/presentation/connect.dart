@@ -6,7 +6,6 @@ import 'package:_2geda/pages/connect/presentation/widgets/comps/connectscreens_a
 import 'package:_2geda/utils/globals/searc_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 
 import '../data/story_model.dart';
 

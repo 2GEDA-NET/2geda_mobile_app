@@ -33,9 +33,9 @@ class _TicketList2WidgetState extends State<TicketList2Widget> {
       Event event = widget.eventData[index];
 
       ticketWidgets.add(TicketWidget2(
-        coverImageUrl: event.image,
+        coverImageUrl: event.image ?? '',
         title: event.title ?? '',
-        date: event.date.toLocal().toString(),
+        date: event.formatedDate ?? '',
         location: event.location ?? event.platform ?? '',
       ));
     }

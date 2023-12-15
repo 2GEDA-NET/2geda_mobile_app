@@ -28,7 +28,7 @@ class EventCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
                     image: CachedNetworkImageProvider(
-                      eventData.image,
+                      eventData.image ?? '',
                     ),
                     fit: BoxFit
                         .cover, // You can adjust the fit as needed (e.g., BoxFit.fill)
@@ -52,7 +52,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      eventData.date as String,
+                      eventData.formatedDate ?? '',
                       style: const TextStyle(
                         fontSize: 13.3708,
                         fontWeight: FontWeight.w400,
@@ -61,7 +61,7 @@ class EventCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      eventData.location ?? eventData.platform ?? '',
+                      eventData.location ?? '',
                       style: const TextStyle(
                         fontSize: 13.3708,
                         fontWeight: FontWeight.w400,

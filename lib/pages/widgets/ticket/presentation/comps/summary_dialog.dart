@@ -32,7 +32,7 @@ class SummaryDialog extends StatelessWidget {
       titlePadding: const EdgeInsets.all(0),
       title: Stack(
         children: [
-          CachedNetworkImage(imageUrl: eventData.image),
+          CachedNetworkImage(imageUrl: eventData.image ?? ''),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(

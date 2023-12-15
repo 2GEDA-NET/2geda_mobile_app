@@ -5,7 +5,7 @@ import 'ticket_widget.dart';
 class TicketListWidget extends StatelessWidget {
   late List<Event> events = []; // Initialize tickets as an empty list
 
-   TicketListWidget({super.key, required this.events});
+  TicketListWidget({super.key, required this.events});
 
   // Future<void> _loadTickets() async {
   @override
@@ -20,10 +20,10 @@ class TicketListWidget extends StatelessWidget {
       Event currentEvent = events[index];
 
       eventWidgets.add(TicketWidget(
-        coverImageUrl: currentEvent
-            .image ?? '', // assuming you have an 'event' property in your Ticket model
+        coverImageUrl: currentEvent.image ??
+            '', // assuming you have an 'event' property in your Ticket model
         title: currentEvent.title ?? '',
-        date: currentEvent.date.toString(),
+        date: currentEvent.formatedDate ?? '',
 
         location: currentEvent.location ?? currentEvent.platform ?? '',
       ));

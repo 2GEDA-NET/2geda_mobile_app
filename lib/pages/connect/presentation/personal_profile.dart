@@ -2,7 +2,6 @@ import 'package:_2geda/pages/connect/presentation/widgets/comps/profile_btns.dar
 import 'package:_2geda/pages/connect/presentation/widgets/comps/profile_round_btn.dart';
 import 'package:_2geda/utils/constant/app_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class PersonalProfile extends StatefulWidget {
   const PersonalProfile({super.key});

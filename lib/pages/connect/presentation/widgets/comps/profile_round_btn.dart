@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:_2geda/utils/constant/app_color.dart';
 import 'package:flutter/material.dart';
 

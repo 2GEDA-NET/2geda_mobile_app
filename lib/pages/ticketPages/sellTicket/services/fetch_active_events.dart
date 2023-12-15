@@ -12,28 +12,30 @@ Future<List<Event>> getActiveEvents() async {
 
   print("authToken: $authToken");
 
-  final response = await http.get(
-    Uri.parse('$baseUrl/ticket/events'),
-    headers: {
-      'Authorization': 'Token $authToken',
-      'Content-Type': 'application/json',
-    },
-  );
+  try {
+    final response = await http.get(
+      Uri.parse('$baseUrl/ticket/events'),
+      headers: {
+        'Authorization': 'Token $authToken',
+        'Content-Type': 'application/json',
+      },
+    );
 
-  print(response.statusCode);
-  print(response.body);
+    print(response.statusCode);
+    print(response.body);
 
-  if (response.statusCode == 200) {
-    if (response.body != null) {
-      final List<dynamic> data = json.decode(response.body);
-
-      List<Event> events = data.map((json) => Event.fromJson(json)).toList();
-
+    if (response.statusCode == 200) {
+      print(response.body);
+      final List<dynamic> jsonData = json.decode(response.body);
+      final List<Event> events = jsonData.map((data) => Event.fromJson(data)).toList();
       return events;
     } else {
-      throw Exception('Response body is null');
+      throw Exception(
+          'Failed to load event data. Status code: ${response.statusCode}');
     }
-  } else {
-    throw Exception('Failed to load events');
+  } catch (e) {
+    print('Error: $e');
+    throw Exception(
+        'Failed to load event data. Check your network connection.');
   }
 }

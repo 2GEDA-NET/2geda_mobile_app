@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/presentation/state/events_loading_state.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/services/fetch_active_events.dart';
 import 'package:_2geda/pages/widgets/ticket/presentation/comps/event_card.dart';
 import 'package:_2geda/pages/widgets/ticket/presentation/comps/past_event_card.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MyEventsPage extends StatelessWidget {
@@ -59,7 +62,9 @@ class MyEventsPage extends StatelessWidget {
                             ConnectionState.waiting) {
                           return RecentEventLoadingState();
                         } else if (snapshot.hasError) {
-                          print('Error: ${snapshot.error}');
+                          if (kDebugMode) {
+                            print('Error: ${snapshot.error}');
+                          }
                           return Text('Error: ${snapshot.error}');
                         } else if (!snapshot.hasData ||
                             snapshot.data!.isEmpty) {
