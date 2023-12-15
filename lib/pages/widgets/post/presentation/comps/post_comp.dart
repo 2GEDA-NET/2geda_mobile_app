@@ -1,21 +1,11 @@
 import 'package:_2geda/pages/widgets/post/data/reaction_model.dart';
+import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
 import 'package:_2geda/utils/constant/app_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-
-enum ReactionType {
-  like,
-  dislike,
-  hug,
-  laugh,
-  tears,
-  angry,
-  wow,
-  none,
-}
 
 class PostComponent extends StatefulWidget {
   String? imageUrl;

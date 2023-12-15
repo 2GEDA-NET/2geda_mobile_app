@@ -8,3 +8,14 @@ enum SectionType {
   user,
   cards,
 }
+
+enum ReactionType {
+  like,
+  dislike,
+  hug,
+  laugh,
+  tears,
+  angry,
+  wow,
+  none,
+}
