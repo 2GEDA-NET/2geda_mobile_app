@@ -1,25 +1,18 @@
-import 'dart:math';
-
 import 'package:_2geda/APIServices/post_api_service.dart';
 import 'package:_2geda/APIServices/stereo_api_service.dart';
 import 'package:_2geda/data/movie_data.dart';
 import 'package:_2geda/models/audio_model.dart';
-import 'package:_2geda/models/post_model.dart';
-import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/businessDir/business_list.dart';
 import 'package:_2geda/pages/widgets/movie/movie_caurosel.dart';
 import 'package:_2geda/pages/widgets/people/user_list.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/post_comp.dart';
-import 'package:_2geda/pages/widgets/post/presentation/posts/post_container.dart';
 import 'package:_2geda/pages/widgets/post/presentation/state/posts_loading_state.dart';
 import 'package:_2geda/pages/widgets/post/service/fetch_posts.dart';
 import 'package:_2geda/pages/widgets/product/product_widget.dart';
 import 'package:_2geda/pages/widgets/stereo/stereo-widget.dart';
-import 'package:_2geda/pages/widgets/ticket/ticket_list.dart';
-import 'package:_2geda/pages/widgets/video/video_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:_2geda/pages/widgets/ticket/presentation/comps/ticket_list.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -98,7 +91,7 @@ class _AllTabContentState extends State<AllTabContent> {
                     return Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: PostComponent(
-                        name: data.user!.username,
+                        name: data.user!.username ?? 'Anonymous user',
                         content: data.content,
                         timePosted: data.timeSince,
                         location: data.user!.email,
@@ -125,7 +118,7 @@ class _AllTabContentState extends State<AllTabContent> {
       case SectionType.audio:
         return AudioListWidget(audioList: audioList);
       case SectionType.ticket:
-        return const TicketListWidget();
+        return TicketListWidget(events: [],);
       case SectionType.business:
         return const BusinessListWidget();
       case SectionType.cards:

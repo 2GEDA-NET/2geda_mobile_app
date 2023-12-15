@@ -1,132 +1,250 @@
 import 'dart:convert';
 
 class TicketData {
-  final String name;
-  final String id;
-  final String ticketType;
-  final String date;
-  final String price;
+  final String? name;
+  final String? id;
+  final String? ticketType;
+  final String? date;
+  final String? price;
 
   TicketData(this.name, this.id, this.ticketType, this.date, this.price);
 }
 
 class Event {
   int id;
-  List<dynamic> attendees;
-  dynamic image;
-  String title;
-  String desc;
-  String platform;
-  Category category;
-  DateTime date;
-  Ticket ticket;
+  User user;
+  String? url;
+  String? platform;
+  String? desc;
   String? location;
-  dynamic url;
+  dynamic image;
+  String? title;
+  DateTime date;
+  bool isPopular;
+  bool isPromoted;
+  String? eventKey;
+  bool isPublic;
+  bool addToSales;
 
   Event({
     required this.id,
-    required this.attendees,
+    required this.user,
+    required this.url,
+    required this.platform,
+    required this.desc,
+    required this.location,
     required this.image,
     required this.title,
-    required this.desc,
-    required this.platform,
-    required this.category,
     required this.date,
-    required this.ticket,
-    required this.location,
-    required this.url,
+    required this.isPopular,
+    required this.isPromoted,
+    required this.eventKey,
+    required this.isPublic,
+    required this.addToSales,
   });
 
-  factory Event.fromRawJson(String str) => Event.fromJson(json.decode(str));
+  factory Event.fromRawJson(String? str) => Event.fromJson(json.decode(str!));
 
-  String toRawJson() => json.encode(toJson());
+  String? toRawJson() => json.encode(toJson());
+  factory Event.fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      throw FormatException("Failed to parse event");
+    }
 
-  factory Event.fromJson(Map<String, dynamic> json) => Event(
-        id: json["id"],
-        attendees: List<dynamic>.from(json["attendees"].map((x) => x)),
-        image: json["image"] ?? 'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
-        title: json["title"],
-        desc: json["desc"],
-        platform: json["platform"],
-        category: Category.fromJson(json["category"]),
-        date: DateTime.parse(json["date"]),
-        ticket: Ticket.fromJson(json["ticket"]),
-        location: json["location"],
-        url: json["url"],
-      );
+    return Event(
+      id: json["id"] ?? 0,
+      user: User.fromJson(json["user"] ?? {}),
+      url: json["url"] ?? '',
+      platform: json["platform"] ?? '',
+      desc: json["desc"] ?? '',
+      location: json["location"] ?? '',
+      image: json["image"] ?? '',
+      title: json["title"] ?? '',
+      date: DateTime.parse(json["date"] ?? ""),
+      isPopular: json["is_popular"] ?? false,
+      isPromoted: json["is_promoted"] ?? false,
+      eventKey: json["event_key"] ?? '',
+      isPublic: json["is_public"] ?? false,
+      addToSales: json["add_to_sales"] ?? false,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "attendees": List<dynamic>.from(attendees.map((x) => x)),
+        "user": user.toJson(),
+        "url": url,
+        "platform": platform,
+        "desc": desc,
+        "location": location,
         "image": image,
         "title": title,
-        "desc": desc,
-        "platform": platform,
-        "category": category.toJson(),
         "date": date.toIso8601String(),
-        "ticket": ticket.toJson(),
-        "location": location,
-        "url": url,
+        "is_popular": isPopular,
+        "is_promoted": isPromoted,
+        "event_key": eventKey,
+        "is_public": isPublic,
+        "add_to_sales": addToSales,
       };
 }
 
-class Category {
+class User {
   int id;
-  String name;
-  dynamic image;
+  String? email;
+  bool isBusiness;
+  bool isPersonal;
+  int accountBalance;
+  bool isAdmin;
+  String? username;
+  dynamic phoneNumber;
+  bool isVerified;
+  Address address;
+  List<String> media;
+  CoverImage coverImage;
+  dynamic lastSeen;
+  dynamic bio;
 
-  Category({
+  User({
     required this.id,
-    required this.name,
-    required this.image,
+    required this.email,
+    required this.isBusiness,
+    required this.isPersonal,
+    required this.accountBalance,
+    required this.isAdmin,
+    required this.username,
+    required this.phoneNumber,
+    required this.isVerified,
+    required this.address,
+    required this.media,
+    required this.coverImage,
+    required this.lastSeen,
+    required this.bio,
   });
 
-  factory Category.fromRawJson(String str) =>
-      Category.fromJson(json.decode(str));
+  factory User.fromRawJson(String? str) => User.fromJson(json.decode(str!));
 
-  String toRawJson() => json.encode(toJson());
+  String? toRawJson() => json.encode(toJson());
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
-        name: json["name"],
-        image: json["image"],
+        email: json["email"],
+        isBusiness: json["is_business"],
+        isPersonal: json["is_personal"],
+        accountBalance: json["account_balance"],
+        isAdmin: json["is_admin"],
+        username: json["username"],
+        phoneNumber: json["phone_number"],
+        isVerified: json["is_verified"],
+        address: Address.fromJson(json["address"]),
+        media: List<String>.from(json["media"].map((x) => x.toString())),
+        coverImage: CoverImage.fromJson(json["cover_image"]),
+        lastSeen: json["last_seen"],
+        bio: json["bio"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": name,
-        "image": image,
+        "email": email,
+        "is_business": isBusiness,
+        "is_personal": isPersonal,
+        "account_balance": accountBalance,
+        "is_admin": isAdmin,
+        "username": username,
+        "phone_number": phoneNumber,
+        "is_verified": isVerified,
+        "address": address.toJson(),
+        "media": List<dynamic>.from(media.map((x) => x)),
+        "cover_image": coverImage.toJson(),
+        "last_seen": lastSeen,
+        "bio": bio,
       };
 }
 
-class Ticket {
-  String category;
-  int price;
-  int quantity;
-  bool isSold;
+class Address {
+  int id;
+  String? country;
+  dynamic city;
+  String? currentCity;
+  dynamic streetAddress;
+  dynamic apartmentAddress;
+  dynamic location;
+  dynamic postalCode;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int user;
 
-  Ticket({
-    required this.category,
-    required this.price,
-    required this.quantity,
-    required this.isSold,
+  Address({
+    required this.id,
+    required this.country,
+    required this.city,
+    required this.currentCity,
+    required this.streetAddress,
+    required this.apartmentAddress,
+    required this.location,
+    required this.postalCode,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.user,
   });
 
-  factory Ticket.fromRawJson(String str) => Ticket.fromJson(json.decode(str));
+  factory Address.fromRawJson(String? str) =>
+      Address.fromJson(json.decode(str!));
 
-  String toRawJson() => json.encode(toJson());
+  String? toRawJson() => json.encode(toJson());
 
-  factory Ticket.fromJson(Map<String, dynamic> json) => Ticket(
-        category: json["category"],
-        price: json["price"],
-        quantity: json["quantity"],
-        isSold: json["is_sold"],
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        id: json["id"],
+        country: json["country"] ?? '',
+        city: json["city"] ?? '',
+        currentCity: json["current_city"] ?? '',
+        streetAddress: json["street_address"] ?? '',
+        apartmentAddress: json["apartment_address"] ?? '',
+        location: json["location"] ?? '',
+        postalCode: json["postal_code"] ?? '',
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        user: json["user"],
       );
 
   Map<String, dynamic> toJson() => {
-        "category": category,
-        "price": price,
-        "quantity": quantity,
-        "is_sold": isSold,
+        "id": id,
+        "country": country,
+        "city": city,
+        "current_city": currentCity,
+        "street_address": streetAddress,
+        "apartment_address": apartmentAddress,
+        "location": location,
+        "postal_code": postalCode,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "user": user,
+      };
+}
+
+class CoverImage {
+  int id;
+  String? coverImage;
+  int? user;
+
+  CoverImage({
+    required this.id,
+    required this.coverImage,
+    required this.user,
+  });
+
+  factory CoverImage.fromRawJson(String? str) =>
+      CoverImage.fromJson(json.decode(str!));
+
+  String? toRawJson() => json.encode(toJson());
+
+  factory CoverImage.fromJson(Map<String, dynamic> json) => CoverImage(
+        id: json["id"],
+        coverImage: json["cover_image"] ?? '',
+        user: json["user"] ?? 0,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "cover_image": coverImage,
+        "user": user,
       };
 }

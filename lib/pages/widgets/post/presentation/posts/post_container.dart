@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:_2geda/models/post_model.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/posts/post_details.dart';
 import 'package:_2geda/pages/widgets/post/presentation/posts/post_header.dart';

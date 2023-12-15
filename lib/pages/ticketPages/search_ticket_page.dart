@@ -1,4 +1,4 @@
-import 'package:_2geda/pages/ticketPages/search_result.dart';
+import 'package:_2geda/pages/ticketPages/search_result/presentation/search_result.dart';
 import 'package:flutter/material.dart';
 
 class SearchTicketPage extends StatefulWidget {

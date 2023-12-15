@@ -1,7 +1,5 @@
 import 'package:_2geda/utils/constant/app_color.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 class PostComponent extends StatelessWidget {
   String? imageUrl;
