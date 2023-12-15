@@ -1,10 +1,10 @@
-import 'package:_2geda/pages/widgets/posts/post_tabs.dart';
-import 'package:_2geda/pages/widgets/posts/post_tabs_pages/all.dart';
-import 'package:_2geda/pages/widgets/posts/post_tabs_pages/image_tab.dart';
-import 'package:_2geda/pages/widgets/posts/post_tabs_pages/location_tab.dart';
-import 'package:_2geda/pages/widgets/posts/post_tabs_pages/product_tab.dart';
-import 'package:_2geda/pages/widgets/posts/post_tabs_pages/video_tab.dart';
-import 'package:_2geda/pages/widgets/posts/post_tabs_pages/voice_notes.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_tabs.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_tabs_pages/all.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_tabs_pages/image_tab.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_tabs_pages/location_tab.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_tabs_pages/product_tab.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_tabs_pages/video_tab.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_tabs_pages/voice_notes.dart';
 import 'package:flutter/material.dart';
 
 class PostFeed extends StatefulWidget {
@@ -35,15 +35,15 @@ class _PostFeedState extends State<PostFeed> {
       currentTabContent = VideosTabContent(
         currentIndex: _currentIndex,
       );
-    }  else if (_currentIndex == 3) {
+    } else if (_currentIndex == 3) {
       currentTabContent = ProductsTabContent(
         currentIndex: _currentIndex,
       );
-    }  else if (_currentIndex == 4) {
+    } else if (_currentIndex == 4) {
       currentTabContent = VoiceNotesTabContent(
         currentIndex: _currentIndex,
       );
-    }  else if (_currentIndex == 5) {
+    } else if (_currentIndex == 5) {
       currentTabContent = LocationTabContent(
         currentIndex: _currentIndex,
       );

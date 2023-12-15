@@ -1,10 +1,13 @@
 import 'package:_2geda/APIServices/post_api_service.dart';
 import 'package:_2geda/models/post_model.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
-import 'package:_2geda/pages/widgets/posts/post_container.dart';
+import 'package:_2geda/pages/widgets/post/data/post_model.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_container.dart';
 import 'package:flutter/material.dart';
 
 class SavedPosts extends StatefulWidget {
+  const SavedPosts({super.key});
+
   @override
   _SavedPostsState createState() => _SavedPostsState();
 }

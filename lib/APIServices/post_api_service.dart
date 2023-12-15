@@ -4,6 +4,7 @@ import 'package:_2geda/APIServices/api_config.dart';
 import 'package:_2geda/models/mediamodel.dart';
 import 'package:_2geda/models/post_model.dart';
 import 'package:_2geda/models/user_model.dart';
+import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -114,7 +115,7 @@ class PostService {
         if (data.isNotEmpty) {
           // Use Future.wait to wait for all the futures to complete
           return Future.wait(
-            data.map((json) async => await Post.fromJson(json)).toList(),
+            data.map((json) async => Post.fromJson(json)).toList(),
           );
         } else {
           // If the data is empty, return an empty list
@@ -148,7 +149,7 @@ class PostService {
         if (data.isNotEmpty) {
           // Use Future.wait to wait for all the futures to complete
           return Future.wait(
-            data.map((json) async => await Post.fromJson(json)).toList(),
+            data.map((json) async => Post.fromJson(json)).toList(),
           );
         } else {
           return [];
@@ -225,52 +226,52 @@ class PostService {
     }
   }
 
-  Future<List<PostComment>> getComments(String authToken, int postId) async {
-    try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/feed/get-comment/$postId/'),
-        headers: {
-          'Authorization': 'Token $authToken',
-          'Content-Type': 'application/json',
-        },
-      );
+  // Future<List<PostComment>> getComments(String authToken, int postId) async {
+  //   try {
+  //     final response = await http.get(
+  //       Uri.parse('$baseUrl/feed/get-comment/$postId/'),
+  //       headers: {
+  //         'Authorization': 'Token $authToken',
+  //         'Content-Type': 'application/json',
+  //       },
+  //     );
 
-      print(response.body);
+  //     print(response.body);
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
+  //     if (response.statusCode == 200) {
+  //       final List<dynamic> data = json.decode(response.body);
 
-        return data
-            .map<PostComment>((json) => PostComment.fromJson(json ?? {}))
-            .toList();
-      } else {
-        print('API Error: ${response.statusCode} - ${response.body}');
-        throw Exception('Failed to load comments');
-      }
-    } catch (error) {
-      print('Network Error: $error');
-      throw Exception('Failed to load comments');
-    }
-  }
+  //       return data
+  //           .map<PostComment>((json) => PostComment.fromJson(json ?? {}))
+  //           .toList();
+  //     } else {
+  //       print('API Error: ${response.statusCode} - ${response.body}');
+  //       throw Exception('Failed to load comments');
+  //     }
+  //   } catch (error) {
+  //     print('Network Error: $error');
+  //     throw Exception('Failed to load comments');
+  //   }
+  // }
 
-  Future<User> fetchUserDetails(String authToken, int userId) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl$userId/'),
-      headers: {
-        'Authorization': 'Token $authToken',
-        'Content-Type': 'application/json',
-      },
-    );
+  // Future<User> fetchUserDetails(String authToken, int userId) async {
+  //   final response = await http.get(
+  //     Uri.parse('$baseUrl$userId/'),
+  //     headers: {
+  //       'Authorization': 'Token $authToken',
+  //       'Content-Type': 'application/json',
+  //     },
+  //   );
 
-    print(response.body);
+  //   print(response.body);
 
-    if (response.statusCode == 200) {
-      // If the server returns a 200 OK response, parse the user details
-      final Map<String, dynamic> data = json.decode(response.body);
-      return User.fromJson(data);
-    } else {
-      // If the server did not return a 200 OK response, throw an exception
-      throw Exception('Failed to load user details');
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     // If the server returns a 200 OK response, parse the user details
+  //     final Map<String, dynamic> data = json.decode(response.body);
+  //     return User.fromJson(data);
+  //   } else {
+  //     // If the server did not return a 200 OK response, throw an exception
+  //     throw Exception('Failed to load user details');
+  //   }
+  // }
 }

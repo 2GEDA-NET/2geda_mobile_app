@@ -8,6 +8,7 @@ import 'package:_2geda/pages/homeScreens/home_screen.dart';
 import 'package:_2geda/pages/homeScreens/searchPages/search_screen.dart';
 import 'package:_2geda/pages/tvPages/tv_home.dart';
 import 'package:_2geda/pages/walletPages/wallet.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_details.dart';
 import 'package:_2geda/pages/livePages/live.dart';
 import 'package:_2geda/pages/profilePages/profile.dart';
 import 'package:_2geda/pages/stereoPages/stereo.dart';
