@@ -53,10 +53,6 @@ class _AllTabContentState extends State<AllTabContent> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    fetchHomePGPosts();
-    if (kDebugMode) {
-      print('didChangeDependencies started');
-    }
   }
 
   @override
@@ -102,14 +98,20 @@ class _AllTabContentState extends State<AllTabContent> {
                         const SizedBox(
                           height: 15,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(),
-                          child: PostComponent(
-                            name: data.user!.username,
-                            content: data.content,
-                            timePosted: data.timeSince,
-                            location: data.user!.email,
-                            noOfLikes: data.likes.toString(),
+                        GestureDetector(
+                          onTap: () {
+                            print(data.id);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(),
+                            child: PostComponent(
+                              postID: data.id!,
+                              name: data.user!.username,
+                              content: data.content,
+                              timePosted: data.timeSince,
+                              location: data.user!.email,
+                              noOfLikes: data.likes.toString(),
+                            ),
                           ),
                         ),
                         const SizedBox(

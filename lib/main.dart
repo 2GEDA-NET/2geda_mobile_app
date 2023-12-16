@@ -5,11 +5,13 @@ import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/homeScreens/create_post.dart';
 import 'package:_2geda/pages/homeScreens/post_feeds.dart';
 import 'package:_2geda/pages/onboardingScreens/onboarding_screen.dart';
+import 'package:_2geda/utils/user_prefrences/user_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await UserPreference.init();
   runApp(
     MultiProvider(
       providers: [

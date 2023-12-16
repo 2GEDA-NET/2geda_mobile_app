@@ -1,6 +1,8 @@
 import 'package:_2geda/pages/widgets/post/data/reaction_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
+import 'package:_2geda/pages/widgets/post/service/post_reaction.dart';
 import 'package:_2geda/utils/constant/app_color.dart';
+import 'package:_2geda/utils/user_prefrences/user_prefs.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,6 +17,7 @@ class PostComponent extends StatefulWidget {
   String? content;
   String? likes;
   String? noOfLikes;
+  int postID;
   PostComponent(
       {super.key,
       this.imageUrl,
@@ -23,6 +26,7 @@ class PostComponent extends StatefulWidget {
       this.timePosted,
       this.likes,
       this.noOfLikes,
+      required this.postID,
       this.content});
 
   @override
@@ -30,9 +34,18 @@ class PostComponent extends StatefulWidget {
 }
 
 class _PostComponentState extends State<PostComponent> {
-  bool isLiked = false;
   bool reactionView = false;
   ReactionType reactionType = ReactionType.none;
+  bool isReacted = false;
+  PostReactionServiceNotifier postReactionServiceNotifier =
+      PostReactionServiceNotifier();
+  late String getStoredReaction;
+
+  @override
+  void initState() {
+    super.initState();
+    getStoredReactionFnc();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,12 +179,19 @@ class _PostComponentState extends State<PostComponent> {
                                     verticalOffset: 50.0,
                                     child: FadeInAnimation(
                                       child: InkWell(
-                                          onTap: () {
+                                          onTap: () async {
                                             setState(() {
                                               reactionType =
                                                   rs[index].reactionType;
                                               reactionView = false;
                                             });
+                                            await postReactionServiceNotifier
+                                                .postReactionService(
+                                                    postId: widget.postID,
+                                                    reactionType:
+                                                        reactionType.name);
+                                            ////////
+                                            print(reactionType.name);
                                           },
                                           child:
                                               SvgPicture.asset(rs[index].svg)),
@@ -212,26 +232,34 @@ class _PostComponentState extends State<PostComponent> {
                 Row(
                   children: [
                     InkWell(
-                        onTap: () {
-                          if (reactionView) {
-                            setState(() {
-                              reactionView = false;
-                            });
-                          } else {
-                            if (reactionType == ReactionType.none) {
-                              reactionType = ReactionType.like;
-                            } else {
-                              reactionType = ReactionType.none;
-                            }
-                          }
-                          setState(() {});
-                        },
-                        onLongPress: () {
+                      onTap: () async {
+                        if (reactionView) {
                           setState(() {
-                            reactionView = true;
+                            reactionView = false;
                           });
-                        },
-                        child: getReaction(reactionType)),
+                        } else {
+                          if (reactionType == ReactionType.none) {
+                            reactionType = ReactionType.like;
+                            ////////
+                            await postReactionServiceNotifier
+                                .postReactionService(
+                                    postId: widget.postID,
+                                    reactionType: 'like');
+                          } else {
+                            reactionType = ReactionType.none;
+                          }
+                        }
+                        setState(() {});
+                      },
+                      onLongPress: () {
+                        setState(() {
+                          reactionView = true;
+                        });
+                      },
+                      child: getStoredReaction == ''
+                          ? getReaction(reactionType)
+                          : getStoredReactionFnc(),
+                    ),
                     const SizedBox(
                       width: 4,
                     ),
@@ -286,8 +314,51 @@ class _PostComponentState extends State<PostComponent> {
     );
   }
 
+  SvgPicture getStoredReactionFnc() {
+    String? storedReaction =
+        UserPreference.getReactionType(widget.postID.toString()) ?? '';
+    setState(() {
+      getStoredReaction = storedReaction;
+    });
+
+    switch (storedReaction) {
+      case 'like':
+        return SvgPicture.asset(
+          'assets/liked.svg',
+          width: 25,
+        );
+      case 'angry':
+        return SvgPicture.asset(
+          'assets/emoji _pouting face_.svg',
+        );
+      case 'dislike':
+        return SvgPicture.asset(
+          'assets/ulik.svg',
+        );
+      case 'hug':
+        return SvgPicture.asset(
+          'assets/emoji _hugging face_.svg',
+        );
+      case 'laugh':
+        return SvgPicture.asset(
+          'assets/emoji _face with tears of joy_ (1).svg',
+        );
+      case 'tears':
+        return SvgPicture.asset(
+          'assets/emoji _crying face_.svg',
+        );
+      case 'wow':
+        return SvgPicture.asset(
+          'assets/emoji _hushed face_.svg',
+        );
+
+      default:
+        return SvgPicture.asset('assets/liked.svg');
+    }
+  }
+
   SvgPicture getReaction(ReactionType r) {
-    print(r);
+    // print(r.name);
     switch (r) {
       case ReactionType.like:
         return SvgPicture.asset(
