@@ -107,61 +107,64 @@ class _UserListWidgetState extends State<UserListWidget> {
   }
 
   Widget _buildUserRow(User user, Function(User) onStickied) {
-  return Column(
-    children: [
-      Row(
-        children: [
-          ClipOval(
-            child: CachedNetworkImage(
-              width: 48,
-              height: 48,
-              fit: BoxFit.cover,
-              imageUrl: user.userProfile?.userImage.profileImage ?? 'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
+    return Column(
+      children: [
+        Row(
+          children: [
+            ClipOval(
+              child: CachedNetworkImage(
+                width: 48,
+                height: 48,
+                fit: BoxFit.cover,
+                imageUrl: user.userProfile?.userImage.profileImage ??
+                    'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
+              ),
             ),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(user.username,
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(user.username,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    )),
+                Text(
+                  user.userProfile?.work ?? '',
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  )),
-              Text(
-                user.userProfile?.work ?? '',
-                style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Color.fromARGB(255, 106, 105, 105)),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromARGB(255, 106, 105, 105)),
+                ),
+                Text(
+                  user.userProfile?.addressId?.toString() ?? '',
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey),
+                ),
+              ],
+            ),
+            const Spacer(),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff4e0ca2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
               ),
-              Text(
-                user.userProfile?.addressId?.toString() ?? '',
-                style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey),
-              ),
-            ],
-          ),
-          const Spacer(),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xff4e0ca2),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
+              onPressed: () {
+                onStickied(user);
+              },
+              child: Text(
+                user.isSticked ? 'Sticking' : 'Stick',
+                style: const TextStyle(color: Colors.white),
               ),
             ),
-            onPressed: () {
-              onStickied(user);
-            },
-            child: Text(user.isSticked ? 'Sticking' : 'Stick'),
-          ),
-        ],
-      ),
-      const SizedBox(height: 10),
-    ],
-  );
-}
-
+          ],
+        ),
+        const SizedBox(height: 10),
+      ],
+    );
+  }
 }

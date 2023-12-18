@@ -347,7 +347,10 @@ class _SellTicketPageState extends State<SellTicketPage> {
           );
         }, // You can change the icon as needed
         backgroundColor: const Color.fromRGBO(255, 138, 21, 1.0),
-        child: const Icon(Icons.add), // Change the background color
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ), // Change the background color
       ),
     );
   }

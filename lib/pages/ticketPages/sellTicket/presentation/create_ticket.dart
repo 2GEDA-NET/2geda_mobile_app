@@ -31,14 +31,8 @@ class _CreateTicketStepState extends State<CreateTicketStep> {
   @override
   void initState() {
     super.initState();
-    _addTicketForm(); // Add this line to create the initial TicketForm
   }
 
-  void _addTicketForm() {
-    setState(() {
-      _ticketForms.add(TicketFormData());
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

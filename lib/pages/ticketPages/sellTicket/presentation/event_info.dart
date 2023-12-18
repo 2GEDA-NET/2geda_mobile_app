@@ -1,4 +1,5 @@
 import 'package:_2geda/pages/ticketPages/sellTicket/presentation/event_loc_map.dart';
+import 'package:_2geda/pages/ticketPages/sellTicket/presentation/state/location_loading_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -230,7 +231,7 @@ class _EventInfoStepState extends State<EventInfoStep> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     // If the Future is still running, show a loading indicator
-                    return CircularProgressIndicator();
+                    return LocationLoadingState();
                   } else if (snapshot.hasError) {
                     // If there is an error, display an error message
                     return Text("Error retrieving address: ${snapshot.error}");
