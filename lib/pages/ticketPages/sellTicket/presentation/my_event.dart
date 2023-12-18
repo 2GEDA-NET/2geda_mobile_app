@@ -81,18 +81,54 @@ class MyEventsPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ListView(
-                      children: activeEvents.map((activeEvents) {
-                        return EventCard(eventData: activeEvents);
-                      }).toList(),
+                    child: FutureBuilder<List<Event>>(
+                      future: getActiveEvents(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return RecentEventLoadingState();
+                        } else if (snapshot.hasError) {
+                          if (kDebugMode) {
+                            print('Error: ${snapshot.error}');
+                          }
+                          return Text('Error: ${snapshot.error}');
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return const Text('No active events available.');
+                        } else {
+                          return ListView(
+                            children: activeEvents.map((activeEvents) {
+                              return EventCard(eventData: activeEvents);
+                            }).toList(),
+                          );
+                        }
+                      },
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ListView(
-                      children: pastEvents.map((pastEvents) {
-                        return PastEventCard(eventData: pastEvents);
-                      }).toList(),
+                    child: FutureBuilder<List<Event>>(
+                      future: getActiveEvents(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return RecentEventLoadingState();
+                        } else if (snapshot.hasError) {
+                          if (kDebugMode) {
+                            print('Error: ${snapshot.error}');
+                          }
+                          return Text('Error: ${snapshot.error}');
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return const Text('No active events available.');
+                        } else {
+                          return ListView(
+                            children: pastEvents.map((pastEvents) {
+                              return PastEventCard(eventData: pastEvents);
+                            }).toList(),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ],

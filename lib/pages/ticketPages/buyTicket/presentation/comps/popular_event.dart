@@ -1,55 +1,14 @@
-// account_screen.dart
-
-import 'package:_2geda/APIServices/event_api_service.dart';
 import 'package:_2geda/models/ticket.dart';
-import 'package:_2geda/pages/authentication/token_manager.dart';
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/all_popular_events.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/all_popular_events.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/states/event_loading_state.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/services/fetch_popular_events.dart';
 import 'package:_2geda/pages/widgets/ticket/presentation/comps/ticket_list.dart';
 import 'package:flutter/material.dart';
 
-class PopularEvent extends StatefulWidget {
-  const PopularEvent({super.key});
+class PopularEvent extends StatelessWidget {
+  PopularEvent({super.key});
 
-  @override
-  State<PopularEvent> createState() => _PopularEventState();
-}
-
-class _PopularEventState extends State<PopularEvent> {
-  late List<Event> events = []; // Initialize tickets as an empty list
-
-  final TokenManager tokenManager = TokenManager();
-  String? authToken;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadTickets();
-  }
-
-  Future<void> _loadTickets() async {
-    try {
-      // Instantiate the TicketApiService
-      TicketApiService ticketApiService = TicketApiService();
-
-      // Fetch the auth token
-      authToken = await tokenManager.getToken();
-
-      // Fetch tickets from the API
-      List<Event> fetchedTickets =
-          await ticketApiService.getTickets(authToken!);
-
-      // Update the state with the fetched tickets
-      if (mounted) {
-        setState(() {
-          events = fetchedTickets.cast<Event>();
-        });
-      }
-    } catch (e) {
-      // Handle errors, e.g., show an error message
-      print('Error loading tickets: $e');
-    }
-  }
-
+  late List<Event> events = [];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -91,7 +50,26 @@ class _PopularEventState extends State<PopularEvent> {
             ],
           ),
         ),
-       TicketListWidget(events: events,),
+        //  TicketListWidget(events: events,),
+        FutureBuilder<List<Event>>(
+          future: getPopularEvents(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return ShimmerLoadingEventRow();
+            } else if (snapshot.hasError) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Error loading tickets: ${snapshot.error}',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              );
+            } else {
+              return TicketListWidget(events: snapshot.data ?? []);
+            }
+          },
+        ),
       ],
     );
   }

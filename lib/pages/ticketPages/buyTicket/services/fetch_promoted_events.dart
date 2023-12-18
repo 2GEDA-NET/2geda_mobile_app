@@ -7,10 +7,12 @@ import 'package:http/http.dart' as http;
 const String baseUrl = ApiConfig.baseUrl;
 String? authToken;
 
-Future<List<Event>> getUpcomingEvents(String authToken) async {
+Future<List<Event>> getPromotedEvents() async {
   final authToken = TokenManager().getToken();
+  print("authToken: $authToken");
+
   final response = await http.get(
-    Uri.parse('$baseUrl/ticket/events'),
+    Uri.parse('$baseUrl/ticket/event-promoted'),
     headers: {
       'Authorization': 'Token $authToken',
       'Content-Type': 'application/json',
@@ -27,6 +29,6 @@ Future<List<Event>> getUpcomingEvents(String authToken) async {
 
     return events;
   } else {
-    throw Exception('Failed to load tickets');
+    throw Exception('Failed to load events');
   }
 }

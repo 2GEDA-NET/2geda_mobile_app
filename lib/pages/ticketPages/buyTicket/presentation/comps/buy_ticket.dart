@@ -1,7 +1,7 @@
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/event_catgories.dart';
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/event_this_week.dart';
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/popular_event.dart';
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/promoted_events.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/event_catgories.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/event_this_week.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/popular_event.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/promoted_events.dart';
 import 'package:_2geda/pages/ticketPages/search_ticket_page.dart';
 import 'package:_2geda/pages/widgets/people/user_list.dart';
 import 'package:_2geda/pages/widgets/product/product_widget.dart';
@@ -48,16 +48,15 @@ class BuyTicketPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                height: 5,
-              ),
-              Text(
-                "Great events are happening around you ",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              
+                    height: 5,
+                  ),
+                  Text(
+                    "Great events are happening around you ",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -96,12 +95,11 @@ class BuyTicketPage extends StatelessWidget {
                       icon: const Icon(Icons.sort),
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const SearchTicketPage(),
-                            ),
-                          );
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SearchTicketPage(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -112,12 +110,11 @@ class BuyTicketPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Image.asset('assets/banner2.png'),
             ),
-            const PopularEvent(),
+            PopularEvent(),
             const PromotionEvent(),
             const ProductListWidget(),
-            const EventThisWeek(),
+            EventThisWeek(),
             const EventCategory(),
-            
             const UserListWidget(),
             Padding(
               padding: const EdgeInsets.all(8.0),

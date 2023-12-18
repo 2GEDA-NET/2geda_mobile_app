@@ -1,4 +1,4 @@
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/reciever_details.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/reciever_details.dart';
 import 'package:flutter/material.dart';
 
 class SelectTicketScreen extends StatelessWidget {

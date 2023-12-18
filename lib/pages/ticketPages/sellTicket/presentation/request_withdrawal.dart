@@ -23,7 +23,9 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
         backgroundColor: Colors.white,
         title: const Text(
           'Payout',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: Colors.black,
+          ),
         ),
         actions: [
           Padding(
@@ -84,7 +86,7 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                     const Text(
                         "Amount will be displayed in your local currency",
                         style: TextStyle(
-                            fontSize: 6,
+                            fontSize: 7,
                             fontWeight: FontWeight.w400,
                             color: Colors.white)),
                   ],
@@ -199,9 +201,9 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                       ),
                       child: const Text("Add withdrawal info",
                           style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          )),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white)),
                     )
                   ],
                 ),
@@ -272,9 +274,9 @@ class _RequestWithdrawalState extends State<RequestWithdrawal> {
                       ),
                       child: const Text("Request",
                           style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          )),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white)),
                     )
                   ],
                 ),

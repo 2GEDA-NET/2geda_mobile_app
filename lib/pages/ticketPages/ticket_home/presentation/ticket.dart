@@ -1,5 +1,4 @@
-
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/buy_ticket.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/buy_ticket.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/presentation/sell_ticket.dart';
 import 'package:flutter/material.dart';
 

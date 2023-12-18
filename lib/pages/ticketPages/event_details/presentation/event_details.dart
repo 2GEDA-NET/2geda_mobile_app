@@ -1,4 +1,4 @@
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/ticket_details.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/ticket_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

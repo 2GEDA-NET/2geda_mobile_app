@@ -71,7 +71,14 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
   void initState() {
     super.initState();
     _loadAuthToken();
+    _addTicketForm();
     // Initialize authToken using the TokenManager or any other method
+  }
+
+  void _addTicketForm() {
+    setState(() {
+      _ticketForms.add(TicketFormData());
+    });
   }
 
   _loadAuthToken() async {

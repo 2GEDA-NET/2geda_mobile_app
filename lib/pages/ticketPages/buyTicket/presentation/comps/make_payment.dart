@@ -1,5 +1,4 @@
-
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/payment_success.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/payment_success.dart';
 import 'package:flutter/material.dart';
 
 class MakePaymentPage extends StatelessWidget {

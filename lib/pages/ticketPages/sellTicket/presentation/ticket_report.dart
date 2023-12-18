@@ -94,12 +94,15 @@ class _TicketReportState extends State<TicketReport> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.download),
+                    Icon(Icons.download, 
+                        color:Colors.white
+                    ),
                     Text(
                       "Get Report",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
+                        color:Colors.white
                       ),
                     ),
                   ],

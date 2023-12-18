@@ -4,13 +4,15 @@ import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:http/http.dart' as http;
 
+
 const String baseUrl = ApiConfig.baseUrl;
 String? authToken;
 
-Future<List<Event>> getUpcomingEvents(String authToken) async {
-  final authToken = TokenManager().getToken();
+Future<List<Event>> getPastEvents() async {
+  authToken = await TokenManager().getToken();
+
   final response = await http.get(
-    Uri.parse('$baseUrl/ticket/events'),
+    Uri.parse('$baseUrl/ticket/event-past/'),
     headers: {
       'Authorization': 'Token $authToken',
       'Content-Type': 'application/json',

@@ -1,19 +1,21 @@
 import 'package:_2geda/APIServices/event_api_service.dart';
 import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/services/fetch_weekly_events.dart';
+import 'package:_2geda/pages/ticketPages/sellTicket/presentation/state/events_loading_state.dart';
 import 'package:_2geda/pages/widgets/ticket/presentation/comps/ticket_card2.dart';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class AllPopularEvents extends StatefulWidget {
-  const AllPopularEvents({super.key});
+class AllWeeklyEvents extends StatefulWidget {
+  const AllWeeklyEvents({super.key});
 
   @override
-  State<AllPopularEvents> createState() => _AllPopularEventsState();
+  State<AllWeeklyEvents> createState() => _AllWeeklyEventsState();
 }
 
-class _AllPopularEventsState extends State<AllPopularEvents> {
-    late List<Event> events = []; // Initialize tickets as an empty list
+class _AllWeeklyEventsState extends State<AllWeeklyEvents> {
+  late List<Event> events = []; // Initialize tickets as an empty list
 
   final TokenManager tokenManager = TokenManager();
   String? authToken;
@@ -56,7 +58,7 @@ class _AllPopularEventsState extends State<AllPopularEvents> {
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         title: const Text(
-          'Popular Events',
+          'Events this Week',
           style: TextStyle(color: Colors.black),
         ),
         actions: [
@@ -88,8 +90,27 @@ class _AllPopularEventsState extends State<AllPopularEvents> {
                   // Add any other properties and handlers as needed
                 ),
               ),
-              TicketList2Widget(
-                eventData: events,
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: FutureBuilder<List<Event>>(
+                  future: getWeeklyEvents(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return RecentEventLoadingState();
+                    } else if (snapshot.hasError) {
+                      if (kDebugMode) {
+                        print('Error: ${snapshot.error}');
+                      }
+                      return Text('Error: ${snapshot.error}');
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Text('No active events available.');
+                    } else {
+                      return TicketList2Widget(
+                        eventData: events,
+                      );
+                    }
+                  },
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

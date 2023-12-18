@@ -1,9 +1,9 @@
-// account_screen.dart
-
 import 'package:_2geda/APIServices/event_api_service.dart';
 import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
-import 'package:_2geda/pages/ticketPages/buyTicket/presentation/all_promoted_events.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/comps/all_promoted_events.dart';
+import 'package:_2geda/pages/ticketPages/buyTicket/presentation/states/event_loading_state.dart';
+import 'package:_2geda/pages/ticketPages/sellTicket/services/fetch_promoted_events.dart';
 import 'package:_2geda/pages/widgets/ticket/presentation/comps/ticket_list.dart';
 import 'package:flutter/material.dart';
 
@@ -76,7 +76,7 @@ class _PromotionEventState extends State<PromotionEvent> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const AllPromotedEvents()),
+                        builder: (context) =>  AllPromotedEvents()),
                   );
                 },
                 child: const Text(
@@ -90,8 +90,24 @@ class _PromotionEventState extends State<PromotionEvent> {
             ],
           ),
         ),
-        TicketListWidget(
-          events: events,
+        FutureBuilder<List<Event>>(
+          future: getPromotedEvents(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return ShimmerLoadingEventRow();
+            } else if (snapshot.hasError) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Error loading tickets: ${snapshot.error}',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              );
+            } else {
+              return TicketListWidget(events: snapshot.data ?? []);
+            }
+          },
         ),
       ],
     );
