@@ -1,4 +1,5 @@
-import 'package:_2geda/pages/votingPages/poll_result.dart';
+
+import 'package:_2geda/pages/votingPages/presentation/poll_result.dart';
 import 'package:_2geda/pages/widgets/polls/polls_details.dart';
 import 'package:_2geda/pages/widgets/polls/vote_progress_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';

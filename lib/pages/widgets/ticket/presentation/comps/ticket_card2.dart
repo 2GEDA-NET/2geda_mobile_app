@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/ticketPages/event_details/presentation/event_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';

@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await UserPreference.init();
   runApp(
     MultiProvider(
@@ -102,7 +103,9 @@ class _SplashScreenState extends State<SplashScreen>
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    context.read<AuthProvider>().isLoggedIn ? SideBarLayout() : OnboardingScreen(),
+                    context.read<AuthProvider>().isLoggedIn
+                        ? SideBarLayout()
+                        : OnboardingScreen(),
               ),
             );
           }

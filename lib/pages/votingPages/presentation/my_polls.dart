@@ -1,4 +1,5 @@
-import 'package:_2geda/pages/votingPages/create_poll.dart';
+
+import 'package:_2geda/pages/votingPages/presentation/create_poll.dart';
 import 'package:_2geda/pages/widgets/polls/polls_carousel.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,4 @@
 import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
-import 'package:_2geda/pages/widgets/post/presentation/comps/post_comp.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ReactionModel {
   ReactionType reactionType;

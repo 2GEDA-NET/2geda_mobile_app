@@ -1,5 +1,6 @@
 import 'package:_2geda/data/ticket_data.dart';
 import 'package:_2geda/models/ticket.dart';
+import 'package:_2geda/pages/ticketPages/sellTicket/services/fetch_ticket_report.dart';
 import 'package:flutter/material.dart';
 
 class TicketReport extends StatefulWidget {
@@ -94,16 +95,13 @@ class _TicketReportState extends State<TicketReport> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.download, 
-                        color:Colors.white
-                    ),
+                    Icon(Icons.download, color: Colors.white),
                     Text(
                       "Get Report",
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        color:Colors.white
-                      ),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
                     ),
                   ],
                 ),
@@ -165,202 +163,240 @@ class _TicketCSVState extends State<TicketCSV> {
             ),
           ],
         ),
-        Expanded(
-          // Use Expanded to set a height constraint for the inner Column
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                for (TicketData ticketData in ticketDataList)
-                  _ticketCSV(ticketData),
-              ],
-            ),
-          ),
-        ),
+        
+        FutureBuilder<List<TicketReportData>>(
+          future: getTicketReport(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator(); // Loading indicator while data is being fetched
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Text('No ticket data available');
+            } else {
+              // Data has been successfully fetched
+              return Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      for (TicketReportData ticketData in snapshot.data!)
+                        _ticketCSV(ticketData),
+                    ],
+                  ),
+                ),
+              );
+            }
+          },
+        )
       ],
     );
   }
 
-  Widget _ticketCSV(
-    TicketData ticketData,
-  ) {
-    return ListTile(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Row(
-                children: [
-                  const Text("Ticket details",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      )),
-                  const Spacer(),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(); // Close the dialog
-                      },
-                      icon: const Icon(Icons.close))
-                ],
-              ), // Customize the dialog title
-
-              content: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                        width: 1,
-                        color: const Color.fromARGB(255, 192, 192, 192))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("Buyer",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                            Text(ticketData.name ?? 'Anonymous',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ))
-                          ],
-                        ),
-                        const Spacer(),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("Ticket ID",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                            Text("ID: ${ticketData.id}",
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ))
-                          ],
-                        )
-                      ],
-                    ),
-                    const Divider(),
-                    const Text("Ticket status",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        )),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(
-                                0xff4e0ca2), // Change background color
-                            minimumSize:
-                                const Size(10, 20), // Increase width and height
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  30), // Add border radius
-                            ),
-                          ),
-                          child: const Text("4 ticket",
-                              style: TextStyle(
-                                fontSize: 7,
-                                fontWeight: FontWeight.w400,
-                              )),
-                        ),
-                        const Spacer(),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromRGBO(
-                                92, 92, 92, 1.0), // Change background color
-                            minimumSize:
-                                const Size(10, 20), // Increase width and height
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  30), // Add border radius
-                            ),
-                          ),
-                          child: const Text("2 Regular",
-                              style: TextStyle(
-                                fontSize: 7,
-                                fontWeight: FontWeight.w400,
-                              )),
-                        ),
-                        const Spacer(),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            minimumSize:
-                                const Size(10, 20), // Increase width and height
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  30), // Add border radius
-                            ),
-                          ),
-                          child: const Text("1 VIP",
-                              style: TextStyle(
-                                fontSize: 7,
-                                fontWeight: FontWeight.w400,
-                              )),
-                        ),
-                        const Spacer(),
-                        ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromRGBO(237, 108, 48, 1.0),
-                              minimumSize: const Size(
-                                  10, 20), // Increase width and height
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    30), // Add border radius
-                              ),
-                            ),
-                            child: const Text("1 VVIP",
-                                style: TextStyle(
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.w400,
-                                ))),
-                      ],
-                    ),
-                    const Divider(),
-                    Column(
-                      children: [
-                        const Text("Amount paid",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            )),
-                        Text('# ${ticketData.price} ',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.green,
-                            )),
-                      ],
-                    ),
-                    // Add more details as needed
-                  ],
+  void _showDialog(BuildContext context, TicketReportData ticketData) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Row(
+            children: [
+              const Text(
+                "Ticket details",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-            );
-          },
+              const Spacer(),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                icon: const Icon(Icons.close),
+              ),
+            ],
+          ), // Customize the dialog title
+
+          content: Container(
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                width: 1,
+                color: const Color.fromARGB(255, 192, 192, 192),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Buyer",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          ticketData.name ?? 'Anonymous',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Ticket ID",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          "ID: ${ticketData.id}",
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Divider(),
+                const Text(
+                  "Ticket status",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Wrap(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xff4e0ca2),
+                        minimumSize: const Size(10, 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: const Text(
+                        "4 ticket",
+                        style: TextStyle(
+                          fontSize: 7,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8), // Adjust spacing as needed
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(92, 92, 92, 1.0),
+                        minimumSize: const Size(10, 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: const Text(
+                        "2 Regular",
+                        style: TextStyle(
+                          fontSize: 7,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        minimumSize: const Size(10, 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: const Text(
+                        "1 VIP",
+                        style: TextStyle(
+                          fontSize: 7,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromRGBO(237, 108, 48, 1.0),
+                        minimumSize: const Size(10, 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: const Text(
+                        "1 VVIP",
+                        style: TextStyle(
+                          fontSize: 7,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(),
+                Column(
+                  children: [
+                    const Text(
+                      "Amount paid",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Text(
+                      '# ${ticketData.price} ',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ],
+                ),
+                // Add more details as needed
+              ],
+            ),
+          ),
         );
       },
+    );
+  }
+
+  Widget _ticketCSV(
+    TicketReportData ticketData,
+  ) {
+    return ListTile(
+      onTap: () => _showDialog(context, ticketData),
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration:

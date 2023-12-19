@@ -1,5 +1,6 @@
-import 'package:_2geda/pages/votingPages/cast_vote.dart';
-import 'package:_2geda/pages/votingPages/my_polls.dart';
+
+import 'package:_2geda/pages/votingPages/presentation/cast_vote.dart';
+import 'package:_2geda/pages/votingPages/presentation/my_polls.dart';
 import 'package:flutter/material.dart';
 
 class VotingScreen extends StatelessWidget {

@@ -14,7 +14,8 @@ import 'package:_2geda/pages/widgets/post/presentation/state/posts_loading_state
 import 'package:_2geda/pages/widgets/post/service/fetch_posts.dart';
 import 'package:_2geda/pages/widgets/product/product_widget.dart';
 import 'package:_2geda/pages/widgets/stereo/stereo-widget.dart';
-import 'package:_2geda/pages/widgets/ticket/ticket_list.dart';
+import 'package:_2geda/pages/widgets/ticket/presentation/comps/ticket_list.dart';
+
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

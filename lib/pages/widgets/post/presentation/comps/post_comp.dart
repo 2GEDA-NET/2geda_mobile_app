@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:_2geda/pages/widgets/post/data/reaction_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
 import 'package:_2geda/pages/widgets/post/service/post_reaction.dart';

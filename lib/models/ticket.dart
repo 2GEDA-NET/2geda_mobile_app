@@ -1,13 +1,15 @@
 import 'dart:convert';
 
-class TicketData {
+class TicketReportData {
   final String? name;
   final String? id;
   final String? ticketType;
   final String? date;
   final String? price;
 
-  TicketData(this.name, this.id, this.ticketType, this.date, this.price);
+  TicketReportData(this.name, this.id, this.ticketType, this.date, this.price);
+
+  static fromJson(json) {}
 }
 
 

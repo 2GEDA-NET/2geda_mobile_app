@@ -15,52 +15,52 @@ import 'package:_2geda/models/ticket.dart';
 // ];
 
 
-List<TicketData> ticketDataList = [
-  TicketData(
+List<TicketReportData> ticketDataList = [
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
-  TicketData(
+  TicketReportData(
       "Awokunle Faith", "#8728891", "1 ticket", "June 24, 2023", "5,000.00"),
   // Add more ticket data as needed
 ];

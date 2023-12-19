@@ -26,30 +26,23 @@ class MessageListTile extends StatelessWidget {
           ),
         );
       },
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+      title: Text(
                 message.senderName,
                 style: const TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Text(
+      subtitle: Text(
                 message.message,
                 style: const TextStyle(
                   fontSize: 11.26,
                   fontWeight: FontWeight.w300,
                 ),
               ),
-            ],
-          ),
-          Column(
+            
+          
+      trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
@@ -81,9 +74,7 @@ class MessageListTile extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ],
-      ),
-    );
+          ));
+    
   }
 }
