@@ -21,6 +21,8 @@ import 'package:_2geda/pages/widgets/ticket/ticket_list.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../service/fetch_comments_byid.dart';
+
 class AllTabContent extends StatefulWidget {
   final int currentIndex;
 
@@ -99,8 +101,9 @@ class _AllTabContentState extends State<AllTabContent> {
                           height: 15,
                         ),
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async {
                             print(data.id);
+                            await fetchCommentsByPostID(data.id!.toString());
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(),
@@ -109,8 +112,9 @@ class _AllTabContentState extends State<AllTabContent> {
                               name: data.user!.username,
                               content: data.content,
                               timePosted: data.timeSince,
-                              location: data.user!.email,
                               noOfLikes: data.likes.toString(),
+                              eachMedia: data.eachMedia,
+                              location: data.user!.email,
                             ),
                           ),
                         ),

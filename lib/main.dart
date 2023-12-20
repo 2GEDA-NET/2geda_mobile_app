@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   await UserPreference.init();
+
   runApp(
     MultiProvider(
       providers: [
