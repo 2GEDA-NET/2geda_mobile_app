@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/post/data/comment_model.dart';
-import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 

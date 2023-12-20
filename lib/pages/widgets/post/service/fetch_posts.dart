@@ -4,7 +4,6 @@ import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 Future<List<Post>> fetchHomePGPosts() async {
   try {
