@@ -29,7 +29,7 @@ class VotingScreen extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text("Hello Tyler Miles,",
                   style: TextStyle(
@@ -96,7 +96,7 @@ class VotingScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(7),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Color.fromRGBO(255, 138, 21, 1),
+                      color: const Color.fromRGBO(255, 138, 21, 1),
                     ),
                     child: const Text(
                       "25 new polls",

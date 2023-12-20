@@ -1,4 +1,5 @@
-import 'package:_2geda/pages/profilePages/new_input.dart';
+
+import 'package:_2geda/pages/profilePages/presentation/new_input.dart';
 import 'package:flutter/material.dart';
 
 class PhoneImei extends StatelessWidget {

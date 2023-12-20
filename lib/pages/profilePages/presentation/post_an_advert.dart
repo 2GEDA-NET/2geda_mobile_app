@@ -1,4 +1,5 @@
-import 'package:_2geda/pages/profilePages/advert_preview.dart';
+
+import 'package:_2geda/pages/profilePages/presentation/advert_preview.dart';
 import 'package:flutter/material.dart';
 
 class PostAnAdvert extends StatefulWidget {

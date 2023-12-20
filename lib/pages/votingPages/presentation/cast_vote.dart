@@ -1,6 +1,7 @@
 import 'package:_2geda/APIServices/polls_api_service.dart';
 import 'package:_2geda/models/polls_model.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
+import 'package:_2geda/pages/votingPages/services/fetch_polls.dart';
 import 'package:_2geda/pages/widgets/polls/polls_card.dart';
 import 'package:flutter/material.dart';
 
@@ -23,42 +24,10 @@ class _CastVoteScreenState extends State<CastVoteScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetch polls when the screen is first loaded
-    _loadAuthToken();
   }
 
-  _loadAuthToken() async {
-    authToken = await tokenManager.getToken();
-    print('Auth Token: $authToken');
-    print('Token $authToken');
 
-    // Check if authToken is not null before fetching polls
-    if (authToken != null) {
-      _fetchPolls();
-    }
-  }
-
-  Future<void> _fetchPolls() async {
-    try {
-      if (authToken == null) {
-        // Handle the case when authToken is null (maybe show an error message or return early)
-        print('Error fetching polls: AuthToken is null');
-        return;
-      }
-
-      final List<Poll> polls =
-          await pollApiService.getPolls(authToken: authToken!);
-
-      setState(() {
-        allPolls = polls;
-        publicPolls = polls.where((poll) => poll.privacy == 'Public').toList();
-        privatePolls =
-            polls.where((poll) => poll.privacy == 'Private').toList();
-      });
-    } catch (e) {
-      print('Error fetching polls: $e');
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +114,32 @@ class _CastVoteScreenState extends State<CastVoteScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              _buildTabContent(),
+              FutureBuilder(
+                  future: getPolls(), // Use _fetchPolls() as the future
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error loading polls'),
+                      );
+                    } else {
+                      // Your existing UI code here
+                      final List<Poll> polls = snapshot.data!;
+                      setState(() {
+                        allPolls = polls;
+                        publicPolls = polls
+                            .where((poll) => poll.privacy == 'Public')
+                            .toList();
+                        privatePolls = polls
+                            .where((poll) => poll.privacy == 'Private')
+                            .toList();
+                      });
+                      return _buildTabContent();
+                    }
+                  }),
             ],
           ),
         ),

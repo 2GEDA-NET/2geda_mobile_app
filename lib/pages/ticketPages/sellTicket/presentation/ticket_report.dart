@@ -1,4 +1,3 @@
-import 'package:_2geda/data/ticket_data.dart';
 import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/ticketPages/sellTicket/services/fetch_ticket_report.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +128,7 @@ class _TicketReportState extends State<TicketReport> {
 }
 
 class TicketCSV extends StatefulWidget {
-  const TicketCSV({Key? key});
+  const TicketCSV({super.key,});
 
   @override
   State<TicketCSV> createState() => _TicketCSVState();

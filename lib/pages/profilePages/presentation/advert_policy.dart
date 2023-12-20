@@ -1,4 +1,5 @@
-import 'package:_2geda/pages/profilePages/post_an_advert.dart';
+
+import 'package:_2geda/pages/profilePages/presentation/post_an_advert.dart';
 import 'package:flutter/material.dart';
 
 class AdvertPolicy extends StatelessWidget {

@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:_2geda/pages/profilePages/change_password.dart';
-import 'package:_2geda/pages/profilePages/manage_advert.dart';
-import 'package:_2geda/pages/profilePages/device_reg.dart';
-import 'package:_2geda/pages/profilePages/reward/earn_reward.dart';
-import 'package:_2geda/pages/profilePages/saved_post.dart';
-import 'package:_2geda/pages/profilePages/verification.dart';
+import 'package:_2geda/pages/profilePages/presentation/change_password.dart';
+import 'package:_2geda/pages/profilePages/presentation/device_reg.dart';
+import 'package:_2geda/pages/profilePages/presentation/manage_advert.dart';
+import 'package:_2geda/pages/profilePages/presentation/reward/earn_reward.dart';
+import 'package:_2geda/pages/profilePages/presentation/saved_post.dart';
+import 'package:_2geda/pages/profilePages/presentation/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          SavedPosts(), // Replace with the actual screen
+                          const SavedPosts(), // Replace with the actual screen
                     ),
                   );
                 },

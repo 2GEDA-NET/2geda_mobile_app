@@ -17,7 +17,7 @@ class RecentEventLoadingState extends StatelessWidget {
         itemCount: itemCount, // Number of shimmer items
         itemBuilder: (context, index) {
           return ListTile(
-            leading: CircleAvatar(
+            leading: const CircleAvatar(
               radius: 30.0,
               backgroundColor: Colors.white,
             ),

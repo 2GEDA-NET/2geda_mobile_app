@@ -1,4 +1,5 @@
-import 'package:_2geda/pages/profilePages/advert_policy.dart';
+
+import 'package:_2geda/pages/profilePages/presentation/advert_policy.dart';
 import 'package:flutter/material.dart';
 
 class ManageAdvert extends StatelessWidget {

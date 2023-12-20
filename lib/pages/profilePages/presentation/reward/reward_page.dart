@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:_2geda/data/reward_data.dart';
-import 'package:_2geda/pages/profilePages/reward/more_rewards.dart';
-import 'package:_2geda/pages/profilePages/reward/referral/referral.dart';
-import 'package:_2geda/pages/profilePages/reward/referral/withdraw.dart';
-import 'package:_2geda/pages/profilePages/reward/reward_history.dart';
+import 'package:_2geda/pages/profilePages/presentation/reward/more_rewards.dart';
+import 'package:_2geda/pages/profilePages/presentation/reward/referral/referral.dart';
+import 'package:_2geda/pages/profilePages/presentation/reward/referral/withdraw.dart';
+import 'package:_2geda/pages/profilePages/presentation/reward/reward_history.dart';
 import 'package:_2geda/pages/widgets/reward/reward_card.dart';
 import 'package:flutter/material.dart';
 

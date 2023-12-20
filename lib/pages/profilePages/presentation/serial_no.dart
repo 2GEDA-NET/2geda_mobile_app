@@ -1,5 +1,6 @@
-import 'package:_2geda/pages/profilePages/new_input.dart';
-import 'package:_2geda/pages/profilePages/phone_imei.dart';
+
+import 'package:_2geda/pages/profilePages/presentation/new_input.dart';
+import 'package:_2geda/pages/profilePages/presentation/phone_imei.dart';
 import 'package:flutter/material.dart';
 
 class SerialNo extends StatelessWidget {

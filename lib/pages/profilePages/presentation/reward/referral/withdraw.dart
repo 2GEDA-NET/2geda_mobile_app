@@ -1,4 +1,5 @@
-import 'package:_2geda/pages/profilePages/reward/referral/payment.dart';
+
+import 'package:_2geda/pages/profilePages/presentation/reward/referral/payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

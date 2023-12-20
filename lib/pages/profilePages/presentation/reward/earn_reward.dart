@@ -1,4 +1,5 @@
-import 'package:_2geda/pages/profilePages/reward/reward_page.dart';
+
+import 'package:_2geda/pages/profilePages/presentation/reward/reward_page.dart';
 import 'package:flutter/material.dart';
 
 class EarnReward extends StatefulWidget {

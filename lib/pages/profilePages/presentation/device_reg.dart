@@ -1,6 +1,7 @@
-import 'package:_2geda/pages/profilePages/new_input.dart';
-import 'package:_2geda/pages/profilePages/phone_imei.dart';
-import 'package:_2geda/pages/profilePages/serial_no.dart';
+
+import 'package:_2geda/pages/profilePages/presentation/new_input.dart';
+import 'package:_2geda/pages/profilePages/presentation/phone_imei.dart';
+import 'package:_2geda/pages/profilePages/presentation/serial_no.dart';
 import 'package:flutter/material.dart';
 
 class DevicesReg extends StatelessWidget {

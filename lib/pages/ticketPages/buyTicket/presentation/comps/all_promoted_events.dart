@@ -1,4 +1,3 @@
-import 'package:_2geda/APIServices/event_api_service.dart';
 import 'package:_2geda/models/ticket.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/ticketPages/buyTicket/services/fetch_promoted_events.dart';
