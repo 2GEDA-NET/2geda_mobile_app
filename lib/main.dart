@@ -20,7 +20,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MediaUploadModel()),
         // Add other providers if needed
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -105,8 +105,8 @@ class _SplashScreenState extends State<SplashScreen>
               MaterialPageRoute(
                 builder: (BuildContext context) =>
                     context.read<AuthProvider>().isLoggedIn
-                        ? SideBarLayout()
-                        : OnboardingScreen(),
+                        ? const SideBarLayout()
+                        : const OnboardingScreen(),
               ),
             );
           }

@@ -112,31 +112,30 @@ class _CastVoteScreenState extends State<CastVoteScreen> {
               ),
               const SizedBox(height: 10),
               FutureBuilder(
-                  future: getPolls(), // Use _fetchPolls() as the future
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('Error loading polls'),
-                      );
-                    } else {
-                      // Your existing UI code here
-                      final List<Poll> polls = snapshot.data!;
-                      setState(() {
-                        allPolls = polls;
-                        publicPolls = polls
-                            .where((poll) => poll.privacy == 'Public')
-                            .toList();
-                        privatePolls = polls
-                            .where((poll) => poll.privacy == 'Private')
-                            .toList();
-                      });
-                      return _buildTabContent();
-                    }
-                  }),
+                future: getPolls(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                      child: Text('Error loading polls'),
+                    );
+                  } else {
+                    final List<Poll> polls = snapshot.data!;
+                    allPolls = polls;
+                    publicPolls = polls
+                        .where((poll) => poll.privacy == 'Public')
+                        .toList();
+                    privatePolls = polls
+                        .where((poll) => poll.privacy == 'Private')
+                        .toList();
+
+                    return _buildTabContent();
+                  }
+                },
+              ),
             ],
           ),
         ),

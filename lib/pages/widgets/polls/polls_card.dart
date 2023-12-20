@@ -8,7 +8,8 @@ class PollsCard extends StatelessWidget {
   final Poll poll;
   final int index; // Include index here
 
-  const PollsCard({required this.poll, Key? key, required this.index}) : super(key: key);
+  const PollsCard({required this.poll, Key? key, required this.index})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,11 @@ class PollsCard extends StatelessWidget {
               progress: poll.voteCount.toDouble(),
               remainingDays: poll.remainingDays,
               votesCount: poll.voteCount,
-              selectedOption: poll.optionsList?[index], // Use the correct index here
+              selectedOption:
+                  poll.optionsList != null && poll.optionsList!.length > index
+                      ? poll.optionsList![index]
+                      : null,
+
               optionContent: poll.options
                   .map((option) => option.content)
                   .join(", "), // Combine option content if needed
@@ -93,7 +98,8 @@ class PollsCard extends StatelessWidget {
               // Dynamic list of options with progress bars
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: poll.optionsList?.length,
+                itemCount: poll.optionsList?.length ??
+                    0, // Check if optionsList is not null
                 itemBuilder: (BuildContext context, int index) {
                   final option = poll.optionsList?[index];
                   return VotingProgressBar(
@@ -102,6 +108,7 @@ class PollsCard extends StatelessWidget {
                   );
                 },
               ),
+
               ListTile(
                 leading: const Icon(Icons.watch_later),
                 title: Row(

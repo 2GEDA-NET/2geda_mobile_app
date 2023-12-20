@@ -1,9 +1,9 @@
 import 'dart:io';
-
 import 'package:_2geda/APIServices/polls_api_service.dart';
 import 'package:_2geda/models/polls_model.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/homeScreens/create_post.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -35,7 +35,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
 
   List<String> dropdownPostPrivacy = [
     'Public',
-    'Provate',
+    'Private',
   ];
 
   @override
@@ -46,8 +46,10 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
 
   _loadAuthToken() async {
     authToken = await tokenManager.getToken();
-    print('Auth Token: $authToken');
-    print('Token $authToken');
+    if (kDebugMode) {
+      print('Auth Token: $authToken');
+      print('Token $authToken');
+    }
   }
 
   Future<void> _createPoll() async {
@@ -60,26 +62,30 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
 
       switch (selectedDuration) {
         case '24 hours':
-          endTime = now.add(Duration(hours: 24));
+          endTime = now.add(const Duration(hours: 24));
           break;
         case '7 days':
-          endTime = now.add(Duration(days: 7));
+          endTime = now.add(const Duration(days: 7));
           break;
         case '1 month':
-          endTime = now.add(Duration(days: 30));
+          endTime = now.add(const Duration(days: 30));
           break;
         case '6 months':
-          endTime = now.add(Duration(days: 180));
+          endTime = now.add(const Duration(days: 180));
           break;
         default:
           // Handle the case where an unknown duration is selected
-          print('Unknown duration selected');
+          if (kDebugMode) {
+            print('Unknown duration selected');
+          }
           return;
       }
       // Check if any option is empty
       if (options.any((option) => option.isEmpty)) {
         // Display an error message or handle accordingly
-        print('All options must be filled');
+        if (kDebugMode) {
+          print('All options must be filled');
+        }
         return;
       }
 
@@ -93,21 +99,26 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
         mediaFiles: mediaFiles,
         authToken: authToken!,
         endTime: endTime, // Pass the calculated endTime to the API service
- 
       );
 
       // Check if the poll was created successfully
       if (createdPoll.id != null) {
         // Poll created successfully, you can navigate to another screen or perform any other action
-        print('Poll created successfully');
+        if (kDebugMode) {
+          print('Poll created successfully');
+        }
         Navigator.pop(context);
       } else {
         // Failed to create poll
-        print('Failed to create poll');
+        if (kDebugMode) {
+          print('Failed to create poll');
+        }
       }
     } catch (e) {
       // Handle exceptions
-      print('Error creating poll: $e');
+      if (kDebugMode) {
+        print('Error creating poll: $e');
+      }
     }
   }
 
@@ -353,7 +364,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
                 onPressed: () {
                   _pickMedia();
                 },
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(Icons.image),
                     SizedBox(
@@ -386,7 +397,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
                 ),
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Center(

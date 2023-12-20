@@ -99,11 +99,17 @@ class PollDetailsPage extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: selectedOption?.votee.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
-                  final option = selectedOption?.votee[index];
-                  return VotingProgressBar(
-                    progress: option!.allVote.toDouble(),
-                    text: option.content,
-                  );
+                  if (index >= 0 &&
+                      index < (selectedOption?.votee.length ?? 0)) {
+                    final option = selectedOption?.votee[index];
+                    return VotingProgressBar(
+                      progress: option!.allVote.toDouble(),
+                      text: option.content,
+                    );
+                  } else {
+                    // Handle the case when index is out of bounds
+                    return Container();
+                  }
                 },
               ),
 
