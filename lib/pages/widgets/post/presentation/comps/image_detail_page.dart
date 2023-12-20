@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../data/post_model.dart';
 
 class ImageDetailPage extends StatelessWidget {
-  List<String> eachMedia;
+  List<EachMedia> eachMedia;
   ImageDetailPage({super.key, required this.eachMedia});
 
   @override
@@ -13,7 +13,7 @@ class ImageDetailPage extends StatelessWidget {
       appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pop(context, true);
               },
               icon: const Icon(Icons.arrow_back_ios_new))),
       body: Padding(
@@ -27,7 +27,8 @@ class ImageDetailPage extends StatelessWidget {
                   itemCount: eachMedia.length,
                   itemBuilder: (_, i) {
                     return InteractiveViewer(
-                        child: CachedNetworkImage(imageUrl: eachMedia[i]));
+                        child:
+                            CachedNetworkImage(imageUrl: eachMedia[i].media!));
                   }),
             )
           ],

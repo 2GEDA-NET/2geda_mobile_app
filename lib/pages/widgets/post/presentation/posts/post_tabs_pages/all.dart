@@ -11,6 +11,8 @@ import 'package:_2geda/pages/widgets/people/user_list.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/post_comp.dart';
+import 'package:_2geda/pages/widgets/post/presentation/comps/post_feeds_dtails.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/post_details.dart';
 
 import 'package:_2geda/pages/widgets/post/presentation/state/posts_loading_state.dart';
 import 'package:_2geda/pages/widgets/post/service/fetch_posts.dart';
@@ -101,20 +103,20 @@ class _AllTabContentState extends State<AllTabContent> {
                           height: 15,
                         ),
                         GestureDetector(
-                          onTap: () async {
-                            print(data.id);
-                            await fetchCommentsByPostID(data.id!.toString());
-                          },
                           child: Padding(
                             padding: const EdgeInsets.only(),
-                            child: PostComponent(
-                              postID: data.id!,
-                              name: data.user!.username,
-                              content: data.content,
-                              timePosted: data.timeSince,
-                              noOfLikes: data.likes.toString(),
-                              eachMedia: data.eachMedia,
-                              location: data.user!.email,
+                            child: GestureDetector(
+                              child: PostComponent(
+                                commentText: data.commentText,
+                                hashtags: data.hashtags,
+                                postID: data.id!,
+                                name: data.user!.username,
+                                content: data.content,
+                                timePosted: data.timeSince,
+                                noOfLikes: data.likes.toString(),
+                                eachMedia: data.eachMedia,
+                                location: data.user!.email,
+                              ),
                             ),
                           ),
                         ),

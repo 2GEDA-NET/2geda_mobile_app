@@ -56,18 +56,18 @@ class _CommentSectionState extends State<CommentSection> {
           height: MediaQuery.of(context).size.height *
               0.02, // 20% of the screen's height
         ),
-        TextButton(
-          onPressed: () {},
-          child: const Text(
-            "Load more",
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Colors.red,
-              decoration: TextDecoration.underline, // Add underline
-            ),
-          ),
-        ),
+        // TextButton(
+        //   onPressed: () {},
+        //   child: const Text(
+        //     "Load more",
+        //     style: TextStyle(
+        //       fontSize: 14,
+        //       fontWeight: FontWeight.w400,
+        //       color: Colors.red,
+        //       decoration: TextDecoration.underline, // Add underline
+        //     ),
+        //   ),
+        // ),
         Image.asset(
           "assets/banner2.png",
           width: MediaQuery.of(context).size.width,
@@ -97,32 +97,34 @@ class _CommentTileState extends State<_CommentTile> {
       padding: const EdgeInsets.all(8.0),
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(
-          // Use a Column to stack the header and comment
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _CommentHeader(
-              comment: widget.comment,
-            ), // Place the header here
-            const SizedBox(
-                height: 20), // Add spacing between header and comment
-            Text(widget.comment.content!),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.thumb_up_outlined,
-                    color: Colors.grey,
-                    size: 28,
+        child: SingleChildScrollView(
+          child: Column(
+            // Use a Column to stack the header and comment
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _CommentHeader(
+                comment: widget.comment,
+              ), // Place the header here
+              const SizedBox(
+                  height: 20), // Add spacing between header and comment
+              Text(widget.comment.content!),
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.thumb_up_outlined,
+                      color: Colors.grey,
+                      size: 28,
+                    ),
                   ),
-                ),
-                Text('${widget.comment.reactionCount}'),
-              ],
-            ),
-            const Divider(),
-          ],
+                  Text('${widget.comment.reactionCount}'),
+                ],
+              ),
+              const Divider(),
+            ],
+          ),
         ),
       ),
     );
@@ -150,11 +152,12 @@ class _CommentHeaderState extends State<_CommentHeader> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // ProfileAvatar(
-        //   imageUrl: widget.comment.user!.media.isNotEmpty
-        //       ? widget.comment.user!.media[0] ?? "defaultImage.png"
-        //       : "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80",
-        // ),
+        widget.comment.user!.media.isNotEmpty
+            ? ProfileAvatar(
+                imageUrl: widget.comment.user!.media[0].profileImage!,
+              )
+            : Image.network(
+                ': "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80"'),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(
