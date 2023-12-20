@@ -26,9 +26,6 @@ class _CastVoteScreenState extends State<CastVoteScreen> {
     super.initState();
   }
 
-
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,11 +115,11 @@ class _CastVoteScreenState extends State<CastVoteScreen> {
                   future: getPolls(), // Use _fetchPolls() as the future
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     } else if (snapshot.hasError) {
-                      return Center(
+                      return const Center(
                         child: Text('Error loading polls'),
                       );
                     } else {

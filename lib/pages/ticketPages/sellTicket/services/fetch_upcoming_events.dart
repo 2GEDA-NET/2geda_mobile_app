@@ -8,7 +8,7 @@ const String baseUrl = ApiConfig.baseUrl;
 String? authToken;
 
 Future<List<Event>> getUpcomingEvents() async {
-  final authToken = TokenManager().getToken();
+  final authToken = await TokenManager().getToken();
   final response = await http.get(
     Uri.parse('$baseUrl/ticket/events'),
     headers: {

@@ -5,11 +5,12 @@ import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:http/http.dart' as http;
 
 const String baseUrl = ApiConfig.baseUrl;
-String? authToken;
 
 Future<List<Poll>> getPolls() async {
-  final authToken = TokenManager().getToken();
   try {
+    final authToken = await TokenManager().getToken(); // Await here
+    print(authToken);
+
     final response = await http.get(
       Uri.parse('$baseUrl/poll/polls/'), // Update the endpoint as needed
       headers: {

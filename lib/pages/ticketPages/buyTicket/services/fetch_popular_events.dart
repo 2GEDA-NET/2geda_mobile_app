@@ -8,7 +8,7 @@ const String baseUrl = ApiConfig.baseUrl;
 String? authToken;
 
 Future<List<Event>> getPopularEvents() async {
-  final authToken = TokenManager().getToken();
+  final authToken = await TokenManager().getToken();
   print("authToken: $authToken");
 
   final response = await http.get(
