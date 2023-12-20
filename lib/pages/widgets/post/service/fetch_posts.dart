@@ -7,10 +7,10 @@ import 'package:http/http.dart' as http;
 
 Future<List<Post>> fetchHomePGPosts() async {
   try {
-    final token = TokenManager().getToken();
+    final token = await TokenManager().getToken();
     Map<String, String> serviceHeaders = {
       'Content-Type': 'application/json',
-      'Authorization': 'Token 65b55bb46605a175c3d5f16be2bcb83e7015305c',
+      'Authorization': 'Token $token',
     };
 
     final response = await http.get(

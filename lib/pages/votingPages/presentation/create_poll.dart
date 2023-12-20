@@ -376,7 +376,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
               ),
 
               // Display selected images or videos
-              Container(
+              SizedBox(
                 height: 100, // Set the desired height
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,

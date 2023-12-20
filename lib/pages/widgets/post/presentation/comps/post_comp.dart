@@ -14,7 +14,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../../data/post_model.dart';
-import '../../service/fetch_comments_byid.dart';
 
 class PostComponent extends StatefulWidget {
   String? imageUrl;

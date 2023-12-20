@@ -1,5 +1,4 @@
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
-import 'package:_2geda/pages/widgets/post/presentation/posts/profile_avatar.dart';
 import 'package:flutter/material.dart';
 
 class CommentSection extends StatefulWidget {
