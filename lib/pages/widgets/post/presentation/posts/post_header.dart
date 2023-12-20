@@ -21,11 +21,11 @@ class PostHeaderState extends State<PostHeader> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(
-          imageUrl: widget.post.user?.media.isNotEmpty ?? false
-              ? widget.post.user!.media[0]
-              : 'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
-        ),
+        // ProfileAvatar(
+        //   imageUrl: widget.post.user?.media.isNotEmpty ?? false
+        //       ? widget.post.user!.media[0]
+        //       : 'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80',
+        // ),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(

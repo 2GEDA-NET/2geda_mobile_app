@@ -149,11 +149,11 @@ class _CommentHeaderState extends State<_CommentHeader> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(
-          imageUrl: widget.comment.user!.media.isNotEmpty
-              ? widget.comment.user!.media[0] ?? "defaultImage.png"
-              : "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80",
-        ),
+        // ProfileAvatar(
+        //   imageUrl: widget.comment.user!.media.isNotEmpty
+        //       ? widget.comment.user!.media[0] ?? "defaultImage.png"
+        //       : "https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80",
+        // ),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(

@@ -204,6 +204,7 @@ class User {
     required this.email,
     required this.isBusiness,
     required this.isPersonal,
+    required this.accountBalance,
     required this.isAdmin,
     required this.username,
     required this.phoneNumber,
@@ -219,12 +220,13 @@ class User {
   final String? email;
   final bool? isBusiness;
   final bool? isPersonal;
+  final int? accountBalance;
   final bool? isAdmin;
   final String? username;
   final int? phoneNumber;
   final bool? isVerified;
   final Address? address;
-  final List<dynamic> media;
+  final List<Media> media;
   final CoverImage? coverImage;
   final dynamic lastSeen;
   final dynamic bio;
@@ -235,6 +237,7 @@ class User {
       email: json["email"],
       isBusiness: json["is_business"],
       isPersonal: json["is_personal"],
+      accountBalance: json["account_balance"],
       isAdmin: json["is_admin"],
       username: json["username"],
       phoneNumber: json["phone_number"],
@@ -243,7 +246,7 @@ class User {
           json["address"] == null ? null : Address.fromJson(json["address"]),
       media: json["media"] == null
           ? []
-          : List<dynamic>.from(json["media"]!.map((x) => x)),
+          : List<Media>.from(json["media"]!.map((x) => Media.fromJson(x))),
       coverImage: json["cover_image"] == null
           ? null
           : CoverImage.fromJson(json["cover_image"]),
@@ -257,12 +260,13 @@ class User {
         "email": email,
         "is_business": isBusiness,
         "is_personal": isPersonal,
+        "account_balance": accountBalance,
         "is_admin": isAdmin,
         "username": username,
         "phone_number": phoneNumber,
         "is_verified": isVerified,
         "address": address?.toJson(),
-        "media": media.map((x) => x).toList(),
+        "media": media.map((x) => x.toJson()).toList(),
         "cover_image": coverImage?.toJson(),
         "last_seen": lastSeen,
         "bio": bio,
@@ -349,6 +353,32 @@ class CoverImage {
   Map<String, dynamic> toJson() => {
         "id": id,
         "cover_image": coverImage,
+        "user": user,
+      };
+}
+
+class Media {
+  Media({
+    required this.id,
+    required this.profileImage,
+    required this.user,
+  });
+
+  final int? id;
+  final String? profileImage;
+  final int? user;
+
+  factory Media.fromJson(Map<String, dynamic> json) {
+    return Media(
+      id: json["id"],
+      profileImage: json["profile_image"],
+      user: json["user"],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "profile_image": profileImage,
         "user": user,
       };
 }

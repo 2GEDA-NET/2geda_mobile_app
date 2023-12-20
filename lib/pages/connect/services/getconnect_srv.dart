@@ -14,7 +14,7 @@ class GetConnectNotifier
       final token = TokenManager().getToken();
       Map<String, String> serviceHeaders = {
         'Content-Type': 'application/json',
-        'Authorization': 'Token $token',
+        'Authorization': 'Token 65b55bb46605a175c3d5f16be2bcb83e7015305c',
       };
       value = DataState.loading();
       final response = await http.get(

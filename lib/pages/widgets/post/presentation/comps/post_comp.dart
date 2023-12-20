@@ -2,23 +2,30 @@
 
 import 'package:_2geda/pages/widgets/post/data/reaction_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
+import 'package:_2geda/pages/widgets/post/presentation/comps/image_detail_page.dart';
 import 'package:_2geda/pages/widgets/post/service/post_reaction.dart';
 import 'package:_2geda/utils/constant/app_color.dart';
 import 'package:_2geda/utils/user_prefrences/user_prefs.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import '../../data/post_model.dart';
+import '../../service/fetch_comments_byid.dart';
+
 class PostComponent extends StatefulWidget {
   String? imageUrl;
   String? name;
+  String? locationCountry;
   String? location;
   String? timePosted;
   String? content;
   String? likes;
   String? noOfLikes;
+  List<EachMedia> eachMedia;
   int postID;
   PostComponent(
       {super.key,
@@ -29,6 +36,7 @@ class PostComponent extends StatefulWidget {
       this.likes,
       this.noOfLikes,
       required this.postID,
+      required this.eachMedia,
       this.content});
 
   @override
@@ -53,10 +61,15 @@ class _PostComponentState extends State<PostComponent> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          color: kwhite,
-          width: MediaQuery.sizeOf(context).width,
-          height: 350,
+        Card(
+          elevation: 0,
+          shape: const RoundedRectangleBorder(
+              side: BorderSide.none, borderRadius: BorderRadius.zero),
+          // color: kwhite,
+          // width: MediaQuery.sizeOf(context).width,
+          // height: widget.eachMedia.isEmpty || widget.eachMedia.length == 2
+          //     ? 250
+          //     : 350,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
             child: Column(
@@ -103,7 +116,7 @@ class _PostComponentState extends State<PostComponent> {
                         ),
                         SizedBox(
                             child: Text(
-                          widget.location ?? '',
+                          '',
                           style: TextStyle(
                             color: Colors.black.withOpacity(0.4000000059604645),
                             fontSize: 12,
@@ -113,15 +126,14 @@ class _PostComponentState extends State<PostComponent> {
                       ],
                     ),
                     const Spacer(),
-                    SizedBox(
-                        child: Text(
+                    Text(
                       widget.timePosted ?? '',
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.6000000238418579),
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                       ),
-                    )),
+                    )
                   ],
                 ),
                 const SizedBox(
@@ -148,16 +160,61 @@ class _PostComponentState extends State<PostComponent> {
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    Container(
-                      height: 123,
-                      width: MediaQuery.sizeOf(context).width,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[300]!),
-                        borderRadius: BorderRadius.circular(10),
-                        shape: BoxShape.rectangle,
-                        color: Colors.grey[300]!,
-                      ),
-                    ),
+                    widget.eachMedia.isEmpty
+                        ? const SizedBox()
+                        : Container(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 123,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount:
+                                    widget.eachMedia.length == 1 ? 1 : 2,
+                                crossAxisSpacing: 5.0,
+                                mainAxisSpacing: 5.0,
+                                childAspectRatio: 3.0,
+                              ),
+                              itemCount: widget.eachMedia.length < 4
+                                  ? widget.eachMedia.length
+                                  : widget.eachMedia.take(4).length,
+                              itemBuilder: (context, index) {
+                                // print(widget.eachMedia[index].media!);
+                                int mediaLen = widget.eachMedia.length - 4;
+                                if (index == 3) {
+                                  return mediaLen < 1
+                                      ? const SizedBox()
+                                      : Positioned.fill(
+                                          child: Text('+ $mediaLen'),
+                                        );
+                                }
+
+                                return Stack(
+                                  children: [
+                                    SizedBox(
+                                        child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (_) => ImageDetailPage(
+                                                        eachMedia: [
+                                                          widget
+                                                              .eachMedia[index]
+                                                              .media!
+                                                        ])));
+                                      },
+                                      child: CachedNetworkImage(
+                                          imageUrl:
+                                              widget.eachMedia[index].media!),
+                                    )),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
                     if (reactionView)
                       Positioned(
                         bottom: -10,
