@@ -1,8 +1,7 @@
-// user_service.dart
 import 'dart:convert';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/connect/data/get_conct_model.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class GetConnectNotifier
@@ -11,10 +10,10 @@ class GetConnectNotifier
 
   Future fetchData() async {
     try {
-      final token = TokenManager().getToken();
+      final token = await TokenManager().getToken();
       Map<String, String> serviceHeaders = {
         'Content-Type': 'application/json',
-        'Authorization': 'Token 65b55bb46605a175c3d5f16be2bcb83e7015305c',
+        'Authorization': 'Token $token',
       };
       value = DataState.loading();
       final response = await http.get(
@@ -32,8 +31,12 @@ class GetConnectNotifier
               .toList();
 
           value = DataState.loaded(modelsList);
-          print('Data loaded successfully');
-          print(modelsList[0].media[0].profileImage);
+          if (kDebugMode) {
+            print('Data loaded successfully');
+          }
+          if (kDebugMode) {
+            print(modelsList[0].media[0].profileImage);
+          }
 
           return modelsList;
         }
