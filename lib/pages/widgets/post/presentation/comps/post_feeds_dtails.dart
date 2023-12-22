@@ -5,12 +5,15 @@ import 'package:_2geda/pages/widgets/post/presentation/comps/comment_fab.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/post_feeds_headr.dart';
 import 'package:_2geda/pages/widgets/post/service/post_reaction.dart';
+import 'package:_2geda/utils/constant/app_color.dart';
 import 'package:_2geda/utils/user_prefrences/user_prefs.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../data/reaction_model.dart';
 import '../posts/comment/post_comment.dart';
 
 class PostFeedDetails extends StatefulWidget {
@@ -49,6 +52,12 @@ class _PostFeedDetailsState extends State<PostFeedDetails> {
       PostReactionServiceNotifier();
   late String getStoredReaction;
   late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    getStoredReactionFnc();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,98 +142,156 @@ class _PostFeedDetailsState extends State<PostFeedDetails> {
                   : Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 0),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: widget.eachMedia.length,
-                          itemBuilder: (_, i) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.eachMedia[i].media ?? '',
-                                height: MediaQuery.of(context).size.width * 0.5,
-                                fit: BoxFit.cover,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: widget.eachMedia.length,
+                              itemBuilder: (_, i) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.eachMedia[i].media ?? '',
+                                    height:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              }),
+                          if (reactionView)
+                            Positioned(
+                              bottom: -10,
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(24, 10, 0, 10),
+                                width: 226,
+                                height: 46.38,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: kPrimary2),
+                                child: AnimationLimiter(
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    itemCount: rs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return AnimationConfiguration
+                                          .staggeredList(
+                                        position: index,
+                                        duration:
+                                            const Duration(milliseconds: 375),
+                                        child: SlideAnimation(
+                                          verticalOffset: 50.0,
+                                          child: FadeInAnimation(
+                                            child: InkWell(
+                                                onTap: () async {
+                                                  setState(() {
+                                                    reactionType =
+                                                        rs[index].reactionType;
+                                                    reactionView = false;
+                                                  });
+                                                  await postReactionServiceNotifier
+                                                      .postReactionService(
+                                                          postId:
+                                                              widget.postID!,
+                                                          reactionType:
+                                                              reactionType
+                                                                  .name);
+                                                  ////////
+                                                  print(reactionType.name);
+                                                },
+                                                child: SvgPicture.asset(
+                                                    rs[index].svg)),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
-                            );
-                          }),
+                            ),
+                        ],
+                      ),
                     ),
               const SizedBox(
                 height: 24,
               ),
               ///// Reactio nseg
-              // Expanded(
-              //   child: Row(
-              //     children: [
-              //       InkWell(
-              //         onTap: () async {
-              //           if (reactionView) {
-              //             setState(() {
-              //               reactionView = false;
-              //             });
-              //           } else {
-              //             if (reactionType == ReactionType.none) {
-              //               reactionType = ReactionType.like;
-              //               ////////
-              //               await postReactionServiceNotifier.postReactionService(
-              //                   postId: widget.postID!, reactionType: 'like');
-              //             } else {
-              //               reactionType = ReactionType.none;
-              //             }
-              //           }
-              //           setState(() {});
-              //         },
-              //         onLongPress: () {
-              //           setState(() {
-              //             reactionView = true;
-              //           });
-              //         },
-              //         child: getStoredReaction == ''
-              //             ? getReaction(reactionType)
-              //             : getStoredReactionFnc(),
-              //       ),
-              //       const SizedBox(
-              //         width: 4,
-              //       ),
-              //       Text(
-              //         widget.noOfLikes ?? '',
-              //         style: const TextStyle(
-              //           color: Colors.black,
-              //           fontSize: 10,
-              //           fontFamily: 'Ubuntu',
-              //           fontWeight: FontWeight.w400,
-              //           height: 0,
-              //         ),
-              //       ),
-              //       const SizedBox(
-              //         width: 8,
-              //       ),
-              //       SvgPicture.asset('assets/ChatCentered.svg'),
-              //       const Text(
-              //         '3.2K',
-              //         style: TextStyle(
-              //           color: Colors.black,
-              //           fontSize: 10,
-              //           fontFamily: 'Ubuntu',
-              //           fontWeight: FontWeight.w400,
-              //           height: 0,
-              //         ),
-              //       ),
-              //       const SizedBox(
-              //         width: 8,
-              //       ),
-              //       SvgPicture.asset('assets/ShareNetwork.svg'),
-              //       const Text(
-              //         '3.2K',
-              //         style: TextStyle(
-              //           color: Colors.black,
-              //           fontSize: 10,
-              //           fontFamily: 'Ubuntu',
-              //           fontWeight: FontWeight.w400,
-              //           height: 0,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      if (reactionView) {
+                        setState(() {
+                          reactionView = false;
+                        });
+                      } else {
+                        if (reactionType == ReactionType.none) {
+                          reactionType = ReactionType.like;
+                          ////////
+                          await postReactionServiceNotifier.postReactionService(
+                              postId: widget.postID!, reactionType: 'like');
+                        } else {
+                          reactionType = ReactionType.none;
+                        }
+                      }
+                      setState(() {});
+                    },
+                    onLongPress: () {
+                      setState(() {
+                        reactionView = true;
+                      });
+                    },
+                    child: getStoredReaction == ''
+                        ? getReaction(reactionType)
+                        : getStoredReactionFnc(),
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    widget.noOfLikes ?? '',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 10,
+                      fontFamily: 'Ubuntu',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  GestureDetector(
+                      child: SvgPicture.asset('assets/ChatCentered.svg')),
+                  const Text(
+                    '3.2K',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 10,
+                      fontFamily: 'Ubuntu',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  SvgPicture.asset('assets/ShareNetwork.svg'),
+                  const Text(
+                    '3.2K',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 10,
+                      fontFamily: 'Ubuntu',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(
                 height: 15,
               ),

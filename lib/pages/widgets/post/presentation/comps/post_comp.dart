@@ -84,9 +84,9 @@ class _PostComponentState extends State<PostComponent> {
                       commentText: widget.commentText,
                       eachMedia: widget.eachMedia)),
             );
-            print(widget.postID);
           },
-          child: SizedBox(
+          child: Container(
+            margin: EdgeInsets.zero,
             width: double.infinity,
             child: Card(
               color: kwhite,

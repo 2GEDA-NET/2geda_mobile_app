@@ -95,6 +95,8 @@ class _CommentFABsState extends State<CommentFABs> {
       children: [
         if (showAdditionalButtons) ...[
           FloatingActionButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100)),
             heroTag: "docBtn",
             onPressed: () async {
               FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -133,6 +135,8 @@ class _CommentFABsState extends State<CommentFABs> {
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100)),
               heroTag: "btn1",
               onPressed: isRecording ? stopRecording : startRecording,
               backgroundColor: const Color.fromARGB(255, 12, 162, 62),
@@ -142,6 +146,8 @@ class _CommentFABsState extends State<CommentFABs> {
               )),
           const SizedBox(height: 16),
           FloatingActionButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100)),
             heroTag: "btn2",
             onPressed: () async {
               final video =
@@ -171,6 +177,8 @@ class _CommentFABsState extends State<CommentFABs> {
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100)),
             heroTag: "btn3",
             onPressed: () async {
               final image =
@@ -200,6 +208,8 @@ class _CommentFABsState extends State<CommentFABs> {
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100)),
             heroTag: "btn4",
             onPressed: () {
               // Call a function to show the text input dialog
@@ -214,6 +224,8 @@ class _CommentFABsState extends State<CommentFABs> {
         ],
         const SizedBox(height: 16),
         FloatingActionButton(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
           heroTag: "btnToggle",
           onPressed: () {
             setState(() {
