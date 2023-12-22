@@ -6,7 +6,7 @@ import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<Post>> fetchCommentsByPostID(String id) async {
+Future<List<CommentModel>> fetchCommentsByPostID(String id) async {
   try {
     final token = TokenManager().getToken();
     Map<String, String> serviceHeaders = {
@@ -24,8 +24,9 @@ Future<List<Post>> fetchCommentsByPostID(String id) async {
 
       if (responseData is List<dynamic>) {
         final List<dynamic> userList = responseData;
-        final List<Post> modelsList =
-            userList.map((userData) => Post.fromJson(userData)).toList();
+        final List<CommentModel> modelsList = userList
+            .map((userData) => CommentModel.fromJson(userData))
+            .toList();
 
         if (kDebugMode) {
           print('Data loaded successfully');

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../data/post_model.dart';
 
 class ImageDetailPage extends StatelessWidget {
-  List<EachMedia> eachMedia;
+  String? eachMedia;
   ImageDetailPage({super.key, required this.eachMedia});
 
   @override
@@ -22,15 +22,8 @@ class ImageDetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: eachMedia.length,
-                  itemBuilder: (_, i) {
-                    return InteractiveViewer(
-                        child:
-                            CachedNetworkImage(imageUrl: eachMedia[i].media!));
-                  }),
-            )
+                child: InteractiveViewer(
+                    child: CachedNetworkImage(imageUrl: eachMedia!)))
           ],
         ),
       ),

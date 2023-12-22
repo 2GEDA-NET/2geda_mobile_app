@@ -63,12 +63,12 @@ class _SavedPostsState extends State<SavedPosts> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children:
-              savedPosts.map((post) => PostContainer(post: post)).toList(),
-        ),
-      ),
+      // body: SingleChildScrollView(
+      //   child: Column(
+      //     children:
+      //         savedPosts.map((post) => PostContainer(post: post)).toList(),
+      //   ),
+      // ),
     );
   }
 }

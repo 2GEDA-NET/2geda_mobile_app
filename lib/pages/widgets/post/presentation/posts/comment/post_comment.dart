@@ -1,7 +1,15 @@
 import 'package:_2geda/models/post_model.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/posts/profile_avatar.dart';
+import 'package:_2geda/pages/widgets/post/service/fetch_posts.dart';
+import 'package:_2geda/utils/constant/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:_2geda/models/post_model.dart';
+import 'package:_2geda/pages/widgets/post/data/post_model.dart';
+import 'package:_2geda/pages/widgets/post/presentation/posts/profile_avatar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CommentSection extends StatefulWidget {
   final List<CommentText> commentText;
@@ -20,64 +28,80 @@ class _CommentSectionState extends State<CommentSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Row(
-            children: [
-              Text(
-                "Comments",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+    return FutureBuilder<List<Post>>(
+        future: fetchHomePGPosts(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: kblckBtn,
+                size: 20.0,
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No comment available'));
+          }
+          return Column(
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      "Comments",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Spacer(),
+                    Row(
+                      children: [
+                        Text(
+                          "most relevant",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Icon(Icons.arrow_drop_down),
+                      ],
+                    )
+                  ],
                 ),
               ),
-              Spacer(),
-              Row(
-                children: [
-                  Text(
-                    "most relevant",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Icon(Icons.arrow_drop_down),
-                ],
-              )
+              const Divider(),
+              for (final comment in snapshot.data![0].commentText)
+                _CommentTile(comment: comment),
+              SizedBox(
+                height: MediaQuery.of(context).size.height *
+                    0.02, // 20% of the screen's height
+              ),
+              // TextButton(
+              //   onPressed: () {},
+              //   child: const Text(
+              //     "Load more",
+              //     style: TextStyle(
+              //       fontSize: 14,
+              //       fontWeight: FontWeight.w400,
+              //       color: Colors.red,
+              //       decoration: TextDecoration.underline, // Add underline
+              //     ),
+              //   ),
+              // ),
+              Image.asset(
+                "assets/banner2.png",
+                width: MediaQuery.of(context).size.width,
+                height: 60,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
             ],
-          ),
-        ),
-        const Divider(),
-        for (final comment in widget.commentText)
-          _CommentTile(comment: comment),
-        SizedBox(
-          height: MediaQuery.of(context).size.height *
-              0.02, // 20% of the screen's height
-        ),
-        // TextButton(
-        //   onPressed: () {},
-        //   child: const Text(
-        //     "Load more",
-        //     style: TextStyle(
-        //       fontSize: 14,
-        //       fontWeight: FontWeight.w400,
-        //       color: Colors.red,
-        //       decoration: TextDecoration.underline, // Add underline
-        //     ),
-        //   ),
-        // ),
-        Image.asset(
-          "assets/banner2.png",
-          width: MediaQuery.of(context).size.width,
-          height: 60,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-      ],
-    );
+          );
+        });
   }
 }
 
@@ -93,37 +117,54 @@ class _CommentTile extends StatefulWidget {
 class _CommentTileState extends State<_CommentTile> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return InkWell(
+      onTap: () {
+        if (widget.comment.responses.isNotEmpty) {
+          for (var responses in widget.comment.responses) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => _CommentTile(comment: responses)));
+          }
+        }
+      },
       child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: SingleChildScrollView(
-          child: Column(
-            // Use a Column to stack the header and comment
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _CommentHeader(
-                comment: widget.comment,
-              ), // Place the header here
-              const SizedBox(
-                  height: 20), // Add spacing between header and comment
-              Text(widget.comment.content!),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.thumb_up_outlined,
-                      color: Colors.grey,
-                      size: 28,
+        padding: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: SingleChildScrollView(
+            child: Column(
+              // Use a Column to stack the header and comment
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _CommentHeader(
+                  comment: widget.comment,
+                ), // Place the header here
+                const SizedBox(
+                    height: 20), // Add spacing between header and comment
+                Text(widget.comment.content!),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.thumb_up_outlined,
+                        color: Colors.grey,
+                        size: 28,
+                      ),
                     ),
-                  ),
-                  Text('${widget.comment.reactionCount}'),
-                ],
-              ),
-              const Divider(),
-            ],
+                    Text('${widget.comment.reactionCount}'),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
+                        onTap: () {},
+                        child: SvgPicture.asset('assets/ChatCentered.svg')),
+                    Text('${widget.comment.responsesCount}'),
+                  ],
+                ),
+                const Divider(),
+              ],
+            ),
           ),
         ),
       ),

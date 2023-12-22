@@ -19,6 +19,7 @@ import 'package:_2geda/pages/widgets/post/service/fetch_posts.dart';
 import 'package:_2geda/pages/widgets/product/product_widget.dart';
 import 'package:_2geda/pages/widgets/stereo/stereo-widget.dart';
 import 'package:_2geda/pages/widgets/ticket/ticket_list.dart';
+import 'package:_2geda/pages/widgets/video/video_widget.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -157,7 +158,7 @@ class _AllTabContentState extends State<AllTabContent> {
         return const ProductListWidget();
 
       default:
-        return const SizedBox();
+        return VideoListWidget();
     }
   }
 }

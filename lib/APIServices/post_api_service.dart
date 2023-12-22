@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:_2geda/APIServices/api_config.dart';
@@ -5,6 +6,7 @@ import 'package:_2geda/models/mediamodel.dart';
 import 'package:_2geda/models/post_model.dart';
 import 'package:_2geda/models/user_model.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
+import 'package:_2geda/pages/widgets/post/service/fetch_posts.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -215,10 +217,19 @@ class PostService {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Comment created successfully
+        fetchHomePGPosts();
         print('Comment created successfully');
       } else {
         // Handle error
         print('Failed to create comment. Status code: ${response.statusCode}');
+      }
+    } on SocketException catch (_) {
+      if (kDebugMode) {
+        print('Network error');
+      }
+    } on TimeoutException catch (_) {
+      if (kDebugMode) {
+        print('Request timeout');
       }
     } catch (e) {
       // Handle network error

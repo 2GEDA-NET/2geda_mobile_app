@@ -1,6 +1,7 @@
 import 'package:_2geda/pages/connect/presentation/widgets/comps/gender_btns.dart';
 import 'package:_2geda/pages/connect/services/sort_connct_srv.dart';
 import 'package:_2geda/utils/constant/app_color.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -136,7 +137,9 @@ class _MAppBarState extends State<MAppBar> {
                               onPressed: () {
                                 genderCheck.value = 'Male';
 
-                                print(genderCheck.value);
+                                if (kDebugMode) {
+                                  print(genderCheck.value);
+                                }
                               },
                               titl: 'Male',
                             )),

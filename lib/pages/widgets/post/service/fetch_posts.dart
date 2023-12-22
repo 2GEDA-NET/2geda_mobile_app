@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
@@ -38,6 +40,15 @@ Future<List<Post>> fetchHomePGPosts() async {
       }
     } else {
       throw Exception('Failed to get Posts');
+    }
+  } on SocketException catch (_) {
+    if (kDebugMode) {
+      print('Network error');
+    }
+  } on TimeoutException catch (_) {
+    // Handle timeout issues
+    if (kDebugMode) {
+      print('Request timeout');
     }
   } catch (error) {
     if (error == http.ClientException) {
