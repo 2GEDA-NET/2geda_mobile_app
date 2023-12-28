@@ -31,9 +31,9 @@ class _CommentFABsState extends State<CommentFABs> {
   void initState() {
     super.initState();
     _loadAuthToken();
-    // audioPlayer = AudioPlayer();
-    // audioRecord = Record();
-    // recorderController = RecorderController();
+    audioPlayer = AudioPlayer();
+    audioRecord = Record();
+    recorderController = RecorderController();
   }
 
   _loadAuthToken() async {

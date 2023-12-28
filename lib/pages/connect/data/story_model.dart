@@ -26,11 +26,4 @@ final List<Story> stories = [
     media: MediaType.image,
     duration: Duration(seconds: 7),
   ),
-  const Story(
-    image: 'assets/2geda-purple.png',
-    media: MediaType.image,
-    duration: Duration(
-      seconds: 7,
-    ),
-  ),
 ];

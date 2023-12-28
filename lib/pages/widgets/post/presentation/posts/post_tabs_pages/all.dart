@@ -84,7 +84,7 @@ class _AllTabContentState extends State<AllTabContent> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
                 child: RecentActivityLoadingState(
-                  itemCount: 2,
+                  itemCount: 3,
                 ),
               );
             } else if (snapshot.hasError) {
@@ -103,23 +103,16 @@ class _AllTabContentState extends State<AllTabContent> {
                         const SizedBox(
                           height: 15,
                         ),
-                        GestureDetector(
-                          child: Padding(
-                            padding: const EdgeInsets.only(),
-                            child: GestureDetector(
-                              child: PostComponent(
-                                commentText: data.commentText,
-                                hashtags: data.hashtags,
-                                postID: data.id!,
-                                name: data.user!.username,
-                                content: data.content,
-                                timePosted: data.timeSince,
-                                noOfLikes: data.likes.toString(),
-                                eachMedia: data.eachMedia,
-                                location: data.user!.email,
-                              ),
-                            ),
-                          ),
+                        PostComponent(
+                          commentText: data.commentText,
+                          hashtags: data.hashtags,
+                          postID: data.id!,
+                          name: data.user!.username ?? '',
+                          content: data.content,
+                          timePosted: data.timeSince,
+                          noOfLikes: data.likes.toString(),
+                          eachMedia: data.eachMedia,
+                          location: data.user!.email,
                         ),
                         const SizedBox(
                           height: 15,

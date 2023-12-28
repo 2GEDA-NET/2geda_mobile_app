@@ -43,8 +43,8 @@ class PostReactionServiceNotifier extends ValueNotifier<bool> {
             PostReactionModel.fromJson(responseData);
 
         //! Store reaction type uniquely to local
-        await UserPreference.setReactionType(
-            model.reaction[0].reactionType!, model.id.toString());
+        // await UserPreference.setReactionType(
+        //     model.reaction[0].reactionType!, model.id.toString());
 
         if (kDebugMode) {
           print('reactionType: ${model.reaction[0].reactionType}');

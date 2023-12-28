@@ -1,9 +1,7 @@
 import 'package:_2geda/pages/chatPages/callScreens/video_call_page.dart';
 import 'package:flutter/material.dart';
 
-
 const appId = "5629e2f1eac04cdaa8fbce5f0afd1466";
-
 
 class ConversationPage extends StatelessWidget {
   const ConversationPage({super.key});
@@ -29,12 +27,12 @@ class ConversationPage extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VideoCallPage(),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => VideoCallPage(),
+              //   ),
+              // );
             },
             icon: const Icon(Icons.video_call),
           ),

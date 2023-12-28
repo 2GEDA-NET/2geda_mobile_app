@@ -163,8 +163,7 @@ class _PostFeedDetailsState extends State<PostFeedDetails> {
                             Positioned(
                               bottom: -10,
                               child: Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(24, 10, 0, 10),
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 width: 226,
                                 height: 46.38,
                                 decoration: BoxDecoration(
@@ -219,78 +218,85 @@ class _PostFeedDetailsState extends State<PostFeedDetails> {
                 height: 24,
               ),
               ///// Reactio nseg
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () async {
-                      if (reactionView) {
-                        setState(() {
-                          reactionView = false;
-                        });
-                      } else {
-                        if (reactionType == ReactionType.none) {
-                          reactionType = ReactionType.like;
-                          ////////
-                          await postReactionServiceNotifier.postReactionService(
-                              postId: widget.postID!, reactionType: 'like');
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        if (reactionView) {
+                          setState(() {
+                            reactionView = false;
+                          });
                         } else {
-                          reactionType = ReactionType.none;
+                          if (reactionType == ReactionType.none) {
+                            reactionType = ReactionType.like;
+
+                            ////////
+                            await postReactionServiceNotifier
+                                .postReactionService(
+                                    postId: widget.postID!,
+                                    reactionType: 'like');
+                          } else {
+                            reactionType = ReactionType.none;
+                          }
                         }
-                      }
-                      setState(() {});
-                    },
-                    onLongPress: () {
-                      setState(() {
-                        reactionView = true;
-                      });
-                    },
-                    child: getStoredReaction == ''
-                        ? getReaction(reactionType)
-                        : getStoredReactionFnc(),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    widget.noOfLikes ?? '',
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 10,
-                      fontFamily: 'Ubuntu',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
+                        setState(() {});
+                      },
+                      onLongPress: () {
+                        setState(() {
+                          reactionView = true;
+                        });
+                      },
+                      child: getStoredReaction == ''
+                          ? getReaction(reactionType)
+                          : getStoredReactionFnc(),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  GestureDetector(
-                      child: SvgPicture.asset('assets/ChatCentered.svg')),
-                  const Text(
-                    '3.2K',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 10,
-                      fontFamily: 'Ubuntu',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
+                    const SizedBox(
+                      width: 4,
                     ),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  SvgPicture.asset('assets/ShareNetwork.svg'),
-                  const Text(
-                    '3.2K',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 10,
-                      fontFamily: 'Ubuntu',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
+                    Text(
+                      widget.noOfLikes ?? '',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 10,
+                        fontFamily: 'Ubuntu',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    GestureDetector(
+                        child: SvgPicture.asset('assets/ChatCentered.svg')),
+                    const Text(
+                      '3.2K',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 10,
+                        fontFamily: 'Ubuntu',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    SvgPicture.asset('assets/ShareNetwork.svg'),
+                    const Text(
+                      '3.2K',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 10,
+                        fontFamily: 'Ubuntu',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 15,
