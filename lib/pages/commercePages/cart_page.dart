@@ -2,7 +2,7 @@ import 'package:_2geda/data/product_data.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatefulWidget {
-  CartPage({super.key});
+  const CartPage({super.key});
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -133,7 +133,7 @@ class _CartPageState extends State<CartPage> {
 }
 
 void main() => runApp(
-      MaterialApp(
+      const MaterialApp(
         home: CartPage(),
       ),
     );

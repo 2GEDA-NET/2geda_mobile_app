@@ -121,7 +121,7 @@ class _ShareUploadState extends State<ShareUpload> {
                     ],
                   ),
                 )),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Row(
@@ -138,10 +138,10 @@ class _ShareUploadState extends State<ShareUpload> {
                           child: IconButton(
                               onPressed: () {}, icon: const Icon(Icons.share)),
                         )),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text("Share",
+                    const Text("Share",
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -160,10 +160,10 @@ class _ShareUploadState extends State<ShareUpload> {
                               onPressed: () {},
                               icon: const Icon(Icons.download)),
                         )),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text("Download",
+                    const Text("Download",
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,

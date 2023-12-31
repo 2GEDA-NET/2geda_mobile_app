@@ -6,7 +6,7 @@ class PostButton extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onLongPress;
 
-  const PostButton({
+  const PostButton({super.key, 
     required this.icon,
     required this.label,
     required this.onTap,

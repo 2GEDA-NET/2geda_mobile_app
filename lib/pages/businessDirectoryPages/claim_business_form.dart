@@ -12,7 +12,7 @@ class ClaimBusinessForm extends StatefulWidget {
 
 class _ClaimBusinessFormState extends State<ClaimBusinessForm> {
   int _currentPage = 0; // Track the current page
-  PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class _ClaimBusinessFormState extends State<ClaimBusinessForm> {
                     });
                   },
                 ),
-                ContactInformationSection(),
+                const ContactInformationSection(),
               ],
             ),
           ),
@@ -858,7 +858,7 @@ class _ContactInformationSectionState extends State<ContactInformationSection> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: ClaimBusinessForm(),
   ));
 }

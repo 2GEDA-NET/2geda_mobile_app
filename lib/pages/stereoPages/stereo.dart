@@ -698,7 +698,7 @@ class MusicCard extends StatelessWidget {
   final String imageUrl;
   final String url;
 
-  MusicCard(
+  const MusicCard(
       {super.key,
       required this.title,
       required this.artist,
@@ -899,7 +899,7 @@ class LocalMusicCard extends StatelessWidget {
             );
         // Add your play functionality here
       },
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

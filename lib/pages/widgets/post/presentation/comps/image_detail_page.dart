@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 
 class ImageDetailPage extends StatelessWidget {
-  List<String> eachMedia;
+  String? eachMedia;
   ImageDetailPage({super.key, required this.eachMedia});
 
   @override
@@ -12,7 +12,7 @@ class ImageDetailPage extends StatelessWidget {
       appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pop(context, true);
               },
               icon: const Icon(Icons.arrow_back_ios_new))),
       body: Padding(
@@ -21,14 +21,8 @@ class ImageDetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: eachMedia.length,
-                  itemBuilder: (_, i) {
-                    return InteractiveViewer(
-                        child: CachedNetworkImage(imageUrl: eachMedia[i]));
-                  }),
-            )
+                child: InteractiveViewer(
+                    child: CachedNetworkImage(imageUrl: eachMedia!)))
           ],
         ),
       ),

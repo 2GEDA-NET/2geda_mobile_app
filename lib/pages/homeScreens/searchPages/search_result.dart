@@ -114,8 +114,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary:
-                _currentIndex == index ? const Color(0xff4f0da3) : Colors.white,
+            backgroundColor: _currentIndex == index ? const Color(0xff4f0da3) : Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius:
                   BorderRadius.circular(20.0), // Adjust the radius as needed

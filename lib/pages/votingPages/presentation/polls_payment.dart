@@ -21,7 +21,7 @@ class PollPaymentScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
+        body: const Column(
           children: [],
         ));
   }

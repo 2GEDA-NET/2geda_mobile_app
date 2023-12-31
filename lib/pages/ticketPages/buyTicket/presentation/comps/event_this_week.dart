@@ -55,7 +55,7 @@ class EventThisWeek extends StatelessWidget {
           future: getWeeklyEvents(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return ShimmerLoadingEventRow();
+              return const ShimmerLoadingEventRow();
             } else if (snapshot.hasError) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),

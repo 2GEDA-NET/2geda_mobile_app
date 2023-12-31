@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class SellAnItemPage extends StatefulWidget {
   
-  SellAnItemPage({super.key});
+  const SellAnItemPage({super.key});
 
   @override
   State<SellAnItemPage> createState() => _SellAnItemPageState();
@@ -280,7 +280,7 @@ class _SellAnItemPageState extends State<SellAnItemPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          ProductImageUpload(),
+                          const ProductImageUpload(),
                     ),
                   );
                 },

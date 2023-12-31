@@ -89,7 +89,7 @@ class TicketPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SellTicketPage(),
+                          builder: (context) => const SellTicketPage(),
                         ),
                       );
                     },

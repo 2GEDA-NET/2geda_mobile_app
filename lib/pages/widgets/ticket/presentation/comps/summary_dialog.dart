@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class SummaryDialog extends StatelessWidget {
   final Event eventData;
 
-  SummaryDialog({Key? key, required this.eventData}) : super(key: key);
+  const SummaryDialog({Key? key, required this.eventData}) : super(key: key);
 
   void copyToClipboard(BuildContext context, String textToCopy) {
     FlutterClipboard.copy(textToCopy).then((_) {

@@ -36,7 +36,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
           centerTitle: true,
           elevation: 0,
           actions: <Widget>[
-            IconButton(onPressed: () {}, icon: Icon(Icons.filter))
+            IconButton(onPressed: () {}, icon: const Icon(Icons.filter))
           ]),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -88,7 +88,7 @@ class _ConnectScreenState extends State<ConnectScreen> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),

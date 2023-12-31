@@ -62,7 +62,7 @@ class _MyPollScreenState extends State<MyPollScreen> {
             ),
           );
         },
-        child: Icon(Icons.add), // Use any icon you prefer
+        child: const Icon(Icons.add), // Use any icon you prefer
       ),
     );
   }
@@ -106,7 +106,7 @@ class _MyPollScreenState extends State<MyPollScreen> {
 
   Widget _buildAllTabContent() {
     // Implement content for the "All" tab
-    return Column(
+    return const Column(
       children: [
         MyPollsCard(),
 
@@ -117,7 +117,7 @@ class _MyPollScreenState extends State<MyPollScreen> {
 
   Widget _buildPublicTabContent() {
     // Implement content for the "Public" tab
-    return Column(
+    return const Column(
       children: [
         MyPollsCard(),
       ],
@@ -126,7 +126,7 @@ class _MyPollScreenState extends State<MyPollScreen> {
 
   Widget _buildPrivateTabContent() {
     // Implement content for the "Private" tab
-    return Column(
+    return const Column(
       children: [
         MyPollsCard(),
       ],

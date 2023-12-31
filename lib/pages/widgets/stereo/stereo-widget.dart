@@ -6,7 +6,7 @@ import 'package:audioplayers/audioplayers.dart';
 class AudioListWidget extends StatefulWidget {
   final List<AudioModel> audioList;
 
-  AudioListWidget({required this.audioList});
+  const AudioListWidget({super.key, required this.audioList});
 
   @override
   _AudioListWidgetState createState() => _AudioListWidgetState();

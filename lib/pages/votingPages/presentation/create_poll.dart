@@ -102,18 +102,11 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
       );
 
       // Check if the poll was created successfully
-      if (createdPoll.id != null) {
-        // Poll created successfully, you can navigate to another screen or perform any other action
-        if (kDebugMode) {
-          print('Poll created successfully');
-        }
-        Navigator.pop(context);
-      } else {
-        // Failed to create poll
-        if (kDebugMode) {
-          print('Failed to create poll');
-        }
+      // Poll created successfully, you can navigate to another screen or perform any other action
+      if (kDebugMode) {
+        print('Poll created successfully');
       }
+      Navigator.pop(context);
     } catch (e) {
       // Handle exceptions
       if (kDebugMode) {
@@ -410,14 +403,16 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text(
-                    "Create Poll",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: PollApiService.isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          "Create Poll",
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ),
             ],
@@ -480,8 +475,8 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
 
 // Function to handle image or video selection
   Future<void> _pickMedia() async {
-    final ImagePicker _picker = ImagePicker();
-    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       // Handle the selected image file
@@ -489,7 +484,7 @@ class _CreatePollScreenState extends State<CreatePollScreen> {
         mediaFiles.add(pickedFile);
       });
     } else {
-      pickedFile = await _picker.pickVideo(source: ImageSource.gallery);
+      pickedFile = await picker.pickVideo(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         // Handle the selected video file

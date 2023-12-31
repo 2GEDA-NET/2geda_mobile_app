@@ -131,10 +131,10 @@ class _RewardHistoryState extends State<RewardHistory> {
                     children: [
                       Text(
                         selectedValue ?? 'Select a Month',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w500),
                       ),
-                      Icon(Icons.arrow_drop_down),
+                      const Icon(Icons.arrow_drop_down),
                     ],
                   ),
                 ),
@@ -321,7 +321,7 @@ class _RewardHistoryState extends State<RewardHistory> {
                   ],
                 ),
               ),
-              Divider(),
+              const Divider(),
             ],
           );
         }).toList(),

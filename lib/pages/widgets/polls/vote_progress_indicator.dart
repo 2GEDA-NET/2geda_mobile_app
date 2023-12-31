@@ -7,7 +7,7 @@ class VotingProgressBar extends StatefulWidget {
   final double progress;
   final String text;
 
-  VotingProgressBar({super.key, required this.progress, required this.text});
+  const VotingProgressBar({super.key, required this.progress, required this.text});
 
   static const token = '908AD23M';
 
@@ -16,8 +16,8 @@ class VotingProgressBar extends StatefulWidget {
 }
 
 class _VotingProgressBarState extends State<VotingProgressBar> {
-  TextEditingController _votesController = TextEditingController();
-  TextEditingController _voteNumbercontroller = TextEditingController();
+  final TextEditingController _votesController = TextEditingController();
+  final TextEditingController _voteNumbercontroller = TextEditingController();
   String selectedValue = 'USD';
   double exchangeRateUSDToNGN = 410.0; // Replace with actual exchange rates
   double exchangeRateUSDtoEuro = 0.85; // Replace with actual exchange rates
@@ -363,7 +363,7 @@ class _VotingProgressBarState extends State<VotingProgressBar> {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -644,25 +644,25 @@ class _VotingProgressBarState extends State<VotingProgressBar> {
                   height: 10,
                 ),
                 Container(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
                       Expanded(
                         child: TextField(
                           controller: _voteNumbercontroller,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter amount',
                           ),
                         ),
                       ),
-                      SizedBox(width: 8.0),
+                      const SizedBox(width: 8.0),
                       ElevatedButton(
                         onPressed: () {
                           // Handle the "All" button press
                           print('All button pressed');
                         },
-                        child: Text('All'),
+                        child: const Text('All'),
                       ),
                     ],
                   ),

@@ -32,7 +32,7 @@ class RewardCard extends StatelessWidget {
           children: [
             ListTile(
               leading: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       color: Colors.grey,
                       borderRadius: BorderRadius.circular(5)),
@@ -48,7 +48,7 @@ class RewardCard extends StatelessWidget {
                   ),
                   Text(
                     rewardData.coinNumber,
-                    style: TextStyle(color: Color(0xFFDABD79)),
+                    style: const TextStyle(color: Color(0xFFDABD79)),
                   ),
                 ],
               ),

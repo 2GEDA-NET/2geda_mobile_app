@@ -25,7 +25,7 @@ class MyStorePage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SellAnItemPage(),
+                  builder: (context) => const SellAnItemPage(),
                 ),
               );
             },

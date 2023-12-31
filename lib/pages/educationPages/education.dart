@@ -49,7 +49,7 @@ class _EducationScreenState extends State<EducationScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              const SizedBox(
                 height: 250,
                 child: CarouselWithIndicator(
                   cards: <Widget>[
@@ -293,7 +293,7 @@ class _EducationScreenState extends State<EducationScreen> {
 class CarouselWithIndicator extends StatefulWidget {
   final List<Widget> cards;
 
-  const CarouselWithIndicator({required this.cards});
+  const CarouselWithIndicator({super.key, required this.cards});
 
   @override
   _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
@@ -354,7 +354,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 class CardWidget extends StatelessWidget {
   final int cardIndex;
 
-  CardWidget(this.cardIndex);
+  const CardWidget(this.cardIndex, {super.key});
 
   @override
   Widget build(BuildContext context) {

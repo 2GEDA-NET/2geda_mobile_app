@@ -3,6 +3,7 @@
 import 'package:_2geda/pages/widgets/post/data/reaction_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/image_detail_page.dart';
+import 'package:_2geda/pages/widgets/post/presentation/comps/post_feeds_dtails.dart';
 import 'package:_2geda/pages/widgets/post/service/post_reaction.dart';
 import 'package:_2geda/utils/constant/app_color.dart';
 import 'package:_2geda/utils/user_prefrences/user_prefs.dart';
@@ -23,12 +24,20 @@ class PostComponent extends StatefulWidget {
   String? timePosted;
   String? content;
   String? likes;
-  String? noOfLikes;
+  int? noOfLikes;
   List<EachMedia> eachMedia;
+  List<Hashtag> hashtags;
+  List<CommentText> commentText;
+  // String? username;
   int postID;
+
   PostComponent(
       {super.key,
+      required this.hashtags,
+      required this.commentText,
       this.imageUrl,
+      // this.username,
+      this.locationCountry,
       this.name,
       this.location,
       this.timePosted,
@@ -46,6 +55,7 @@ class _PostComponentState extends State<PostComponent> {
   bool reactionView = false;
   ReactionType reactionType = ReactionType.none;
   bool isReacted = false;
+  bool isLiked = false;
   PostReactionServiceNotifier postReactionServiceNotifier =
       PostReactionServiceNotifier();
   late String getStoredReaction;
@@ -58,12 +68,18 @@ class _PostComponentState extends State<PostComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          elevation: 0,
+    return GestureDetector(
+      child: Container(
+        margin: EdgeInsets.zero,
+        width: double.infinity,
+        child: Card(
+          color: kwhite,
+          surfaceTintColor: kwhite,
+          elevation: 2,
           shape: const RoundedRectangleBorder(
-              side: BorderSide.none, borderRadius: BorderRadius.zero),
+            side: BorderSide.none,
+            borderRadius: BorderRadius.zero,
+          ),
           // color: kwhite,
           // width: MediaQuery.sizeOf(context).width,
           // height: widget.eachMedia.isEmpty || widget.eachMedia.length == 2
@@ -76,24 +92,27 @@ class _PostComponentState extends State<PostComponent> {
               children: [
                 Row(
                   children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      height: 42,
-                      width: 42,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey[300]!),
-                        borderRadius: BorderRadius.circular(100),
-                        shape: BoxShape.rectangle,
-                        color: Colors.grey[300]!,
-                      ),
-                    ),
                     // Container(
-                    //     alignment: Alignment.topLeft,
-                    //     child: CachedNetworkImage(
-                    //       imageUrl: imageUrl ?? '',
-                    //       height: 42,
-                    //       width: 42,
-                    //     )),
+                    //   alignment: Alignment.topLeft,
+                    //   height: 42,
+                    //   width: 42,
+                    //   decoration: BoxDecoration(
+                    //     border: Border.all(color: Colors.grey[300]!),
+                    //     borderRadius: BorderRadius.circular(100),
+                    //     shape: BoxShape.rectangle,
+                    //     color: Colors.grey[300]!,
+                    //   ),
+                    // ),
+                    Container(
+                        alignment: Alignment.topLeft,
+                        child: CircleAvatar(
+                          child: CachedNetworkImage(
+                            imageUrl: widget.imageUrl ?? '',
+                            fit: BoxFit.cover,
+                            height: 42,
+                            width: 42,
+                          ),
+                        )),
                     const SizedBox(
                       width: 8,
                     ),
@@ -115,7 +134,7 @@ class _PostComponentState extends State<PostComponent> {
                         ),
                         SizedBox(
                             child: Text(
-                          '',
+                          '${widget.location ?? 'location'}, ${widget.locationCountry ?? 'locationCountry'}',
                           style: TextStyle(
                             color: Colors.black.withOpacity(0.4000000059604645),
                             fontSize: 12,
@@ -126,7 +145,7 @@ class _PostComponentState extends State<PostComponent> {
                     ),
                     const Spacer(),
                     Text(
-                      widget.timePosted ?? '',
+                      '${widget.timePosted ?? ''} ago',
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.6000000238418579),
                         fontSize: 12,
@@ -175,7 +194,7 @@ class _PostComponentState extends State<PostComponent> {
                                     widget.eachMedia.length == 1 ? 1 : 2,
                                 crossAxisSpacing: 5.0,
                                 mainAxisSpacing: 5.0,
-                                childAspectRatio: 3.0,
+                                childAspectRatio: 5.0,
                               ),
                               itemCount: widget.eachMedia.length < 4
                                   ? widget.eachMedia.length
@@ -199,11 +218,9 @@ class _PostComponentState extends State<PostComponent> {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (_) => ImageDetailPage(
-                                                        eachMedia: [
-                                                          widget
-                                                              .eachMedia[index]
-                                                              .media!
-                                                        ])));
+                                                    eachMedia: widget
+                                                        .eachMedia[index]
+                                                        .media)));
                                       },
                                       child: CachedNetworkImage(
                                           imageUrl:
@@ -236,12 +253,13 @@ class _PostComponentState extends State<PostComponent> {
                                   child: SlideAnimation(
                                     verticalOffset: 50.0,
                                     child: FadeInAnimation(
-                                      child: InkWell(
+                                      child: GestureDetector(
                                           onTap: () async {
                                             setState(() {
                                               reactionType =
                                                   rs[index].reactionType;
                                               reactionView = false;
+                                              isLiked = true;
                                             });
                                             await postReactionServiceNotifier
                                                 .postReactionService(
@@ -298,6 +316,9 @@ class _PostComponentState extends State<PostComponent> {
                         } else {
                           if (reactionType == ReactionType.none) {
                             reactionType = ReactionType.like;
+                            setState(() {
+                              isLiked = true;
+                            });
                             ////////
                             await postReactionServiceNotifier
                                 .postReactionService(
@@ -305,6 +326,9 @@ class _PostComponentState extends State<PostComponent> {
                                     reactionType: 'like');
                           } else {
                             reactionType = ReactionType.none;
+                            setState(() {
+                              isLiked = false;
+                            });
                           }
                         }
                         setState(() {});
@@ -322,7 +346,9 @@ class _PostComponentState extends State<PostComponent> {
                       width: 4,
                     ),
                     Text(
-                      widget.noOfLikes ?? '',
+                      isLiked
+                          ? 'You and ${widget.noOfLikes! + 1}'
+                          : widget.noOfLikes.toString(),
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 10,
@@ -334,7 +360,22 @@ class _PostComponentState extends State<PostComponent> {
                     const SizedBox(
                       width: 8,
                     ),
-                    SvgPicture.asset('assets/ChatCentered.svg'),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => PostFeedDetails(
+                                  hashtags: widget.hashtags,
+                                  noOfLikes: widget.noOfLikes.toString(),
+                                  country: widget.locationCountry,
+                                  content: widget.content,
+                                  username: widget.name,
+                                  imgUrl: widget.imageUrl,
+                                  postID: widget.postID,
+                                  timePosted: widget.timePosted,
+                                  commentText: widget.commentText,
+                                  eachMedia: widget.eachMedia)));
+                        },
+                        child: SvgPicture.asset('assets/ChatCentered.svg')),
                     const Text(
                       '3.2K',
                       style: TextStyle(
@@ -365,10 +406,7 @@ class _PostComponentState extends State<PostComponent> {
             ),
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-      ],
+      ),
     );
   }
 

@@ -151,9 +151,9 @@ class RewardScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                        color: Color(0xFF4E0CA2),
+                        color: const Color(0xFF4E0CA2),
                         borderRadius: BorderRadius.circular(10)),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

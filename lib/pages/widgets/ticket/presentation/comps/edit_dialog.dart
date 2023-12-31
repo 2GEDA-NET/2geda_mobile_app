@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class EditDialog extends StatelessWidget {
   final Event eventData;
-  EditDialog({Key? key, required this.eventData}) : super(key: key);
+  const EditDialog({Key? key, required this.eventData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,6 @@
 import 'package:_2geda/APIServices/post_api_service.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
-import 'package:_2geda/pages/widgets/post/presentation/posts/post_container.dart';
 import 'package:flutter/material.dart';
 
 class SavedPosts extends StatefulWidget {
@@ -62,12 +61,12 @@ class _SavedPostsState extends State<SavedPosts> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children:
-              savedPosts.map((post) => PostContainer(post: post)).toList(),
-        ),
-      ),
+      // body: SingleChildScrollView(
+      //   child: Column(
+      //     children:
+      //         savedPosts.map((post) => PostContainer(post: post)).toList(),
+      //   ),
+      // ),
     );
   }
 }

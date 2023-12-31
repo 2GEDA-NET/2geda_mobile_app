@@ -3,12 +3,10 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  agora_rtc_engine
   audioplayers_windows
   file_selector_windows
   flutter_secure_storage_windows
   geolocator_windows
-  iris_method_channel
   permission_handler_windows
   record_windows
   url_launcher_windows

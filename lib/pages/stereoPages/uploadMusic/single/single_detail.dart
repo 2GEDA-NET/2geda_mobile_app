@@ -15,7 +15,7 @@ class _SingleDetailUploadState extends State<SingleDetailUpload> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> _pickCoverImgFile() async {
+    Future<void> pickCoverImgFile() async {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.image,
         allowMultiple: false, // Allow only one file to be selected
@@ -79,7 +79,7 @@ class _SingleDetailUploadState extends State<SingleDetailUpload> {
                     children: [
                       InkWell(
                         onTap:
-                            _pickCoverImgFile, // Call the file picker function
+                            pickCoverImgFile, // Call the file picker function
                         child: Container(
                             width: 50,
                             height: 50,

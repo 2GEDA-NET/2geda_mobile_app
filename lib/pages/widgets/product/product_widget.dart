@@ -24,7 +24,7 @@ class ProductListWidget extends StatelessWidget {
 class ProductCardWidget extends StatelessWidget {
   final Product product;
 
-  ProductCardWidget({Key? key, required this.product}) : super(key: key);
+  const ProductCardWidget({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

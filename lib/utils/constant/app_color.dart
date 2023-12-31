@@ -8,3 +8,5 @@ const kPrimary2 = Color(0XFFb15ba4);
 //generic group
 const kblckBtn = Color(0xFF403F3F);
 const kwhite = Color(0xFFffffff);
+const kgreen = Color.fromARGB(255, 17, 230, 27);
+const kred = Color.fromARGB(255, 238, 20, 20);

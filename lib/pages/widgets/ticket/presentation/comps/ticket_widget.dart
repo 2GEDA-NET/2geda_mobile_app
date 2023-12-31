@@ -20,7 +20,7 @@ class TicketWidget extends StatelessWidget {
     if (text.length <= maxChars) {
       return text;
     }
-    return text.substring(0, maxChars) + '...';
+    return '${text.substring(0, maxChars)}...';
   }
 
   @override

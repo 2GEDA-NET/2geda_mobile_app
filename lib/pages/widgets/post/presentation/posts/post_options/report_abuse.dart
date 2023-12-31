@@ -146,7 +146,7 @@ class _ReportAbusePageState extends State<ReportAbusePage> {
             onPressed: () {
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => SideBarLayout()),
+                MaterialPageRoute(builder: (context) => const SideBarLayout()),
                 (Route<dynamic> route) => false, // Clear the navigation stack
               ); // Close the dialog
             },

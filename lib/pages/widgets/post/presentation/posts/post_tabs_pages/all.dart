@@ -9,6 +9,7 @@ import 'package:_2geda/pages/widgets/people/user_list.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/enums.dart';
 import 'package:_2geda/pages/widgets/post/presentation/comps/post_comp.dart';
+import 'package:_2geda/pages/widgets/post/presentation/comps/post_feeds_dtails.dart';
 
 import 'package:_2geda/pages/widgets/post/presentation/state/posts_loading_state.dart';
 import 'package:_2geda/pages/widgets/post/service/fetch_posts.dart';
@@ -16,11 +17,9 @@ import 'package:_2geda/pages/widgets/product/product_widget.dart';
 import 'package:_2geda/pages/widgets/stereo/stereo-widget.dart';
 import 'package:_2geda/pages/widgets/ticket/presentation/comps/ticket_list.dart';
 
+import 'package:_2geda/pages/widgets/video/video_widget.dart';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../../../service/fetch_comments_byid.dart';
 
 class AllTabContent extends StatefulWidget {
   final int currentIndex;
@@ -69,72 +68,84 @@ class _AllTabContentState extends State<AllTabContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        FutureBuilder<List<Post>>(
-          future: fetchHomePGPosts(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
-                child: RecentActivityLoadingState(
-                  itemCount: 2,
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text('No data available'));
-            } else {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length * 2 + sectionTypes.length * 2,
-                itemBuilder: (context, index) {
-                  if (index % 2 == 0 && index ~/ 2 < snapshot.data!.length) {
-                    final data = snapshot.data![index ~/ 2];
-                    return Column(
-                      children: [
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            print(data.id);
-                            await fetchCommentsByPostID(data.id!.toString());
+    return RefreshIndicator(
+      edgeOffset: 5.0,
+      onRefresh: () {
+        return fetchHomePGPosts();
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FutureBuilder<List<Post>>(
+              future: fetchHomePGPosts(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 15),
+                    child: RecentActivityLoadingState(
+                      itemCount: 3,
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No data available'));
+                } else {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount:
+                        snapshot.data!.length * 2 + sectionTypes.length * 2,
+                    itemBuilder: (context, index) {
+                      if (index % 2 == 0 &&
+                          index ~/ 2 < snapshot.data!.length) {
+                        final data = snapshot.data![index ~/ 2];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (_) => PostFeedDetails(
+                                      hashtags: data.hashtags,
+                                      noOfLikes: data.likes.toString(),
+                                      // country: data.user!.address!.currentCity,
+                                      content: data.content,
+                                      username: data.user!.username,
+                                      imgUrl: data.media,
+                                      postID: data.id,
+                                      timePosted: data.timeSince,
+                                      commentText: data.commentText,
+                                      eachMedia: data.eachMedia)),
+                            );
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(),
-                            child: PostComponent(
-                              postID: data.id!,
-                              name: data.user!.username,
-                              content: data.content,
-                              timePosted: data.timeSince,
-                              noOfLikes: data.likes.toString(),
-                              eachMedia: data.eachMedia,
-                              location: data.user!.email,
-                            ),
+                          child: PostComponent(
+                            commentText: data.commentText,
+                            hashtags: data.hashtags,
+                            postID: data.id!,
+                            name: data.user!.username ?? '',
+                            content: data.content,
+                            timePosted: data.timeSince,
+                            noOfLikes: data.likes,
+                            eachMedia: data.eachMedia,
+                            // location: data.user!.address!.currentCity ?? '',
+                            // locationCountry: data.user!.address!.country ?? '',
                           ),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        )
-                      ],
-                    );
-                  } else {
-                    // Sections
-                    int sectionIndex = (index ~/ 2) % sectionTypes.length;
-                    SectionType sectionType =
-                        sectionTypes[sectionIndex % sectionTypes.length];
-                    return _buildSectionWidget(sectionType);
-                  }
-                },
-              );
-            }
-          },
+                        );
+                      } else {
+                        // Sections
+                        int sectionIndex = (index ~/ 2) % sectionTypes.length;
+                        SectionType sectionType =
+                            sectionTypes[sectionIndex % sectionTypes.length];
+                        return _buildSectionWidget(sectionType);
+                      }
+                    },
+                  );
+                }
+              },
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -143,7 +154,9 @@ class _AllTabContentState extends State<AllTabContent> {
       case SectionType.audio:
         return AudioListWidget(audioList: audioList);
       case SectionType.ticket:
-        return TicketListWidget(events: [],);
+        return TicketListWidget(
+          events: const [],
+        );
       case SectionType.business:
         return const BusinessListWidget();
       case SectionType.cards:
@@ -154,7 +167,7 @@ class _AllTabContentState extends State<AllTabContent> {
         return const ProductListWidget();
 
       default:
-        return const SizedBox();
+        return const VideoListWidget();
     }
   }
 }

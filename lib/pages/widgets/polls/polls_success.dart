@@ -12,15 +12,15 @@ class PollsPaymentSuccess extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset("assets/success.png"),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text("Payment successful!",
+            const Text("Payment successful!",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                 )),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton(

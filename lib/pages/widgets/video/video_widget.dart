@@ -4,6 +4,8 @@ import 'package:_2geda/data/video_data.dart';
 import 'package:_2geda/models/video_model.dart';
 
 class VideoListWidget extends StatelessWidget {
+  const VideoListWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -20,12 +22,12 @@ class VideoListWidget extends StatelessWidget {
 class VideoCardWidget extends StatelessWidget {
   final Video video;
 
-  VideoCardWidget({required this.video});
+  const VideoCardWidget({super.key, required this.video});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -58,10 +60,10 @@ class VideoCardWidget extends StatelessWidget {
                 bottom: 0,
                 child: Center(
                   child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color(0xff4e0ca2).withOpacity(
+                      color: const Color(0xff4e0ca2).withOpacity(
                           0.6), // Adjust the background color and opacity as needed
                     ),
                     child: const Icon(

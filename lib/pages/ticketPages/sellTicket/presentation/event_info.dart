@@ -17,7 +17,7 @@ class EventInfoStep extends StatefulWidget {
   final int currentStep;
   final LatLng selectedLocation;
 
-  EventInfoStep({
+  const EventInfoStep({
     super.key,
     required this.formKey,
     required this.titleController,
@@ -41,8 +41,8 @@ class _EventInfoStepState extends State<EventInfoStep> {
   XFile? _image;
 
   Future<void> _getImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
       setState(() {
@@ -231,7 +231,7 @@ class _EventInfoStepState extends State<EventInfoStep> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     // If the Future is still running, show a loading indicator
-                    return LocationLoadingState();
+                    return const LocationLoadingState();
                   } else if (snapshot.hasError) {
                     // If there is an error, display an error message
                     return Text("Error retrieving address: ${snapshot.error}");

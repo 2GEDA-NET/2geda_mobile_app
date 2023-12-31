@@ -394,7 +394,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                             });
       
                             // Update isPlaying state based on the player's state
-                            final playerState = await player.state;
+                            final playerState = player.state;
                             setState(() {
                               isPlaying = playerState == PlayerState.playing;
                             });
@@ -429,8 +429,8 @@ class _MusicPlayerState extends State<MusicPlayer> {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(color: Colors.black),
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(color: Colors.black),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

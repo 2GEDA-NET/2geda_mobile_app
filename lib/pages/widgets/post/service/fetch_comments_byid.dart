@@ -30,7 +30,9 @@ Future<List<CommentModel>> fetchCommentsByPostID(String id) async {
           print('Data loaded successfully');
         }
         if (kDebugMode) {
-          print(modelsList[0].content);
+          print(modelsList[0].commentText[0].content!.isEmpty
+              ? ''
+              : modelsList[0].commentText[0].content);
         }
 
         return modelsList;

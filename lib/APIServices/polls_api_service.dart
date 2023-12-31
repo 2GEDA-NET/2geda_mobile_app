@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:_2geda/APIServices/api_config.dart';
 import 'package:_2geda/models/polls_model.dart';
@@ -5,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 class PollApiService {
+  static bool isLoading = false;
   final String baseUrl = ApiConfig.baseUrl;
 
   Future<Poll> createPoll({
@@ -15,9 +18,10 @@ class PollApiService {
     required String type,
     required String privacy,
     required List<XFile?> mediaFiles,
-     DateTime? endTime, // New parameter
+    DateTime? endTime, // New parameter
   }) async {
     try {
+      isLoading = true;
       String formattedEndTime = endTime?.toIso8601String() ?? '';
 
       final response = await http.post(
@@ -34,7 +38,6 @@ class PollApiService {
           'privacy': privacy,
           'media_files': mediaFiles.map((file) => file?.path).toList(),
           'end_time': formattedEndTime, // Include endTime in the payload
-   
         }),
       );
 
@@ -42,12 +45,21 @@ class PollApiService {
 
       if (response.statusCode == 201) {
         final Map<String, dynamic> data = json.decode(response.body);
+        // showCustomSnackbar(scaffoldMessengerKey.currentState!.context, kgreen,
+        //     'Poll created succesfully');
+        isLoading = false;
         return Poll.fromJson(data);
       } else {
+        // showCustomSnackbar(scaffoldMessengerKey.currentState!.context, kred,
+        //     'Failed to create poll');
+        isLoading = false;
         throw Exception('Failed to create poll');
       }
     } catch (e) {
       print('Exception: $e');
+      // showCustomSnackbar(scaffoldMessengerKey.currentState!.context, kred,
+      //     'Failed to create poll');
+      isLoading = false;
       throw Exception('Failed to create poll');
     }
   }

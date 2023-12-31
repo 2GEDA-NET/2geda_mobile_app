@@ -10,8 +10,8 @@ class MiniPlayer extends StatefulWidget {
   final String imageUrl;
   final String song;
 
-  MiniPlayer(
-      {required this.title,
+  const MiniPlayer(
+      {super.key, required this.title,
       required this.artist,
       required this.imageUrl,
       required this.song});
@@ -271,7 +271,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                               });
 
                               // Update isPlaying state based on the player's state
-                              final playerState = await player.state;
+                              final playerState = player.state;
                               setState(() {
                                 isPlaying = playerState == PlayerState.playing;
                               });

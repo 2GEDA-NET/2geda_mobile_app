@@ -155,10 +155,10 @@ class _ReferralPageState extends State<ReferralPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   width: MediaQuery.of(context).size.width * 0.75,
                   decoration: BoxDecoration(
-                    color: Color(0xFFEAE3F9),
+                    color: const Color(0xFFEAE3F9),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
@@ -180,18 +180,18 @@ class _ReferralPageState extends State<ReferralPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Color(0xFFD0D5DD),
+                    color: const Color(0xFFD0D5DD),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
                     children: [
-                      Text("How to earn",
+                      const Text("How to earn",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
@@ -212,26 +212,26 @@ class _ReferralPageState extends State<ReferralPage> {
 
   Widget howToEarnCard(number, text) {
     return Container(
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(7),
       ),
       child: ListTile(
         leading: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Color(0xFFFF8A15),
+            color: const Color(0xFFFF8A15),
             borderRadius: BorderRadius.circular(7),
           ),
           child: Text(number,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               )),
         ),
         title: Text(text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
             )),

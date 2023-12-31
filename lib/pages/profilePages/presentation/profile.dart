@@ -1,16 +1,21 @@
 import 'dart:io';
 
+import 'package:_2geda/pages/profilePages/data/uer_profile_res.dart';
 import 'package:_2geda/pages/profilePages/presentation/change_password.dart';
 import 'package:_2geda/pages/profilePages/presentation/device_reg.dart';
 import 'package:_2geda/pages/profilePages/presentation/manage_advert.dart';
 import 'package:_2geda/pages/profilePages/presentation/reward/earn_reward.dart';
 import 'package:_2geda/pages/profilePages/presentation/saved_post.dart';
 import 'package:_2geda/pages/profilePages/presentation/verification.dart';
+import 'package:_2geda/pages/profilePages/service/fetch_profile_details.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key});
+  const ProfileScreen({
+    super.key,
+  });
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -38,6 +43,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (e) {
       print('Error picking image: $e');
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -254,150 +265,163 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.center,
-            children: [
-              _buildImageFrame(
-                isCoverImage: true,
-                text: "Add Cover Image",
-                image: _coverImage,
-              ),
-              Positioned(
-                top: 100,
-                child: _buildProfileImageFrame(
-                  isProfileImage: true,
-                  image: _profileImage,
-                ),
-              ),
-            ],
-          ),
-          Center(
-            child: Column(
+      body: FutureBuilder<UserProfileModel>(
+          future: userProfileSrv(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            }
+
+            return Column(
               children: [
-                const Text("Charlotte Caria Faith",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    )),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Text("Product Designer",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300,
-                    )),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Text("Lagos, Nigeria",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300,
-                    )),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Stack(
+                  clipBehavior: Clip.none,
+                  alignment: Alignment.center,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      width: 125,
-                      decoration: BoxDecoration(
-                          color: const Color(0xFF4E0CA2),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Column(
-                        children: [
-                          Text("Stickers",
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white)),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text("18m",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ))
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      width: 125,
-                      decoration: BoxDecoration(
-                          color: const Color(0xFF4E0CA2),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Column(
-                        children: [
-                          Text("Sticking",
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white)),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text("18m",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ))
-                        ],
-                      ),
+                    _buildImageFrame(
+                        isCoverImage: true,
+                        text: "Add Cover Image",
+                        image: _coverImage,
+                        img: snapshot.data!.coverImage ?? ''),
+                    Positioned(
+                      top: 100,
+                      child: _buildProfileImageFrame(
+                          isProfileImage: true,
+                          image: _profileImage,
+                          img: snapshot.data!.media[0].profileImage ?? ''),
                     ),
                   ],
                 ),
+                Center(
+                  child: Column(
+                    children: [
+                      Text(snapshot.data!.username ?? '',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          )),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      // const Text("Product Designer",
+                      //     style: TextStyle(
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.w300,
+                      //     )),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                          '${snapshot.data!.address!.currentCity ?? ''}, ${snapshot.data!.address!.country ?? ''}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                          )),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            width: 125,
+                            decoration: BoxDecoration(
+                                color: const Color(0xFF4E0CA2),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Column(
+                              children: [
+                                Text("Stickers",
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white)),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text("18m",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                    ))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            width: 125,
+                            decoration: BoxDecoration(
+                                color: const Color(0xFF4E0CA2),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Column(
+                              children: [
+                                Text("Sticking",
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white)),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text("18m",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                    ))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset("assets/banner2.png"),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  // color: Colors.white,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: buildTabButtons(),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: PageView(
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                    children: const [
+                      Center(child: Text('All Tab Content')),
+                      Center(child: Text('People Tab Content')),
+                      Center(child: Text('Media Tab Content')),
+                      Center(child: Text('Business Tab Content')),
+                      Center(child: Text('Places Tab Content')),
+                      Center(child: Text('Jobs Tab Content')),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset("assets/banner2.png"),
+                )
               ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset("assets/banner2.png"),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            // color: Colors.white,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: buildTabButtons(),
-              ),
-            ),
-          ),
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-              children: const [
-                Center(child: Text('All Tab Content')),
-                Center(child: Text('People Tab Content')),
-                Center(child: Text('Media Tab Content')),
-                Center(child: Text('Business Tab Content')),
-                Center(child: Text('Places Tab Content')),
-                Center(child: Text('Jobs Tab Content')),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset("assets/banner2.png"),
-          )
-        ],
-      ),
+            );
+          }),
     );
   }
 
@@ -449,6 +473,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildImageFrame({
     required bool isCoverImage,
     required String text,
+    String? img,
     XFile? image,
   }) {
     return SizedBox(
@@ -468,33 +493,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Positioned(
               top:
                   0, // Adjust the top value to control the purple content's position
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 140,
-                decoration: BoxDecoration(
-                  color: const Color(0xff4e0ca2),
-                  border: Border.all(width: 1, color: Colors.white),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        _pickImage(ImageSource.gallery, isCoverImage);
-                      },
-                      icon: const Icon(
-                        Icons.image,
-                        size: 40,
-                        color: Colors.white,
+              child: img == ''
+                  ? Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 162, 12, 12),
+                        border: Border.all(width: 1, color: Colors.white),
                       ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              _pickImage(ImageSource.gallery, isCoverImage);
+                            },
+                            icon: const Icon(
+                              Icons.image,
+                              size: 40,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            text,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    )
+                  : CachedNetworkImage(
+                      imageUrl: img!,
+                      fit: BoxFit.fill,
                     ),
-                    Text(
-                      text,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
             ),
           Positioned(
             // top: 20,
@@ -528,6 +558,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildProfileImageFrame({
     required bool isProfileImage,
+    String? img,
     XFile? image,
   }) {
     return Container(
@@ -553,7 +584,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (image == null)
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [Image.asset('assets/avatar.png')],
+              children: [
+                img == ''
+                    ? Image.asset('assets/avatar.png')
+                    : CachedNetworkImage(
+                        imageUrl: img!,
+                        fit: BoxFit.fill,
+                      )
+              ],
             ),
           Positioned(
             right: 0,

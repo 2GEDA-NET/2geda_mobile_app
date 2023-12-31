@@ -33,7 +33,7 @@ class MoreRewards extends StatelessWidget {
             ]),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
                 SizedBox(

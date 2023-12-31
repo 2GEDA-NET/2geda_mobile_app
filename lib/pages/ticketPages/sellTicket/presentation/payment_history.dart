@@ -88,9 +88,9 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                     Text(
                       selectedValue ?? 'Select a Month',
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                          const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
-                    Icon(Icons.arrow_drop_down),
+                    const Icon(Icons.arrow_drop_down),
                   ],
                 ),
               ),
@@ -177,7 +177,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                   ],
                 ),
               ),
-              Divider(),
+              const Divider(),
             ],
           );
         }).toList(),

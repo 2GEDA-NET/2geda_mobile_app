@@ -6,7 +6,7 @@ class ProfileAvatar extends StatelessWidget {
   final bool isActive;
   final bool hasBorder;
 
-  const ProfileAvatar({
+  const ProfileAvatar({super.key, 
     required this.imageUrl,
     this.isActive = false,
     this.hasBorder = false,

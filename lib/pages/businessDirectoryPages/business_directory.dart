@@ -103,7 +103,7 @@ class _BusinessDirectoryState extends State<BusinessDirectory> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   DropdownButton<String>(
                     value: selectedValue,
                     items: <String>['Most Popular', 'Claimed', 'Unclaimed']
@@ -143,7 +143,7 @@ class _BusinessDirectoryState extends State<BusinessDirectory> {
 class BusinessCard extends StatelessWidget {
   final Business business;
 
-  BusinessCard({required this.business});
+  const BusinessCard({super.key, required this.business});
 
   @override
   Widget build(BuildContext context) {
@@ -261,7 +261,7 @@ class BusinessCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
@@ -290,7 +290,7 @@ class BusinessCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
@@ -351,7 +351,7 @@ class BusinessCard extends StatelessWidget {
                             color: Colors.white),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(

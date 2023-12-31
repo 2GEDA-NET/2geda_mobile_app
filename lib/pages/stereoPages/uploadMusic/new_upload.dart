@@ -194,7 +194,7 @@ class NewUploadScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            SelectUpload(), // Replace with the actual screen
+                            const SelectUpload(), // Replace with the actual screen
                       ),
                     );
                   },

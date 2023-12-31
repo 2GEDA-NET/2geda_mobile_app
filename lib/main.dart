@@ -9,9 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await UserPreference.init();
+
+  await Future.wait([UserPreference.init()]);
 
   runApp(
     MultiProvider(
@@ -52,11 +55,13 @@ class MyApp extends StatelessWidget {
     ));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: scaffoldMessengerKey,
+
       theme: ThemeData(
         primarySwatch: customPrimaryColor,
         fontFamily: 'Ubuntu',
       ),
-      home: const SplashScreen(),
+      home: const SideBarLayout(),
       // Other MaterialApp configurations
     );
   }

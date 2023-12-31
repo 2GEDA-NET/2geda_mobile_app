@@ -6,10 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -73,7 +75,6 @@ class _SideBarState extends State<SideBar>
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -126,7 +127,8 @@ class _SideBarState extends State<SideBar>
                           title: "Home",
                           onTap: () {
                             onIconPressed();
-                            navigationBloc.add(NavigationEvents.HomePageClickedEvent);
+                            navigationBloc
+                                .add(NavigationEvents.HomePageClickedEvent);
                           },
                         ),
                         MenuItem(
@@ -138,44 +140,44 @@ class _SideBarState extends State<SideBar>
                                 .add(NavigationEvents.ConnectPageClickedEvent);
                           },
                         ),
-                        MenuItem(
-                          icon: Icons.store,
-                          title: "Commerce",
-                          onTap: () {
-                            onIconPressed();
-                            // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.CommerceClickedEvent);
-
-                          },
-                        ),
-                        MenuItem(
-                          icon: Icons.book,
-                          title: "Business Directory",
-                          onTap: () {
-                            onIconPressed();
-                            // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.BusinessDirectoryClickedEvent);
-
-                          },
-                        ),
-                        MenuItem(
-                          icon: Icons.chat,
-                          title: "Chat",
-                          onTap: () {
-                            onIconPressed();
-                            // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.ChatClickedEvent);
-
-                          },
-                        ),
+                        // MenuItem(
+                        //   icon: Icons.store,
+                        //   title: "Commerce",
+                        //   onTap: () {
+                        //     onIconPressed();
+                        //     // Add navigation logic here
+                        //     navigationBloc
+                        //         .add(NavigationEvents.CommerceClickedEvent);
+                        //   },
+                        // ),
+                        // MenuItem(
+                        //   icon: Icons.book,
+                        //   title: "Business Directory",
+                        //   onTap: () {
+                        //     onIconPressed();
+                        //     // Add navigation logic here
+                        //     navigationBloc.add(
+                        //         NavigationEvents.BusinessDirectoryClickedEvent);
+                        //   },
+                        // ),
+                        // MenuItem(
+                        //   icon: Icons.chat,
+                        //   title: "Chat",
+                        //   onTap: () {
+                        //     onIconPressed();
+                        //     // Add navigation logic here
+                        //     navigationBloc
+                        //         .add(NavigationEvents.ChatClickedEvent);
+                        //   },
+                        // ),
                         MenuItem(
                           icon: Icons.person_2_outlined,
                           title: "Profile",
                           onTap: () {
                             onIconPressed();
                             // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.ProfileClickedEvent);
-
+                            navigationBloc
+                                .add(NavigationEvents.ProfileClickedEvent);
                           },
                         ),
                         MenuItem(
@@ -183,71 +185,69 @@ class _SideBarState extends State<SideBar>
                           title: "Ticket",
                           onTap: () {
                             onIconPressed();
-                            navigationBloc.add(NavigationEvents.TicketClickedEvent);
-
+                            navigationBloc
+                                .add(NavigationEvents.TicketClickedEvent);
                           },
                         ),
-                        MenuItem(
-                          icon: Icons.live_tv,
-                          title: "Live",
-                          onTap: () {
-                            onIconPressed();
-                            // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.LiveClickedEvent);
-
-                          },
-                        ),
-                        
-                        MenuItem(
-                          icon: Icons.tv,
-                          title: "TV",
-                          onTap: () {
-                            onIconPressed();
-                            // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.TvClickedEvent);
-
-                          },
-                        ),
-                        MenuItem(
-                          icon: Icons.album,
-                          title: "Stereo",
-                          onTap: () {
-                            onIconPressed();
-                            // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.StereoClickedEvent);
-
-                          },
-                        ),
+                        // MenuItem(
+                        //   icon: Icons.live_tv,
+                        //   title: "Live",
+                        //   onTap: () {
+                        //     onIconPressed();
+                        //     // Add navigation logic here
+                        //     navigationBloc
+                        //         .add(NavigationEvents.LiveClickedEvent);
+                        //   },
+                        // ),
+                        // MenuItem(
+                        //   icon: Icons.tv,
+                        //   title: "TV",
+                        //   onTap: () {
+                        //     onIconPressed();
+                        //     // Add navigation logic here
+                        //     navigationBloc.add(NavigationEvents.TvClickedEvent);
+                        //   },
+                        // ),
+                        // MenuItem(
+                        //   icon: Icons.album,
+                        //   title: "Stereo",
+                        //   onTap: () {
+                        //     onIconPressed();
+                        //     // Add navigation logic here
+                        //     navigationBloc
+                        //         .add(NavigationEvents.StereoClickedEvent);
+                        //   },
+                        // ),
                         MenuItem(
                           icon: Icons.poll,
                           title: "Voting",
                           onTap: () {
                             onIconPressed();
                             // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.VotingClickedEvent);
-
+                            navigationBloc
+                                .add(NavigationEvents.VotingClickedEvent);
                           },
                         ),
-                        MenuItem(
-                          icon: Icons.library_books,
-                          title: "Education",
-                          onTap: () {
-                            onIconPressed();
-                            // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.EducationClickedEvent);
-
-                          },
-                        ),
-                        MenuItem(
-                          icon: Icons.wallet,
-                          title: "Wallet",
-                          onTap: () {
-                            onIconPressed();
-                            // Add navigation logic here
-                            navigationBloc.add(NavigationEvents.WalletPageClickEvent);
-
-                          },
-                        ),
+                        // MenuItem(
+                        //   icon: Icons.library_books,
+                        //   title: "Education",
+                        //   onTap: () {
+                        //     onIconPressed();
+                        //     // Add navigation logic here
+                        //     navigationBloc
+                        //         .add(NavigationEvents.EducationClickedEvent);
+                        //   },
+                        // ),
+                        // MenuItem(
+                        //   icon: Icons.wallet,
+                        //   title: "Wallet",
+                        //   onTap: () {
+                        //     onIconPressed();
+                        //     // Add navigation logic here
+                        //     navigationBloc
+                        //         .add(NavigationEvents.WalletPageClickEvent);
+                        //   },
+                        // ),
                       ],
                     ),
                   ),

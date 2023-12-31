@@ -14,7 +14,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
   String selectedValue = 'NGN'; // Set to one of the items in the list
   List<String> dropdownItems = ['NGN', 'USD', 'GBP', 'EUR'];
 
-  TextEditingController _controller = TextEditingController(text: '500');
+  final TextEditingController _controller = TextEditingController(text: '500');
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: 200,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -121,7 +121,7 @@ class _WithDrawScreenState extends State<WithDrawScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 60,
                       child: DropdownButtonFormField<String>(
                         value: selectedValue,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LocationLoadingState extends StatelessWidget {
-  LocationLoadingState({
+  const LocationLoadingState({
     super.key,
   });
 

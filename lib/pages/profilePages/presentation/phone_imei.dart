@@ -24,8 +24,8 @@ class PhoneImei extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: const Padding(
+      body: const SingleChildScrollView(
+        child: Padding(
           padding: EdgeInsets.all(8.0),
           child: Column(
             children: [

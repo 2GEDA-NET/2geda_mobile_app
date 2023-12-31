@@ -1,6 +1,7 @@
 import 'package:_2geda/pages/connect/presentation/widgets/comps/gender_btns.dart';
 import 'package:_2geda/pages/connect/services/sort_connct_srv.dart';
 import 'package:_2geda/utils/constant/app_color.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -15,8 +16,10 @@ class MAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MAppBarState extends State<MAppBar> {
-  double _startValue = 20.0;
-  double _endValue = 40.0;
+  ValueNotifier<RangeValues> rangeValues = ValueNotifier<RangeValues>(
+    const RangeValues(20.0, 40.0),
+  );
+
   ValueNotifier<bool> isChecked = ValueNotifier(false);
   // bool isChecked = false;
   ValueNotifier<String> genderCheck = ValueNotifier('Male');
@@ -136,7 +139,9 @@ class _MAppBarState extends State<MAppBar> {
                               onPressed: () {
                                 genderCheck.value = 'Male';
 
-                                print(genderCheck.value);
+                                if (kDebugMode) {
+                                  print(genderCheck.value);
+                                }
                               },
                               titl: 'Male',
                             )),
@@ -201,54 +206,59 @@ class _MAppBarState extends State<MAppBar> {
                         ),
                       ),
                       const Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            _startValue.toString(),
-                            style: const TextStyle(
-                              color: Color(0xFF0E0D0D),
-                              fontFamily: 'Ubuntu',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            'to',
-                            style: TextStyle(
-                              color:
-                                  Colors.black.withOpacity(0.4000000059604645),
-                              fontFamily: 'Ubuntu',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            _endValue.toString(),
-                            style: const TextStyle(
-                              color: Color(0xFF0E0D0D),
-                              fontFamily: 'Ubuntu',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
+                      ValueListenableBuilder(
+                          valueListenable: rangeValues,
+                          builder: (context, values, child) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  rangeValues.value.start.toStringAsFixed(0),
+                                  style: const TextStyle(
+                                    color: Color(0xFF0E0D0D),
+                                    fontFamily: 'Ubuntu',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  'to',
+                                  style: TextStyle(
+                                    color: Colors.black
+                                        .withOpacity(0.4000000059604645),
+                                    fontFamily: 'Ubuntu',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  rangeValues.value.end.toStringAsFixed(0),
+                                  style: const TextStyle(
+                                    color: Color(0xFF0E0D0D),
+                                    fontFamily: 'Ubuntu',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
                     ],
                   ),
                   const SizedBox(
                     height: 33,
                   ),
-                  RangeSlider(
-                    inactiveColor: kblckBtn,
-                    activeColor: kblckBtn,
-                    values: RangeValues(_startValue, _endValue),
-                    min: 0,
-                    max: 100,
-                    divisions: 100,
-                    labels: RangeLabels('$_startValue', '$_endValue'),
-                    onChanged: (RangeValues values) {
-                      setState(() {
-                        _startValue = values.start;
-                        _endValue = values.end;
-                      });
+                  ValueListenableBuilder(
+                    valueListenable: rangeValues,
+                    builder: (context, values, child) {
+                      return RangeSlider(
+                        values: values,
+                        labels: RangeLabels(
+                            rangeValues.value.start.toStringAsFixed(0),
+                            rangeValues.value.end.toStringAsFixed(0)),
+                        min: 0.0,
+                        max: 100.0,
+                        onChanged: (RangeValues newValues) {
+                          rangeValues.value = newValues;
+                        },
+                      );
                     },
                   ),
                   const SizedBox(
@@ -304,40 +314,50 @@ class _MAppBarState extends State<MAppBar> {
                   const SizedBox(
                     height: 31,
                   ),
-                  GestureDetector(
-                    onTap: sortConnectnotifie.value == true
-                        ? null
-                        : () async {
-                            await sortConnectnotifie.sortConnctService(
-                                startAge: 10,
-                                endAge: 100,
-                                location: 'location',
-                                gender: 'gender',
-                                verifiedAccount: true);
-                            Navigator.pop(context);
-                          },
-                    child: Container(
-                      height: 45,
-                      decoration: ShapeDecoration(
-                        color: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Center(
-                        child: sortConnectnotifie.value == true
-                            ? const CircularProgressIndicator()
-                            : const Text(
-                                'Apply',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                  ValueListenableBuilder(
+                      valueListenable: sortConnectnotifie,
+                      builder: (context, value, chil) {
+                        return GestureDetector(
+                          onTap: sortConnectnotifie.value == true
+                              ? null
+                              : () async {
+                                  await sortConnectnotifie.sortConnctService(
+                                      startAge: rangeValues.value.start.toInt(),
+                                      endAge: rangeValues.value.end.toInt(),
+                                      location: 'location',
+                                      gender: genderCheck.value,
+                                      verifiedAccount: isChecked.value);
+                                  Navigator.pop(context, true);
+                                },
+                          child: Container(
+                            height: 45,
+                            decoration: ShapeDecoration(
+                              color: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                      ),
-                    ),
-                  )
+                            ),
+                            child: Center(
+                              child: sortConnectnotifie.value == true
+                                  ? const Center(
+                                      child: SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
+                                            color: kwhite,
+                                          )))
+                                  : const Text(
+                                      'Apply',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        );
+                      })
                 ],
               ),
             ),

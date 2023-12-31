@@ -188,7 +188,7 @@ class ListOfStoresWidget extends StatelessWidget {
             child: FloatingActionButton(
               onPressed: () {
                 // Add your action when the button is pressed
-                BusinessProfileFormPage();
+                const BusinessProfileFormPage();
               },
               child: const Icon(Icons.add),
             ),

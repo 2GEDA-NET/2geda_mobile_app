@@ -115,11 +115,11 @@ class MyPollsCard extends StatelessWidget {
                       imageUrl:
                           'https://images.unsplash.com/photo-1498307833015-e7b400441eb8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80'),
                 ),
-                VotingProgressBar(
+                const VotingProgressBar(
                   progress: 0.6,
                   text: 'Python',
                 ), // Represents 60% progress
-                VotingProgressBar(
+                const VotingProgressBar(
                   progress: 0.6,
                   text: 'Python',
                 ), // Represents 60% progress
@@ -147,12 +147,12 @@ class MyPollsCard extends StatelessWidget {
                   height: 10,
                 ),
 
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 100,
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -175,12 +175,12 @@ class MyPollsCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: 10,
                     ),
-                    Container(
+                    SizedBox(
                       width: 100,
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

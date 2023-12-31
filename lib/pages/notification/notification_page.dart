@@ -9,6 +9,8 @@ class NotificationPage extends StatelessWidget {
     'Notification 5',
   ];
 
+  NotificationPage({super.key});
+
   void _removeNotification(int index) {
     // Remove the notification from the list
     notifications.removeAt(index);

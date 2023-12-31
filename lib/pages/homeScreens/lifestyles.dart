@@ -118,8 +118,8 @@ class Lifestyle extends StatelessWidget {
   }
 
   Future<void> _uploadFromGallery(BuildContext context) async {
-  final ImagePicker _picker = ImagePicker();
-  final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  final ImagePicker picker = ImagePicker();
+  final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
   if (pickedFile != null) {
     // Navigate to the new page with the selected image

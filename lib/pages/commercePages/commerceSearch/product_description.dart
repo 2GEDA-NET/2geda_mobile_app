@@ -186,7 +186,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                 rating: widget.product.rating,
                 review: widget.product.reviews,
               ),
-              AddReviewWidget(),
+              const AddReviewWidget(),
             ],
           ),
         ),
@@ -289,6 +289,8 @@ class ReviewWidget extends StatelessWidget {
 }
 
 class AddReviewWidget extends StatefulWidget {
+  const AddReviewWidget({super.key});
+
   @override
   _AddReviewWidgetState createState() => _AddReviewWidgetState();
 }

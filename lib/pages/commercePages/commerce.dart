@@ -6,9 +6,7 @@ import 'package:_2geda/pages/widgets/product/product_widget.dart';
 import 'package:flutter/material.dart';
 
 class CommerceScreen extends StatelessWidget {
-  const CommerceScreen({Key? key});
-
-  
+  const CommerceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,25 +21,34 @@ class CommerceScreen extends StatelessWidget {
           ),
         ),
         toolbarHeight: 80,
-        backgroundColor: Color(0xFF4E0CA2),
-        title: const Text('Commerce', style: TextStyle(color: Colors.white),),
+        backgroundColor: const Color(0xFF4E0CA2),
+        title: const Text(
+          'Commerce',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         elevation: 1,
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.shopping_cart, color: Colors.white,),
+            icon: const Icon(
+              Icons.shopping_cart,
+              color: Colors.white,
+            ),
             onPressed: () {
               // Handle the search action
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CartPage(),
+                  builder: (context) => const CartPage(),
                 ),
               );
             },
           ),
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.white,),
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
             onPressed: () {
               // Handle the notifications action
               Navigator.push(
@@ -105,13 +112,13 @@ class CommerceScreen extends StatelessWidget {
                     child: TabBarView(
                       children: [
                         ListView(
-                          children: [
+                          children: const [
                             // Content for the "Sell an Item" tab
                             TopProductsTab(),
                           ],
                         ),
                         ListView(
-                          children: [
+                          children: const [
                             // Content for the "Manage Store" tab
                             ManageStoreTab(),
                           ],

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:_2geda/APIServices/api_config.dart';
 import 'package:http/http.dart' as http;
 
-  final String baseUrl = ApiConfig.baseUrl;
+  const String baseUrl = ApiConfig.baseUrl;
 
 
 class AudioModel {

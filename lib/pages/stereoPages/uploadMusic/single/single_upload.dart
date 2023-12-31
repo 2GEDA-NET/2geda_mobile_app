@@ -7,7 +7,7 @@ class SingleUpload extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> _pickAudioFile() async {
+    Future<void> pickAudioFile() async {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.audio,
         allowMultiple: false, // Allow only one file to be selected
@@ -71,7 +71,7 @@ class SingleUpload extends StatelessWidget {
                   child: Column(
                     children: [
                       InkWell(
-                        onTap: _pickAudioFile, // Call the file picker function
+                        onTap: pickAudioFile, // Call the file picker function
                         child: Container(
                             width: 50,
                             height: 50,

@@ -95,7 +95,7 @@ class _PollResultScreenState extends State<PollResultScreen> {
                       },
                       body: ListTile(
                         title: Text('Votes Count: ${item.votesCount}'),
-                        subtitle: Text('To Do: Add your content here'),
+                        subtitle: const Text('To Do: Add your content here'),
                       ),
                       isExpanded: item.isExpanded,
                     );

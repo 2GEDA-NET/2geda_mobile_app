@@ -9,8 +9,8 @@ class ChartCardDetail extends StatefulWidget {
   final String artist;
   final String imageUrl;
 
-  ChartCardDetail(
-      {required this.title, required this.artist, required this.imageUrl});
+  const ChartCardDetail(
+      {super.key, required this.title, required this.artist, required this.imageUrl});
 
   @override
   State<ChartCardDetail> createState() => _ChartCardDetailState();
@@ -126,7 +126,7 @@ class CustomAppBar extends StatelessWidget {
   final String name;
   final String numOfSong;
 
-  CustomAppBar(
+  const CustomAppBar(
       {super.key,
       required this.image,
       required this.name,

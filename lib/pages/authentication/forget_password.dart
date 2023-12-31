@@ -97,7 +97,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   });
                 },
                 style: TextButton.styleFrom(
-                  primary: const Color(0xff4e0ca2),
+                  foregroundColor: const Color(0xff4e0ca2),
                 ),
                 child: Text(
                   _isUsingPhoneNumber
@@ -119,7 +119,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          VerifyOTPScreen(), // Replace with the actual screen
+                          const VerifyOTPScreen(), // Replace with the actual screen
                     ),
                   );
                 },

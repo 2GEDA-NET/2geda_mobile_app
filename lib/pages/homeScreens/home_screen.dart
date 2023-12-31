@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
-                CustomAppBar(),
+                const CustomAppBar(),
               ];
             },
             body: SingleChildScrollView(

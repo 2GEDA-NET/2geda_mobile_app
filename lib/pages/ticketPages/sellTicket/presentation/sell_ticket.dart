@@ -8,7 +8,7 @@ import 'package:_2geda/pages/widgets/product/product_widget.dart';
 import 'package:flutter/material.dart';
 
 class SellTicketPage extends StatefulWidget {
-  SellTicketPage({super.key});
+  const SellTicketPage({super.key});
 
   @override
   State<SellTicketPage> createState() => _SellTicketPageState();

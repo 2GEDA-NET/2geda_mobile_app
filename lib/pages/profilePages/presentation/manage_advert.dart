@@ -28,7 +28,7 @@ class ManageAdvert extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
+          const Center(
             child: Text("You do not have an active Advert",
                 style: TextStyle(
                   fontSize: 20,

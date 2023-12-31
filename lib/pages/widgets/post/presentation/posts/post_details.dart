@@ -2,8 +2,6 @@ import 'package:_2geda/APIServices/post_api_service.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
 import 'package:_2geda/pages/widgets/post/presentation/posts/comment/post_comment.dart';
-import 'package:_2geda/pages/widgets/post/presentation/posts/post_header.dart';
-import 'package:_2geda/pages/widgets/post/presentation/posts/post_stats.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,10 +10,33 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:record/record.dart';
 import 'package:file_picker/file_picker.dart';
 
-class PostDetailsPage extends StatefulWidget {
-  final Post post;
+import '../comps/post_feeds_headr.dart';
 
-  const PostDetailsPage({Key? key, required this.post}) : super(key: key);
+class PostDetailsPage extends StatefulWidget {
+  String? imgUrl;
+  String? country;
+  String? timePosted;
+  int? postID;
+  String? content;
+  String? username;
+  List<Hashtag>? hashtags;
+  List<EachMedia> eachMedia;
+  List<CommentText> commentText;
+  String? noOfLikes;
+
+  PostDetailsPage({
+    Key? key,
+    required this.commentText,
+    this.content,
+    this.country,
+    required this.eachMedia,
+    this.hashtags,
+    this.imgUrl,
+    this.noOfLikes,
+    this.postID,
+    this.timePosted,
+    this.username,
+  }) : super(key: key);
 
   @override
   State<PostDetailsPage> createState() => _PostDetailsPageState();
@@ -38,9 +59,9 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
   void initState() {
     super.initState();
     _loadAuthToken();
-    audioPlayer = AudioPlayer();
-    audioRecord = Record();
-    recorderController = RecorderController();
+    // audioPlayer = AudioPlayer();
+    // audioRecord = Record();
+    // recorderController = RecorderController();
   }
 
   _loadAuthToken() async {
@@ -96,14 +117,8 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    print('username: ${widget.username}');
 
-    const desiredWidthPercentage = 0.9; // 90% of the screen width
-    const desiredHeightPercentage = 0.3; // 30% of the screen height
-
-    final width = screenWidth * desiredWidthPercentage;
-    final height = screenHeight * desiredHeightPercentage;
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -140,8 +155,23 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    PostHeader(
-                      post: widget.post,
+                    Container(
+                      height: 80,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 10),
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0xff8e3bce), Color(0xff5816a2)],
+                        ),
+                      ),
+                      child: PostFeedDetailsHeader(
+                        username: widget.username ?? '',
+                        imgUrl: widget.imgUrl ?? '',
+                        timePosted: widget.timePosted ?? '',
+                        country: widget.country ?? '',
+                      ),
                     ),
                     Container(
                         margin: const EdgeInsets.all(20),
@@ -149,49 +179,55 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.post.content ?? ''),
-                            Text(widget.post.hashtags
+                            Text(widget.content ?? ''),
+                            Text(widget.hashtags!
                                 .map((hashtag) => hashtag.hashTags)
                                 .join(', ')),
                           ],
                         )),
-                    const SizedBox.shrink(),
+                    // const SizedBox.shrink(),
                   ],
                 ),
+                const SizedBox(
+                  height: 30,
+                ),
                 Column(
-                  children: (widget.post.eachMedia).map((media) {
+                  children: (widget.eachMedia).map((media) {
                     final imageUrl = media
                         .media; // Assuming 'url' is the property in the Media class that contains the URL
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.zero,
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrl!,
-                          width: width,
-                          height: height,
-                          fit: BoxFit.cover,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl!,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     );
                   }).toList(),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: PostStats(
-                    post: widget.post,
-                    context: context,
-                    postStatsKey: GlobalKey(),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                //   child: PostStats(
+                //     post: widget.post,
+                //     context: context,
+                //     postStatsKey: GlobalKey(),
+                //   ),
+                // ),
                 // FeedComments(),
               ],
             ),
             const SizedBox(
               height: 20,
             ),
-            CommentSection(commentText: widget.post.commentText),
+            CommentSection(commentText: widget.commentText),
           ],
         ),
       ),
@@ -218,7 +254,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                   String? filePath = result.files.single.path;
                   print(filePath);
                   int postId =
-                      widget.post.id!; // Replace with the actual post ID
+                      widget.postID!; // Replace with the actual post ID
                   String comment = '';
                   List<String> filePaths = [
                     filePath!
@@ -255,7 +291,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                     await ImagePicker().pickVideo(source: ImageSource.gallery);
                 if (video != null) {
                   int postId =
-                      widget.post.id!; // Replace with the actual post ID
+                      widget.postID!; // Replace with the actual post ID
                   String comment = '';
                   List<String> filePaths = [
                     video.path
@@ -285,7 +321,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                     await ImagePicker().pickImage(source: ImageSource.gallery);
                 if (image != null) {
                   int postId =
-                      widget.post.id!; // Replace with the actual post ID
+                      widget.postID!; // Replace with the actual post ID
                   String comment = '';
                   List<String> filePaths = [
                     image.path
@@ -362,7 +398,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                 onPressed: () async {
                   print(textController.text);
                   int postId =
-                      widget.post.id!; // Replace with the actual post ID
+                      widget.postID!; // Replace with the actual post ID
                   String comment = textController.text;
                   List<String> filePaths = []; // Add the file paths as needed
                   print(authToken);
@@ -443,7 +479,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
 
                   // Upload the recorded audio file
                   int postId =
-                      widget.post.id!; // Replace with the actual post ID
+                      widget.postID!; // Replace with the actual post ID
                   String comment = textController.text;
                   List<String> filePaths = [
                     audioPath

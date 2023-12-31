@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class ArtistProfileScreen extends StatefulWidget {
   final User user; // User object to display profile information
 
-  ArtistProfileScreen({required this.user});
+  const ArtistProfileScreen({super.key, required this.user});
 
   @override
   State<ArtistProfileScreen> createState() => _ArtistProfileScreenState();
@@ -76,9 +76,9 @@ class _ArtistProfileScreenState extends State<ArtistProfileScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Container(
+                          const SizedBox(
                             width: 200, // Replace with your desired width
-                            child: const Text(
+                            child: Text(
                               "Bella Shrmuda is an emerging indie pop sensation known for his captivating lyrics and soulful melodies. With a unique blend of nostalgia and modernity, his music speaks to the heart.",
                               style: TextStyle(
                                 fontSize: 12,

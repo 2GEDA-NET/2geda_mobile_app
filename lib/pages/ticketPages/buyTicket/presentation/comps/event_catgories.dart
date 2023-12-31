@@ -67,7 +67,7 @@ class EventCategory extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.all(5),
+        contentPadding: const EdgeInsets.all(5),
         leading: Container(
           width: 50,
           height: 50,
@@ -88,7 +88,7 @@ class EventCategory extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             Text(
               "${category.number} events",
               style: const TextStyle(

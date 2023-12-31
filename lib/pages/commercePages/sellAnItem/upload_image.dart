@@ -57,7 +57,7 @@ class ProductImageUpload extends StatelessWidget {
                 frameHeight: 200,
                 frameWidth: MediaQuery.of(context).size.width,
               ),
-              Row(
+              const Row(
                 children: [
                   Expanded(
                     child: ImageUploadFrame(
@@ -91,7 +91,7 @@ class ProductImageUpload extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
+              const Row(
                 children: [
                   Expanded(
                     child: ImageUploadFrame(
@@ -162,7 +162,7 @@ class ProductImageUpload extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ProductPreviewPage(),
+                      builder: (context) => const ProductPreviewPage(),
                     ),
                   );
                 },
@@ -191,7 +191,7 @@ class ImageUploadFrame extends StatefulWidget {
   final double frameHeight;
   final double frameWidth;
 
-  ImageUploadFrame({required this.frameHeight, required this.frameWidth});
+  const ImageUploadFrame({super.key, required this.frameHeight, required this.frameWidth});
 
   @override
   _ImageUploadFrameState createState() => _ImageUploadFrameState();
