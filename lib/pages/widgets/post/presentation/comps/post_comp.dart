@@ -106,11 +106,15 @@ class _PostComponentState extends State<PostComponent> {
                     Container(
                         alignment: Alignment.topLeft,
                         child: CircleAvatar(
-                          child: CachedNetworkImage(
-                            imageUrl: widget.imageUrl ?? '',
-                            fit: BoxFit.cover,
-                            height: 42,
-                            width: 42,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100)),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.imageUrl ?? '',
+                              fit: BoxFit.cover,
+                              height: 42,
+                              width: 42,
+                            ),
                           ),
                         )),
                     const SizedBox(

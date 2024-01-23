@@ -17,8 +17,7 @@ class GetConnectNotifier
       };
       value = DataState.loading();
       final response = await http.get(
-          Uri.parse(
-              'https://king-prawn-app-venn6.ondigitalocean.app/users/connect/'),
+          Uri.parse('https://development.2geda.net/users/connect/'),
           headers: serviceHeaders);
 
       if (response.statusCode == 200) {

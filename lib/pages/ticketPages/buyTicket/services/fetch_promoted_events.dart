@@ -9,7 +9,7 @@ String? authToken;
 
 Future<List<Event>> getPromotedEvents() async {
   final authToken = await TokenManager().getToken();
-  print("authToken: 2c14ffed0ee18a8ed4a31a0b1ec413f42413f96f");
+  // print("authToken: 2c14ffed0ee18a8ed4a31a0b1ec413f42413f96f");
 
   final response = await http.get(
     Uri.parse('$baseUrl/ticket/event-promoted'),

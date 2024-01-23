@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/widgets/post/data/post_model.dart';
+import 'package:_2geda/pages/widgets/post/data/store_posts.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,12 +14,11 @@ Future<List<Post>> fetchHomePGPosts() async {
     final token = await TokenManager().getToken();
     Map<String, String> serviceHeaders = {
       'Content-Type': 'application/json',
-      'Authorization': 'Token 2c14ffed0ee18a8ed4a31a0b1ec413f42413f96f',
+      'Authorization': 'Token $token',
     };
 
     final response = await http.get(
-        Uri.parse(
-            'https://king-prawn-app-venn6.ondigitalocean.app/feed/create_post/'),
+        Uri.parse('https://development.2geda.net/feed/create_post/'),
         headers: serviceHeaders);
 
     if (response.statusCode == 200) {
@@ -28,6 +28,7 @@ Future<List<Post>> fetchHomePGPosts() async {
         final List<dynamic> userList = responseData;
         final List<Post> modelsList =
             userList.map((userData) => Post.fromJson(userData)).toList();
+        await LocalStor.saveFeeds(modelsList);
 
         if (kDebugMode) {
           print('Data loaded successfully');

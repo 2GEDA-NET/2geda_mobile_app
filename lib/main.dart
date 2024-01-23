@@ -3,6 +3,7 @@ import 'package:_2geda/SideBar/sidebar_layout.dart';
 import 'package:_2geda/auth_provider.dart';
 import 'package:_2geda/pages/authentication/token_manager.dart';
 import 'package:_2geda/pages/homeScreens/create_post.dart';
+import 'package:_2geda/pages/homeScreens/home_screen.dart';
 import 'package:_2geda/pages/onboardingScreens/onboarding_screen.dart';
 import 'package:_2geda/utils/user_prefrences/user_prefs.dart';
 import 'package:flutter/material.dart';
@@ -54,15 +55,46 @@ class MyApp extends StatelessWidget {
           .light, // Set the status bar icons and text to be light or dark
     ));
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      scaffoldMessengerKey: scaffoldMessengerKey,
+        debugShowCheckedModeBanner: false,
+        scaffoldMessengerKey: scaffoldMessengerKey,
+        theme: ThemeData(
+          primarySwatch: customPrimaryColor,
+          fontFamily: 'Ubuntu',
+        ),
+        home: const SplashScreen()
+        // Other MaterialApp configurations
+        );
+  }
+}
 
-      theme: ThemeData(
-        primarySwatch: customPrimaryColor,
-        fontFamily: 'Ubuntu',
+class ContainerStack extends StatelessWidget {
+  final List<Color> colors = [Colors.blue, Colors.green, Colors.red];
+
+  ContainerStack({super.key}); // Add more colors as needed
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Stack(
+        children: List.generate(colors.length, (index) {
+          return Positioned(
+              left: index * 50.0, // Adjust as needed
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: colors[index],
+                    ),
+                    width: 100.0,
+                    height: 100.0,
+                  ),
+                  if (index == colors.length - 1)
+                    const Center(child: Text('data'))
+                ],
+              ));
+        }),
       ),
-      home: const SideBarLayout(),
-      // Other MaterialApp configurations
     );
   }
 }

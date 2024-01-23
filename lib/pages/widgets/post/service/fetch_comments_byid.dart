@@ -13,8 +13,7 @@ Future<List<CommentModel>> fetchCommentsByPostID(String id) async {
     };
 
     final response = await http.get(
-        Uri.parse(
-            'https://king-prawn-app-venn6.ondigitalocean.app/feed/get-comment/$id/'),
+        Uri.parse('https://development.2geda.net/feed/get-comment/$id/'),
         headers: serviceHeaders);
 
     if (response.statusCode == 200) {
